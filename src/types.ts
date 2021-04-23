@@ -1,3 +1,4 @@
+import { JWTDecryptOptions as JoseJWTDecryptOptions } from 'jose/jwt/decrypt';
 import { JWTVerifyOptions as JoseJWTVerifyOptions } from 'jose/jwt/verify';
 import * as jose from 'jose/types';
 
@@ -15,16 +16,16 @@ export type KeyOptions = {
   use?: KeyUsages;
   alg?: JWKAlgorithms;
 };
+export type EmbeddedKey = Pick<
+  JWKObject,
+  'kty' | 'crv' | 'x' | 'y' | 'e' | 'n'
+>;
 
-type CustomVerifyOptions = {
+export type FromJWTOptions = {
   typ?: string;
   jti?: string;
 };
-
-export type JWTVerifyOptions<complete> = JoseJWTVerifyOptions &
-  CustomVerifyOptions & { complete?: complete };
-
-export type JWTSignOptions = {
+export type ToJWTOptions = {
   issuer?: string;
   audience?: string;
   subject?: string;
@@ -32,10 +33,30 @@ export type JWTSignOptions = {
   jti?: string;
   notBefore?: string | number;
   iat?: Date;
+};
+
+export type JWTVerifyOptions<complete> = JoseJWTVerifyOptions &
+  FromJWTOptions & { complete?: complete };
+
+export type JWTSignOptions = ToJWTOptions & {
   // header
   typ?: string;
   kid?: string;
-  alg?: string;
+  alg?: JWKAlgorithms;
+  // embedded key
+  jwk?: EmbeddedKey;
+};
+
+export type JWTDecryptOptions<text> = JoseJWTDecryptOptions &
+  FromJWTOptions & { useText?: text };
+
+export type JWTEncryptOptions = ToJWTOptions & {
+  // header
+  alg: JWEManagement;
+  enc: JWEAlgorithms;
+  typ?: string;
+  kid?: string;
+  keyAlg?: JWKAlgorithms;
   // embedded key
   jwk?: Pick<jose.JWK, 'kty' | 'crv' | 'x' | 'y' | 'e' | 'n'>;
 };
