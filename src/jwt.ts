@@ -152,9 +152,9 @@ export class JWT {
     options: JWTEncryptOptions,
   ) {
     const jwk = key.getKey({
-      kid: options?.kid,
+      kid: options.kid,
       use: 'enc',
-      alg: options?.keyAlg,
+      alg: options.alg === 'dir' ? undefined : options.alg,
     });
 
     const jwt =
@@ -165,9 +165,9 @@ export class JWT {
     jwt.setProtectedHeader({
       alg: options.alg,
       enc: options.enc,
-      kid: options?.kid ?? jwk.kid,
-      jwk: options?.jwk,
-      typ: options?.typ,
+      kid: options.kid ?? jwk.kid,
+      jwk: options.jwk,
+      typ: options.typ,
     });
 
     return jwt.encrypt(jwk.key);

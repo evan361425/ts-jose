@@ -1,6 +1,7 @@
 import { fromKeyLike } from 'jose/jwk/from_key_like';
 import { parseJwk } from 'jose/jwk/parse';
 import generateKeyPair from 'jose/util/generate_key_pair';
+import generateSecret from 'jose/util/generate_secret';
 import { throwError } from './helper';
 import {
   JWKAlgorithms,
@@ -15,7 +16,15 @@ import {
 const RSAPrivateProperties = ['d', 'p', 'q', 'dp', 'dq', 'qi', 'oth'];
 
 export class JWK {
-  constructor(readonly key: JWKey, readonly metadata: JWKObject) {}
+  readonly metadata: JWKObject;
+  constructor(readonly key: JWKey, metadata: JWKObject) {
+    Object.entries(metadata).forEach((entry) => {
+      if (entry[1] === undefined) {
+        delete metadata[entry[0] as keyof JWKObject];
+      }
+    });
+    this.metadata = metadata;
+  }
 
   get kid(): string | undefined {
     return this.metadata.kid;
@@ -90,15 +99,22 @@ export class JWK {
     algorithm: JWKAlgorithms,
     options?: JWKGenerateOptions,
   ): Promise<JWK> {
-    const keyPair = await generateKeyPair(algorithm, options);
-    const key = keyPair.privateKey;
+    const key = await getKey();
     const metadata = (await fromKeyLike(key)) as JWKObject;
 
     return new JWK(key, {
       kid: options?.kid,
       use: options?.use,
-      alg: options?.alg,
+      alg: algorithm,
       ...metadata,
     });
+
+    async function getKey(): Promise<JWKey> {
+      if (algorithm.startsWith('HS') || algorithm.startsWith('A')) {
+        return generateSecret(algorithm);
+      }
+      const keyPair = await generateKeyPair(algorithm, options);
+      return keyPair.privateKey;
+    }
   }
 }

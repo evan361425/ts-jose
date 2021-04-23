@@ -42,7 +42,7 @@ export type JWTSignOptions = ToJWTOptions & {
   // header
   typ?: string;
   kid?: string;
-  alg?: JWKAlgorithms;
+  alg?: JWKSignAlgorithms;
   // embedded key
   jwk?: EmbeddedKey;
 };
@@ -56,13 +56,12 @@ export type JWTEncryptOptions = ToJWTOptions & {
   enc: JWEAlgorithms;
   typ?: string;
   kid?: string;
-  keyAlg?: JWKAlgorithms;
   // embedded key
   jwk?: Pick<jose.JWK, 'kty' | 'crv' | 'x' | 'y' | 'e' | 'n'>;
 };
 
 export type JWSHeaderParameters = jose.JWSHeaderParameters & {
-  alg?: JWKAlgorithms;
+  alg?: JWKSignAlgorithms;
 };
 
 export type JWTCompleteResult = {
@@ -73,7 +72,6 @@ export type JWTCompleteResult = {
 export type JWKGenerateOptions = {
   kid?: string;
   use?: KeyUsages;
-  alg?: JWKAlgorithms;
   crv?: JWKCurves;
   modulusLength?: number;
 };
@@ -82,7 +80,7 @@ export type KeyUsages = 'sig' | 'enc';
 
 export type KeyTypes = 'RSA' | 'EC' | 'OKP' | 'oct';
 
-export type JWKAlgorithms =
+export type JWKSignAlgorithms =
   | 'RS256'
   | 'RS384'
   | 'RS512'
@@ -136,3 +134,8 @@ export type JWEManagement =
   | 'ECDH-ES+A128KW'
   | 'ECDH-ES+A192KW'
   | 'ECDH-ES+A256KW';
+
+export type JWKAlgorithms = Exclude<
+  JWKSignAlgorithms | JWEAlgorithms | JWEManagement,
+  'dir'
+>;
