@@ -1,0 +1,75 @@
+{
+  "name": "node-typescript-template",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Template for TypeScript in Node.js",
+  "keywords": [
+    "Node.js",
+    "TypeScript",
+    "template"
+  ],
+  "homepage": "https://github.com/104corp/node-typescript-template#readme",
+  "bugs": {
+    "url": "https://github.com/104corp/node-typescript-template/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/104corp/node-typescript-template.git"
+  },
+  "license": "SEE LICENSE IN LICENSE file",
+  "author": "Shueh Chou Lu <evan.lu@104.com.tw>",
+  "main": "index.js",
+  "scripts": {
+    "precompile": "rimraf src/**/*.js test/**/*.js",
+    "compile": "tsc --project tsconfig.production.json",
+    "test": "mocha",
+    "pretest-coverage": "rimraf src/**/*.js test/**/*.js",
+    "test-coverage": "nyc mocha",
+    "lint": "eslint 'src/**/*.ts' 'test/**/*.ts' && npx sort-package-json package.json && npmPkgJsonLint -q ."
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "git secrets --scan"
+    }
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "src/**"
+    ],
+    "reporter": [
+      "html",
+      "text"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/chai": "^4.2.15",
+    "@types/mocha": "^8.2.1",
+    "@types/node": "^14.14.28",
+    "@typescript-eslint/eslint-plugin": "^4",
+    "@typescript-eslint/parser": "^4",
+    "chai": "^4.3.0",
+    "eslint": "^7",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-mocha": "^8.0.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "husky": "^4",
+    "mocha": "^8.3.0",
+    "npm-package-json-lint": "^5.1.0",
+    "npm-package-json-lint-config-default": "^3.0.0",
+    "nyc": "^15.1.0",
+    "sort-package-json": "^1",
+    "source-map-support": "^0.5.19",
+    "ts-node": "^8.10.1",
+    "typescript": "^3.9.7"
+  },
+  "engines": {
+    "node": ">=12"
+  }
+}
