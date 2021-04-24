@@ -82,9 +82,9 @@ export class JWK {
 
   toObject(asPrivate = false): JWKObject {
     if (this.isPrivate && !asPrivate) {
-      const { d, dp, dq, p, q, qi, oth, ...publicMetadata } = this.metadata;
+      const { kty, crv, x, y, e, n, ..._privateMetadata } = this.metadata;
 
-      return publicMetadata;
+      return { kty, crv, x, y, e, n };
     }
 
     return this.metadata;

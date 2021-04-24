@@ -1,21 +1,17 @@
-import { compactDecrypt } from 'jose/jwe/compact/decrypt';
-import { CompactEncrypt } from 'jose/jwe/compact/encrypt';
-import { EmbeddedJWK } from 'jose/jwk/embedded';
 import jwtDecrypt from 'jose/jwt/decrypt';
 import { EncryptJWT } from 'jose/jwt/encrypt';
 import SignJWT from 'jose/jwt/sign';
-import jwtVerify, { JWTVerifyGetKey } from 'jose/jwt/verify';
+import jwtVerify from 'jose/jwt/verify';
 import ProduceJWT from 'jose/lib/jwt_producer';
 import { JoseHeaderParameters, JWTClaimVerificationOptions } from 'jose/types';
-import { decodeProtectedHeader } from 'jose/util/decode_protected_header';
 import { throwError } from './helper';
+import { JWE } from './jwe';
 import { JWK } from './jwk';
 import { JWKS } from './jwks';
+import { JWS } from './jws';
 import {
   EmbeddedKey,
   FromJWTOptions,
-  JWKey,
-  JWSHeaderParameters,
   JWTCompleteResult,
   JWTDecryptOptions,
   JWTEncryptOptions,
@@ -42,10 +38,11 @@ export class JWT {
     T extends JWTVerifyOptions<false> | JWTVerifyOptions<true>
   >(
     token: string,
-    key?: JWK | JWKS,
+    jwk?: JWK | JWKS,
     options?: T,
   ): Promise<JWTPayload | JWTCompleteResult> {
-    const result = await jwtVerify(token, getKey(), options);
+    const key = JWS.getKeyFrom(token, jwk);
+    const result = await jwtVerify(token, key, options);
 
     this.verifyJWTClaims(result.payload, result.protectedHeader, options);
 
@@ -55,18 +52,6 @@ export class JWT {
           header: result.protectedHeader,
         }
       : result.payload;
-
-    function getKey(): JWKey | JWTVerifyGetKey {
-      if (key === undefined) return EmbeddedJWK;
-
-      const header = decodeProtectedHeader(token) as JWSHeaderParameters;
-
-      return key.getKey({
-        use: 'sig',
-        kid: header.kid,
-        alg: header.alg,
-      }).key;
-    }
   }
 
   static sign(
@@ -85,7 +70,7 @@ export class JWT {
       typ: options?.typ ?? 'jwt',
       kid: options?.kid ?? jwk.kid,
       alg: options?.alg ?? jwk.alg,
-      jwk: options?.jwk,
+      jwk: options?.jwk ? (jwk.toObject() as EmbeddedKey) : undefined,
     });
 
     this.setupJwt(jwt, options ?? {});
@@ -96,58 +81,20 @@ export class JWT {
   // ========== JWE ===============
 
   static async decrypt(
-    token: string,
-    jwk?: JWK | JWKS,
-    options?: JWTDecryptOptions<false>,
-  ): Promise<JWTPayload>;
-  static async decrypt(
-    token: string,
-    jwk?: JWK | JWKS,
-    options?: JWTDecryptOptions<true>,
-  ): Promise<JWTCompleteResult>;
-  static async decrypt<
-    T extends JWTDecryptOptions<false> | JWTDecryptOptions<true>
-  >(
-    token: string,
-    jwk?: JWK | JWKS,
-    options?: T,
-  ): Promise<JWTPayload | string> {
-    const key = await getKey();
-    const usePlainText =
-      Object.keys(options ?? {}).find((option) => option !== 'typ') ===
-      undefined;
+    cypher: string,
+    key?: JWK | JWKS,
+    options?: JWTDecryptOptions,
+  ): Promise<JWTPayload> {
+    const jwk = await JWE.getKeyFrom(cypher, key, options);
+    const result = await jwtDecrypt(cypher, jwk.key, options);
 
-    if (options?.useText) {
-      const { plaintext } = await compactDecrypt(token, key);
-      return plaintext.toString();
-    }
-
-    const result = await jwtDecrypt(token, key, options);
     this.verifyJWTClaims(result.payload, result.protectedHeader, options);
 
     return result.payload;
-
-    async function getKey(): Promise<JWKey> {
-      const header = decodeProtectedHeader(token);
-
-      if (jwk === undefined) {
-        if (header.jwk === undefined) {
-          return throwError('JWT decrypt', 'jwk', 'empty in header');
-        }
-
-        const embedded = await JWK.fromObject(header.jwk as EmbeddedKey);
-        return embedded.key;
-      }
-
-      return jwk.getKey({
-        use: 'enc',
-        kid: header.kid,
-      }).key;
-    }
   }
 
   static encrypt(
-    data: string | JWTPayload,
+    payload: JWTPayload,
     key: JWK | JWKS,
     options: JWTEncryptOptions,
   ) {
@@ -157,10 +104,8 @@ export class JWT {
       alg: options.alg === 'dir' ? undefined : options.alg,
     });
 
-    const jwt =
-      typeof data === 'string'
-        ? getProducerByString(data)
-        : getProducerByPayload(data);
+    const jwt = new EncryptJWT(payload);
+    this.setupJwt(jwt, options);
 
     jwt.setProtectedHeader({
       alg: options.alg,
@@ -171,17 +116,6 @@ export class JWT {
     });
 
     return jwt.encrypt(jwk.key);
-
-    function getProducerByPayload(payload: JWTPayload) {
-      const jwt = new EncryptJWT(payload);
-      JWT.setupJwt(jwt, options);
-      return jwt;
-    }
-
-    function getProducerByString(data: string) {
-      const encoder = new TextEncoder();
-      return new CompactEncrypt(encoder.encode(data));
-    }
   }
 
   // ========== HELPER ===============

@@ -34,31 +34,48 @@ export type ToJWTOptions = {
   notBefore?: string | number;
   iat?: Date;
 };
-
-export type JWTVerifyOptions<complete> = JoseJWTVerifyOptions &
-  FromJWTOptions & { complete?: complete };
-
-export type JWTSignOptions = ToJWTOptions & {
+export type JWSSignOptions = {
   // header
   typ?: string;
   kid?: string;
   alg?: JWKSignAlgorithms;
   // embedded key
-  jwk?: EmbeddedKey;
+  jwk?: boolean;
 };
-
-export type JWTDecryptOptions<text> = JoseJWTDecryptOptions &
-  FromJWTOptions & { useText?: text };
-
-export type JWTEncryptOptions = ToJWTOptions & {
-  // header
-  alg: JWEManagement;
-  enc: JWEAlgorithms;
+export type JWSVerifyOptions = jose.VerifyOptions & {
   typ?: string;
-  kid?: string;
-  // embedded key
-  jwk?: Pick<jose.JWK, 'kty' | 'crv' | 'x' | 'y' | 'e' | 'n'>;
 };
+
+export type JWTVerifyOptions<complete> = JoseJWTVerifyOptions &
+  FromJWTOptions & { complete?: complete };
+
+export type JWTSignOptions = ToJWTOptions & JWSSignOptions;
+
+export type JWEKeyOptions = { kid?: string };
+
+export type JWTDecryptOptions = JWEKeyOptions &
+  JoseJWTDecryptOptions &
+  FromJWTOptions;
+export type JWEDecryptOptions = JWEKeyOptions & {
+  alg?: JWEManagement | JWEManagement[];
+  enc?: JWEAlgorithms | JWEAlgorithms[];
+};
+
+export type JWTEncryptOptions = jose.EncryptOptions &
+  JWEKeyOptions &
+  ToJWTOptions & {
+    // header
+    alg: JWEManagement;
+    enc: JWEAlgorithms;
+    typ?: string;
+    // embedded key
+    jwk?: EmbeddedKey;
+  };
+export type JWEEncryptOptions = jose.EncryptOptions &
+  JWEKeyOptions & {
+    alg?: JWEManagement;
+    enc?: JWEAlgorithms;
+  };
 
 export type JWSHeaderParameters = jose.JWSHeaderParameters & {
   alg?: JWKSignAlgorithms;
