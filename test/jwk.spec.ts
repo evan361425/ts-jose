@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import CompactSign from 'jose/jws/compact/sign';
 import { JWK, JWKey, JWKObject } from '../src';
 
 describe('JWK', () => {
@@ -113,27 +112,6 @@ describe('JWK', () => {
 
       const jwk = await JWK.fromObject(key);
       expect(jwk.isPrivate).to.true;
-    });
-
-    it('private key is signable', async () => {
-      const key: JWKObject = {
-        kid: 'some-id',
-        alg: 'ES256',
-        kty: 'EC',
-        crv: 'P-256',
-        x: 'Y238GrLSO5GyAEM-NfgmRqWmqOXAJMKH6P-a2MqrDXU',
-        y: 'm0xXso5NdQQpDdHh397OzA7FnxK78wIpkemNV1Ly0Mc',
-        d: 'e-dWiLsa4E3oaLtN4h-lmHxkvZJitEiKE3Xk9PqYofk',
-      };
-
-      const jwk = await JWK.fromObject(key);
-      const data = 'some text';
-      const encoder = new TextEncoder();
-      const jws = new CompactSign(encoder.encode(data));
-      jws.setProtectedHeader({ alg: 'ES256' });
-
-      expect(jwk.isPrivate).to.true;
-      expect(await jws.sign(jwk.key)).be.ok;
     });
   });
 

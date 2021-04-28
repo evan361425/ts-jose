@@ -2,6 +2,7 @@ import EmbeddedJWK from 'jose/jwk/embedded';
 import { CompactSign } from 'jose/jws/compact/sign';
 import { compactVerify, CompactVerifyGetKey } from 'jose/jws/compact/verify';
 import decodeProtectedHeader from 'jose/util/decode_protected_header';
+import { throwError } from './helper';
 import { JWK } from './jwk';
 import { JWKS } from './jwks';
 import {
@@ -20,6 +21,13 @@ export class JWS {
   ): Promise<string> {
     const key = this.getKeyFrom(signature, jwk);
     const result = await compactVerify(signature, key, options);
+
+    if (
+      options?.typ !== undefined &&
+      result.protectedHeader.typ !== options.typ
+    ) {
+      return throwError('JWS', 'typ', options.typ);
+    }
 
     return result.payload.toString();
   }
