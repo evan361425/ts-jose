@@ -23,7 +23,12 @@ export class JWS {
 
     return result.payload.toString();
   }
-  static async sign(data: string, key: JWK | JWKS, options?: JWSSignOptions) {
+
+  static async sign(
+    data: string,
+    key: JWK | JWKS,
+    options?: JWSSignOptions,
+  ): Promise<string> {
     const jwk = key.getKey({
       kid: options?.kid,
       use: 'sig',

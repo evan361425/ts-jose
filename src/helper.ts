@@ -3,9 +3,9 @@ export function throwError(
   key: string,
   got?: string,
   expected?: string,
-): any {
+): never {
   if (expected === undefined) {
-    throw new Error(`${place} not found "${key}" as ${got}`);
+    throw new Error(`${place} found "${key}" is not equal to ${got}`);
   } else {
     throw new Error(`${place} "${key}" is got ${got}, expected ${expected}`);
   }

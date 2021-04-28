@@ -18,12 +18,7 @@ const RSAPrivateProperties = ['d', 'p', 'q', 'dp', 'dq', 'qi', 'oth'];
 export class JWK {
   readonly metadata: JWKObject;
   constructor(readonly key: JWKey, metadata: JWKObject) {
-    Object.entries(metadata).forEach((entry) => {
-      if (entry[1] === undefined) {
-        delete metadata[entry[0] as keyof JWKObject];
-      }
-    });
-    this.metadata = metadata;
+    this.metadata = deleteUndefined(metadata);
   }
 
   get kid(): string | undefined {
@@ -82,12 +77,15 @@ export class JWK {
 
   toObject(asPrivate = false): JWKObject {
     if (this.isPrivate && !asPrivate) {
-      const { kty, crv, x, y, e, n, ..._privateMetadata } = this.metadata;
+      const { kid, alg, use, kty, crv, x, y, e, n } = this.metadata;
 
-      return { kty, crv, x, y, e, n };
+      return deleteUndefined({ kid, alg, use, kty, crv, x, y, e, n });
     }
 
-    return this.metadata;
+    // return new object
+    const { ...key } = this.metadata;
+
+    return key;
   }
 
   static async fromObject(keyObject: JWKObject): Promise<JWK> {
@@ -117,4 +115,13 @@ export class JWK {
       return keyPair.privateKey;
     }
   }
+}
+
+function deleteUndefined<T>(data: T): T {
+  Object.entries(data).forEach((entry) => {
+    if (entry[1] === undefined) {
+      delete data[entry[0] as keyof T];
+    }
+  });
+  return data;
 }
