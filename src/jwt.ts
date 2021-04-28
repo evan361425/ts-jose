@@ -41,7 +41,7 @@ export class JWT {
     jwk?: JWK | JWKS,
     options?: T,
   ): Promise<JWTPayload | JWTCompleteResult> {
-    const key = JWS.getKeyFrom(token, jwk);
+    const key = await JWS.getKeyFrom(token, jwk);
     const result = await jwtVerify(token, key, options);
 
     this.verifyJWTClaims(result.payload, result.protectedHeader, options);
@@ -82,7 +82,7 @@ export class JWT {
 
   static async decrypt(
     cypher: string,
-    key?: JWK | JWKS,
+    key: JWK | JWKS,
     options?: JWTDecryptOptions,
   ): Promise<JWTPayload> {
     const jwk = await JWE.getKeyFrom(cypher, key, options);
@@ -97,7 +97,7 @@ export class JWT {
     payload: JWTPayload,
     key: JWK | JWKS,
     options: JWTEncryptOptions,
-  ) {
+  ): Promise<string> {
     const jwk = key.getKey({
       kid: options.kid,
       use: 'enc',
@@ -120,7 +120,7 @@ export class JWT {
 
   // ========== HELPER ===============
 
-  static setupJwt(jwt: ProduceJWT, options: ToJWTOptions) {
+  static setupJwt(jwt: ProduceJWT, options: ToJWTOptions): void {
     options.issuer && jwt.setIssuer(options.issuer);
     options.audience && jwt.setAudience(options.audience);
     options.subject && jwt.setSubject(options.subject);
@@ -136,7 +136,7 @@ export class JWT {
     payload: JWTPayload,
     header: JoseHeaderParameters,
     options?: JWTClaimVerificationOptions & FromJWTOptions,
-  ) {
+  ): void {
     if (options === undefined) return;
 
     if (options.typ && options.typ !== header.typ) {

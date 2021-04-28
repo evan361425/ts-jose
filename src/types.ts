@@ -74,8 +74,11 @@ export type JWTEncryptOptions = jose.EncryptOptions &
   };
 export type JWEEncryptOptions = jose.EncryptOptions &
   JWEKeyOptions & {
-    alg?: JWEManagement;
-    enc?: JWEAlgorithms;
+    alg: JWEManagement;
+    enc: JWEAlgorithms;
+    cek?: Uint8Array;
+    iv?: Uint8Array;
+    keyManagement?: jose.JWEKeyManagementHeaderParameters;
   };
 
 export type JWSHeaderParameters = jose.JWSHeaderParameters & {

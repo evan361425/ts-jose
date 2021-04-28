@@ -19,7 +19,7 @@ export class JWS {
     jwk?: JWK | JWKS,
     options?: JWSVerifyOptions,
   ): Promise<string> {
-    const key = this.getKeyFrom(signature, jwk);
+    const key = await this.getKeyFrom(signature, jwk);
     const result = await compactVerify(signature, key, options);
 
     if (
@@ -58,18 +58,22 @@ export class JWS {
 
   // HELPER
 
-  static getKeyFrom(
+  static async getKeyFrom(
     signature: string,
     key?: JWK | JWKS,
-  ): JWKey | CompactVerifyGetKey {
+  ): Promise<JWKey | CompactVerifyGetKey> {
     if (key === undefined) return EmbeddedJWK;
 
     const header = decodeProtectedHeader(signature) as JWSHeaderParameters;
 
-    return key.getKey({
-      use: 'sig',
-      kid: header.kid,
-      alg: header.alg,
-    }).key;
+    const publicKey = await key
+      .getKey({
+        use: 'sig',
+        kid: header.kid,
+        alg: header.alg,
+      })
+      .toPublic();
+
+    return publicKey.key;
   }
 }
