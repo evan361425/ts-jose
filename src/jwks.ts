@@ -1,4 +1,4 @@
-import { throwError } from './helper';
+import { JoseError } from './error';
 import { JWK } from './jwk';
 import { JWKAlgorithms, JWKSObject, KeyOptions, KeyUsages } from './types';
 
@@ -10,12 +10,12 @@ export class JWKS {
       const key = this.getKeyByKid(options.kid);
 
       if (key === undefined) {
-        return throwError('Keys', 'kid', options.kid);
+        throw new JoseError('Keys', 'kid', options.kid);
       } else if (options.use !== undefined && key.use !== options.use) {
-        return throwError('Keys', 'use', key.use, options.use);
+        throw new JoseError('Keys', 'use', key.use, options.use);
       } else if (options.alg !== undefined && key.alg !== undefined) {
         if (key.alg !== options.alg) {
-          return throwError('Keys', 'alg', key.alg, options.alg);
+          throw new JoseError('Keys', 'alg', key.alg, options.alg);
         }
       }
 
@@ -24,11 +24,11 @@ export class JWKS {
 
     const keys1 =
       options.use !== undefined ? this.getKeyByUse(options.use) : this.keys;
-    if (keys1.length === 0) return throwError('Keys', 'use', options.use);
+    if (keys1.length === 0) throw new JoseError('Keys', 'use', options.use);
 
     const keys2 =
       options.alg !== undefined ? this.getKeyByAlg(options.alg, keys1) : keys1;
-    if (keys2.length === 0) return throwError('Keys', 'alg', options.alg);
+    if (keys2.length === 0) throw new JoseError('Keys', 'alg', options.alg);
 
     return keys2[0];
   }

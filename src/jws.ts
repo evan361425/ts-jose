@@ -2,7 +2,7 @@ import EmbeddedJWK from 'jose/jwk/embedded';
 import { CompactSign } from 'jose/jws/compact/sign';
 import { compactVerify, CompactVerifyGetKey } from 'jose/jws/compact/verify';
 import decodeProtectedHeader from 'jose/util/decode_protected_header';
-import { throwError } from './helper';
+import { JoseError } from './error';
 import { JWK } from './jwk';
 import { JWKS } from './jwks';
 import {
@@ -26,7 +26,7 @@ export class JWS {
       options?.typ !== undefined &&
       result.protectedHeader.typ !== options.typ
     ) {
-      return throwError('JWS', 'typ', options.typ);
+      throw new JoseError('JWS', 'typ', options.typ);
     }
 
     return result.payload.toString();

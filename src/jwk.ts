@@ -2,7 +2,7 @@ import { fromKeyLike } from 'jose/jwk/from_key_like';
 import { parseJwk } from 'jose/jwk/parse';
 import generateKeyPair from 'jose/util/generate_key_pair';
 import generateSecret from 'jose/util/generate_secret';
-import { throwError } from './helper';
+import { JoseError } from './error';
 import {
   JWKAlgorithms,
   JWKey,
@@ -51,18 +51,18 @@ export class JWK {
 
   getKey(options: KeyOptions): JWK {
     if (options.kid !== undefined && options.kid !== this.kid) {
-      throwError('Key', 'kid', options.kid, this.kid);
+      throw new JoseError('Key', 'kid', options.kid, this.kid);
     }
 
     if (options.use !== undefined && this.use !== undefined) {
       if (options.use !== this.use) {
-        throwError('Key', 'use', options.use, this.use);
+        throw new JoseError('Key', 'use', options.use, this.use);
       }
     }
 
     if (options.alg !== undefined && this.alg !== undefined) {
       if (options.alg !== this.alg) {
-        throwError('Key', 'alg', options.alg, this.alg);
+        throw new JoseError('Key', 'alg', options.alg, this.alg);
       }
     }
 

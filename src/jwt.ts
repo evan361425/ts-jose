@@ -4,7 +4,7 @@ import SignJWT from 'jose/jwt/sign';
 import jwtVerify from 'jose/jwt/verify';
 import ProduceJWT from 'jose/lib/jwt_producer';
 import { JoseHeaderParameters, JWTClaimVerificationOptions } from 'jose/types';
-import { throwError } from './helper';
+import { JoseError } from './error';
 import { JWE } from './jwe';
 import { JWK } from './jwk';
 import { JWKS } from './jwks';
@@ -35,7 +35,7 @@ export class JWT {
     options?: JWTVerifyOptions<true>,
   ): Promise<JWTCompleteResult>;
   static async verify<
-    T extends JWTVerifyOptions<false> | JWTVerifyOptions<true>
+    T extends JWTVerifyOptions<false> | JWTVerifyOptions<true>,
   >(
     token: string,
     jwk?: JWK | JWKS,
@@ -140,11 +140,11 @@ export class JWT {
     if (options === undefined) return;
 
     if (options.typ && options.typ !== header.typ) {
-      throwError('Claim', 'typ', header.typ, options.typ);
+      throw new JoseError('Claim', 'typ', header.typ, options.typ);
     }
 
     if (options.jti && options.jti !== payload.jti) {
-      throwError('Claim', 'jti', payload.jti, options.jti);
+      throw new JoseError('Claim', 'jti', payload.jti, options.jti);
     }
   }
 }
