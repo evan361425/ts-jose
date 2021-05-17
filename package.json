@@ -21,7 +21,7 @@
   "author": "Shueh Chou Lu <evan.lu@104.com.tw>",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf src/**/*.js test/**/*.js",
+    "clean": "rimraf dist/**/*.js dist/**/*.ts",
     "precompile": "npm run clean",
     "compile": "tsc --project tsconfig.production.json",
     "test": "mocha",

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { stub } from 'sinon';
-import { JWK, JWKS } from '../src';
+import { JWK, JWKObject, JWKS } from '../src';
 
 describe('JWKS', () => {
   describe('#getKey()', () => {
@@ -169,22 +169,27 @@ describe('JWKS', () => {
     });
 
     it('should get correct keys', async () => {
-      const spyJWK = stub(JWK, 'fromObject');
-      spyJWK
-        .onFirstCall()
-        .resolves({ kid: 'k1' } as JWK)
-        .onSecondCall()
-        .resolves({ kid: 'k2' } as JWK)
-        .onThirdCall()
-        .resolves({ kid: 'k3' } as JWK);
+      const stubJWK = stub(JWK, 'fromObject');
+      stubJWK.callsFake(async (key) => {
+        return {
+          kid: key.kid,
+        } as JWK;
+      });
+
       const jwks = await JWKS.fromObject({
-        keys: [{} as JWK, {} as JWK, {} as JWK],
+        keys: [
+          { kid: 'k1' } as JWKObject,
+          { kid: 'k2' } as JWKObject,
+          { kid: 'k3' } as JWKObject,
+        ],
       });
 
       expect(jwks.keys.length).is.eq(3);
       expect(jwks.keys[0].kid).is.eq('k1');
       expect(jwks.keys[1].kid).is.eq('k2');
       expect(jwks.keys[2].kid).is.eq('k3');
+
+      stubJWK.restore();
     });
   });
 });

@@ -1,10 +1,7 @@
-"use strict";
+'use strict';
 
 module.exports = {
-  require: [
-    "ts-node/register",
-    "source-map-support/register"
-  ],
+  require: ['ts-node/register', 'source-map-support/register'],
   recursive: true,
-  spec: "test/*.spec.ts"
-}
+  spec: 'test/**/*.spec.ts',
+};

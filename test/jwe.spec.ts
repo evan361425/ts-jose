@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import decodeProtectedHeader from 'jose/util/decode_protected_header';
 import { JWE, JWK, JWS } from '../src';
+import { getKey } from './mock-key';
 
-describe.only('JWE', () => {
+describe('JWE', () => {
   describe('#verify()', () => {
     it('should ok', async () => {
       const payload = await JWE.decrypt(token, key);
@@ -69,7 +70,7 @@ describe.only('JWE', () => {
     });
   });
 
-  describe.skip('Embedded Key', () => {
+  describe('Embedded Key', () => {
     it('should sign with embedded key', async () => {
       const token = await JWS.sign('some-data', key, { jwk: true });
       const data = await JWS.verify(token);
@@ -80,14 +81,6 @@ describe.only('JWE', () => {
   let key: JWK;
 
   before(async () => {
-    key = await JWK.fromObject({
-      kid: 'some-id',
-      alg: 'ES256',
-      kty: 'EC',
-      crv: 'P-256',
-      x: 'Y238GrLSO5GyAEM-NfgmRqWmqOXAJMKH6P-a2MqrDXU',
-      y: 'm0xXso5NdQQpDdHh397OzA7FnxK78wIpkemNV1Ly0Mc',
-      d: 'e-dWiLsa4E3oaLtN4h-lmHxkvZJitEiKE3Xk9PqYofk',
-    });
+    key = await getKey();
   });
 });

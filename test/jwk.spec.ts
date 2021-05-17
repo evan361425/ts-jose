@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import { JWK, JWKey, JWKObject } from '../src';
+import { getKey } from './mock-key';
 
 describe('JWK', () => {
   describe('generate()', () => {
@@ -37,22 +38,13 @@ describe('JWK', () => {
 
   describe('fromObject() and #toObject()', () => {
     it('are reversible', async () => {
-      const key: JWKObject = {
-        kid: 'some-id',
-        alg: 'ES256',
-        kty: 'EC',
-        crv: 'P-256',
-        x: 'Y238GrLSO5GyAEM-NfgmRqWmqOXAJMKH6P-a2MqrDXU',
-        y: 'm0xXso5NdQQpDdHh397OzA7FnxK78wIpkemNV1Ly0Mc',
-        d: 'e-dWiLsa4E3oaLtN4h-lmHxkvZJitEiKE3Xk9PqYofk',
-      };
+      const jwk = await getKey();
+      const key = jwk.metadata;
 
-      const jwk = await JWK.fromObject(key);
       expect(jwk.kid).to.eq('some-id');
       expect(jwk.alg).to.eq('ES256');
       expect(jwk.kty).to.eq('EC');
       expect(jwk.use).to.be.undefined;
-      expect(jwk.metadata).to.equal(key);
       expect(jwk.isPrivate).to.true;
       // private key are identical from original, but not same
       expect(jwk.toObject(true)).not.to.equal(key);
@@ -71,8 +63,7 @@ describe('JWK', () => {
         alg: 'EdDSA',
         kty: 'OKP',
         crv: 'Ed448',
-        x:
-          'wab008wlsu54qQt4lQvwMGbUqb8qQOhGiMQTKzuQ1w7HQD2-8gyIQiOf6-6jKZO1gD0usuE1CVYA',
+        x: 'wab008wlsu54qQt4lQvwMGbUqb8qQOhGiMQTKzuQ1w7HQD2-8gyIQiOf6-6jKZO1gD0usuE1CVYA',
       };
 
       const jwk = await JWK.fromObject(key);

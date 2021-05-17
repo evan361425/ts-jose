@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import decodeProtectedHeader from 'jose/util/decode_protected_header';
 import { JWK, JWS } from '../src';
+import { getKey } from './mock-key';
 
 describe('JWS', () => {
   describe('#verify()', () => {
@@ -25,6 +26,7 @@ describe('JWS', () => {
     let publicKey: JWK;
 
     before(async () => {
+      const key = await getKey();
       publicKey = await key.toPublic();
       // sign!
       token = await JWS.sign('some-data', key, { typ: 'EC' });
@@ -64,27 +66,20 @@ describe('JWS', () => {
       expect(header.typ).is.eq('EC');
       key.metadata.kid = 'some-id';
     });
+
+    let key: JWK;
+
+    before(async () => {
+      key = await getKey();
+    });
   });
 
   describe('Embedded Key', () => {
     it('should sign with embedded key', async () => {
+      const key = await getKey();
       const token = await JWS.sign('some-data', key, { jwk: true });
       const data = await JWS.verify(token);
       expect(data).is.eq('some-data');
-    });
-  });
-
-  let key: JWK;
-
-  before(async () => {
-    key = await JWK.fromObject({
-      kid: 'some-id',
-      alg: 'ES256',
-      kty: 'EC',
-      crv: 'P-256',
-      x: 'Y238GrLSO5GyAEM-NfgmRqWmqOXAJMKH6P-a2MqrDXU',
-      y: 'm0xXso5NdQQpDdHh397OzA7FnxK78wIpkemNV1Ly0Mc',
-      d: 'e-dWiLsa4E3oaLtN4h-lmHxkvZJitEiKE3Xk9PqYofk',
     });
   });
 });
