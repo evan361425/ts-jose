@@ -31,11 +31,6 @@
     "lint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
     "all": "npm run compile && npm run format && npm run lint && npm test"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "git secrets --scan"
-    }
-  },
   "nyc": {
     "extension": [
       ".ts"
@@ -66,7 +61,6 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-mocha": "^8.0.0",
     "eslint-plugin-prettier": "^3.3.1",
-    "husky": "^4",
     "mocha": "^8.4.0",
     "nyc": "^15.1.0",
     "prettier": "^2.3.0",
