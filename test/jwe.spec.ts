@@ -3,20 +3,20 @@ import decodeProtectedHeader from 'jose/util/decode_protected_header';
 import { JWE, JWK, JWS } from '../src';
 import { getKey } from './mock-key';
 
-describe('JWE', () => {
-  describe('#verify()', () => {
-    it('should ok', async () => {
+describe('JWE', function () {
+  describe('#verify()', function () {
+    it('should ok', async function () {
       const payload = await JWE.decrypt(token, key);
       expect(payload).is.eq('some-data');
     });
 
-    it('should throw error if enc is not correct', async () => {
+    it('should throw error if enc is not correct', async function () {
       return JWE.decrypt(token, key, { enc: 'A256GCM' })
         .then((_) => expect.fail('should not pass if "enc" is wrong'))
         .catch((reason) => expect(reason.message).is.contain('enc'));
     });
 
-    it('should throw error if typ is wrong', async () => {
+    it('should throw error if typ is wrong', async function () {
       return JWE.decrypt(token, key, { alg: 'ECDH-ES+A256KW' })
         .then((_) => expect.fail('should not pass if "alg" is wrong'))
         .catch((reason) => expect(reason.message).is.contain('alg'));
@@ -24,7 +24,7 @@ describe('JWE', () => {
 
     let token: string;
 
-    before(async () => {
+    before(async function () {
       token = await JWE.encrypt('some-data', key, {
         alg: 'ECDH-ES+A128KW',
         enc: 'A128GCM',
@@ -32,8 +32,8 @@ describe('JWE', () => {
     });
   });
 
-  describe('#encrypt()', () => {
-    it('should throw error in wrong "kid"', async () => {
+  describe('#encrypt()', function () {
+    it('should throw error in wrong "kid"', async function () {
       try {
         await JWE.encrypt('some-data', key, {
           kid: 'second-id',
@@ -46,7 +46,7 @@ describe('JWE', () => {
       }
     });
 
-    it('should use key metadata if option not set', async () => {
+    it('should use key metadata if option not set', async function () {
       const signature = await JWE.encrypt('some-data', key, {
         alg: 'ECDH-ES+A128KW',
         enc: 'A128GCM',
@@ -57,7 +57,7 @@ describe('JWE', () => {
       expect(header.kid).is.eq('some-id');
     });
 
-    it('should use option metadata', async () => {
+    it('should use option metadata', async function () {
       key.metadata.kid = 'second-id';
       const signature = await JWE.encrypt('some-data', key, {
         kid: 'second-id',
@@ -70,8 +70,8 @@ describe('JWE', () => {
     });
   });
 
-  describe('Embedded Key', () => {
-    it('should sign with embedded key', async () => {
+  describe('Embedded Key', function () {
+    it('should sign with embedded key', async function () {
       const token = await JWS.sign('some-data', key, { jwk: true });
       const data = await JWS.verify(token);
       expect(data).is.eq('some-data');
@@ -80,7 +80,7 @@ describe('JWE', () => {
 
   let key: JWK;
 
-  before(async () => {
+  before(async function () {
     key = await getKey();
   });
 });

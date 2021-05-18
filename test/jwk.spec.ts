@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import { JWK, JWKey, JWKObject } from '../src';
 import { getKey } from './mock-key';
 
-describe('JWK', () => {
-  describe('generate()', () => {
-    it('no specific usage', async () => {
+describe('JWK', function () {
+  describe('generate()', function () {
+    it('no specific usage', async function () {
       const key = await JWK.generate('ES256', { kid: 'some-id' });
       expect(key.alg).to.eq('ES256');
       expect(key.kid).to.eq('some-id');
@@ -12,7 +12,7 @@ describe('JWK', () => {
       expect(key.kty).to.eq('EC');
     });
 
-    it('with curve', async () => {
+    it('with curve', async function () {
       const key = await JWK.generate('EdDSA', { crv: 'Ed448' });
       expect(key.alg).to.eq('EdDSA');
       expect(key.metadata.crv).to.eq('Ed448');
@@ -20,7 +20,7 @@ describe('JWK', () => {
       expect(key.kty).to.eq('OKP');
     });
 
-    it('use encryption', async () => {
+    it('use encryption', async function () {
       const key = await JWK.generate('RS256', { use: 'enc' });
       expect(key.alg).to.eq('RS256');
       expect(key.kid).to.be.undefined;
@@ -28,7 +28,7 @@ describe('JWK', () => {
       expect(key.kty).to.eq('RSA');
     });
 
-    it('use sign', async () => {
+    it('use sign', async function () {
       const key = await JWK.generate('A128KW', { use: 'sig' });
       expect(key.alg).to.eq('A128KW');
       expect(key.use).to.eq('sig');
@@ -36,8 +36,8 @@ describe('JWK', () => {
     });
   });
 
-  describe('fromObject() and #toObject()', () => {
-    it('are reversible', async () => {
+  describe('fromObject() and #toObject()', function () {
+    it('are reversible', async function () {
       const jwk = await getKey();
       const key = jwk.metadata;
 
@@ -57,8 +57,8 @@ describe('JWK', () => {
     });
   });
 
-  describe('#toPublic() and #isPrivate', () => {
-    it('should get identical from public key', async () => {
+  describe('#toPublic() and #isPrivate', function () {
+    it('should get identical from public key', async function () {
       const key: JWKObject = {
         alg: 'EdDSA',
         kty: 'OKP',
@@ -70,7 +70,7 @@ describe('JWK', () => {
       expect(await jwk.toPublic()).to.equal(jwk);
     });
 
-    it('should get new key from private key', async () => {
+    it('should get new key from private key', async function () {
       const key: JWKObject = {
         use: 'enc',
         alg: 'RS256',
@@ -93,7 +93,7 @@ describe('JWK', () => {
       expect(publicJWK.metadata).to.eql(publicKey);
     });
 
-    it('oct key is always private', async () => {
+    it('oct key is always private', async function () {
       const key: JWKObject = {
         use: 'sig',
         alg: 'A128KW',
@@ -106,8 +106,8 @@ describe('JWK', () => {
     });
   });
 
-  describe('#getKey()', () => {
-    it('should ok if all is correct', () => {
+  describe('#getKey()', function () {
+    it('should ok if all is correct', function () {
       const jwk = new JWK({} as JWKey, {
         kid: 'some-id',
         use: 'sig',
@@ -117,12 +117,12 @@ describe('JWK', () => {
       expect(jwk.getKey({ kid: 'some-id', alg: 'ES256', use: 'sig' })).be.ok;
     });
 
-    it('should ok if alg or use all undefined', () => {
+    it('should ok if alg or use all undefined', function () {
       const jwk = new JWK({} as JWKey, { kty: 'EC' });
       expect(jwk.getKey({ alg: 'ES256', use: 'sig' })).be.ok;
     });
 
-    it('should ok if alg or use all undefined', () => {
+    it('should ok if kid is same', function () {
       const jwk = new JWK({} as JWKey, {
         kid: 'some-id',
         use: 'sig',
@@ -132,7 +132,7 @@ describe('JWK', () => {
       expect(jwk.getKey({ kid: 'some-id' })).be.ok;
     });
 
-    it('should throw error if kid is different', () => {
+    it('should throw error if kid is different', function () {
       const jwk = new JWK({} as JWKey, {
         use: 'sig',
         alg: 'ES256',
@@ -143,7 +143,7 @@ describe('JWK', () => {
       expect(() => jwk.getKey({ kid: 'wrong-id' })).to.throw('kid');
     });
 
-    it('should throw error if alg or use is different', () => {
+    it('should throw error if alg or use is different', function () {
       const jwk = new JWK({} as JWKey, {
         kid: 'some-id',
         use: 'sig',

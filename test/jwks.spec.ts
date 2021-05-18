@@ -2,31 +2,31 @@ import { expect } from 'chai';
 import { stub } from 'sinon';
 import { JWK, JWKObject, JWKS } from '../src';
 
-describe('JWKS', () => {
-  describe('#getKey()', () => {
-    it('should get first key if no options given', () => {
+describe('JWKS', function () {
+  describe('#getKey()', function () {
+    it('should get first key if no options given', function () {
       const jwks = new JWKS([{ kid: 'k1' } as JWK, { kid: 'k2' } as JWK]);
       const result = jwks.getKey();
 
       expect(result.kid).is.eq('k1');
     });
 
-    describe('kid', () => {
-      it('should get key in specific "kid"', () => {
+    describe('kid', function () {
+      it('should get key in specific "kid"', function () {
         const jwks = new JWKS([]);
         stub(jwks, 'getKeyByKid').returns({} as JWK);
 
         expect(jwks.getKey({ kid: 'k1' })).is.ok;
       });
 
-      it('should throw error if not found key in "kid"', () => {
+      it('should throw error if not found key in "kid"', function () {
         const jwks = new JWKS([]);
         stub(jwks, 'getKeyByKid').returns(undefined);
 
         expect(() => jwks.getKey({ kid: 'some-id' })).to.throw('kid');
       });
 
-      it('should throw error if found key in "kid" has wrong "use"', () => {
+      it('should throw error if found key in "kid" has wrong "use"', function () {
         const jwks = new JWKS([]);
         stub(jwks, 'getKeyByKid').returns({ use: 'sig' } as JWK);
 
@@ -35,14 +35,14 @@ describe('JWKS', () => {
         );
       });
 
-      it('should ok if found key in "kid" has no "alg"', () => {
+      it('should ok if found key in "kid" has no "alg"', function () {
         const jwks = new JWKS([]);
         stub(jwks, 'getKeyByKid').returns({} as JWK);
 
         expect(jwks.getKey({ kid: 'id', alg: 'ES384' })).be.ok;
       });
 
-      it('should throw error if found key in "kid" has wrong "alg"', () => {
+      it('should throw error if found key in "kid" has wrong "alg"', function () {
         const jwks = new JWKS([]);
         stub(jwks, 'getKeyByKid').returns({ alg: 'ES256' } as JWK);
 
@@ -50,14 +50,14 @@ describe('JWKS', () => {
       });
     });
 
-    it('should throw error if not found in "use"', () => {
+    it('should throw error if not found in "use"', function () {
       const jwks = new JWKS([]);
       stub(jwks, 'getKeyByUse').returns([]);
 
       expect(() => jwks.getKey({ use: 'sig' })).be.throw('use');
     });
 
-    it('should throw error if not found in "alg"', () => {
+    it('should throw error if not found in "alg"', function () {
       const jwks = new JWKS([{} as JWK]);
       stub(jwks, 'getKeyByAlg').returns([]);
 
@@ -65,8 +65,8 @@ describe('JWKS', () => {
     });
   });
 
-  describe('#getKeyByKid()', () => {
-    it('should get undefined if kid not found', () => {
+  describe('#getKeyByKid()', function () {
+    it('should get undefined if kid not found', function () {
       const candidates = [{ kid: 'some-id' } as JWK];
       const jwks = new JWKS(candidates);
 
@@ -74,7 +74,7 @@ describe('JWKS', () => {
       expect(result).be.undefined;
     });
 
-    it('should get first key even two same kid', () => {
+    it('should get first key even two same kid', function () {
       const candidates = [
         { kid: 'some-id', alg: 'ES256' } as JWK,
         { kid: 'some-id', alg: 'ES384' } as JWK,
@@ -86,8 +86,8 @@ describe('JWKS', () => {
     });
   });
 
-  describe('#getKeyByUse()', () => {
-    it('should get empty keys if "use" not found', () => {
+  describe('#getKeyByUse()', function () {
+    it('should get empty keys if "use" not found', function () {
       const candidates = [{ use: 'enc' } as JWK];
       const jwks = new JWKS(candidates);
 
@@ -95,7 +95,7 @@ describe('JWKS', () => {
       expect(result).to.be.empty;
     });
 
-    it('should get all keys in matched', () => {
+    it('should get all keys in matched', function () {
       const candidates = [
         { use: 'enc', kid: 'k1' } as JWK,
         { use: 'sig', kid: 'k2' } as JWK,
@@ -109,7 +109,7 @@ describe('JWKS', () => {
       expect(result[1].kid).to.eq('k3');
     });
 
-    it('should get all keys in matched by passing keys', () => {
+    it('should get all keys in matched by passing keys', function () {
       const candidates = [
         { use: 'enc', kid: 'k1' } as JWK,
         { use: 'sig', kid: 'k2' } as JWK,
@@ -124,8 +124,8 @@ describe('JWKS', () => {
     });
   });
 
-  describe('#getKeyByAlg()', () => {
-    it('should get empty keys if "alg" not found', () => {
+  describe('#getKeyByAlg()', function () {
+    it('should get empty keys if "alg" not found', function () {
       const candidates = [{ alg: 'ES256' } as JWK];
       const jwks = new JWKS(candidates);
 
@@ -133,7 +133,7 @@ describe('JWKS', () => {
       expect(result).to.be.empty;
     });
 
-    it('should get all keys in matched', () => {
+    it('should get all keys in matched', function () {
       const candidates = [
         { alg: 'ES256', kid: 'k1' } as JWK,
         { alg: 'ES384', kid: 'k2' } as JWK,
@@ -147,7 +147,7 @@ describe('JWKS', () => {
       expect(result[1].kid).to.eq('k3');
     });
 
-    it('should get all keys in matched by passing keys', () => {
+    it('should get all keys in matched by passing keys', function () {
       const candidates = [
         { alg: 'ES256', kid: 'k1' } as JWK,
         { alg: 'ES384', kid: 'k2' } as JWK,
@@ -162,13 +162,13 @@ describe('JWKS', () => {
     });
   });
 
-  describe('fromObject()', () => {
-    it('should get empty keys if input is empty', async () => {
+  describe('fromObject()', function () {
+    it('should get empty keys if input is empty', async function () {
       const jwks = await JWKS.fromObject({ keys: [] });
       expect(jwks.keys).is.empty;
     });
 
-    it('should get correct keys', async () => {
+    it('should get correct keys', async function () {
       const stubJWK = stub(JWK, 'fromObject');
       stubJWK.callsFake(async (key) => {
         return {

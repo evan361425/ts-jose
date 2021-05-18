@@ -3,20 +3,20 @@ import decodeProtectedHeader from 'jose/util/decode_protected_header';
 import { JWK, JWS } from '../src';
 import { getKey } from './mock-key';
 
-describe('JWS', () => {
-  describe('#verify()', () => {
-    it('should ok', async () => {
+describe('JWS', function () {
+  describe('#verify()', function () {
+    it('should ok', async function () {
       const payload = await JWS.verify(token, publicKey);
       expect(payload.toString()).is.eq('some-data');
     });
 
-    it('should throw error if algorithms is not correct', async () => {
+    it('should throw error if algorithms is not correct', async function () {
       return JWS.verify(token, publicKey, { algorithms: ['ES384'] })
         .then((_) => expect.fail('should not pass if "typ" is wrong'))
         .catch((reason) => expect(reason.message).is.contain('alg'));
     });
 
-    it('should throw error if typ is wrong', async () => {
+    it('should throw error if typ is wrong', async function () {
       return JWS.verify(token, publicKey, { typ: 'OKP' })
         .then((_) => expect.fail('should not pass if "typ" is wrong'))
         .catch((reason) => expect(reason.message).is.contain('typ'));
@@ -25,7 +25,7 @@ describe('JWS', () => {
     let token: string;
     let publicKey: JWK;
 
-    before(async () => {
+    before(async function () {
       const key = await getKey();
       publicKey = await key.toPublic();
       // sign!
@@ -33,27 +33,27 @@ describe('JWS', () => {
     });
   });
 
-  describe('#sign()', () => {
-    it('should throw error in wrong "kid"', async () => {
+  describe('#sign()', function () {
+    it('should throw error in wrong "kid"', async function () {
       return JWS.sign('some-data', key, { kid: 'second-id' })
         .then((_) => expect.fail('should not pass if "kid" is wrong'))
         .catch((reason) => expect(reason.message).is.contain('kid'));
     });
 
-    it('should throw error in wrong "alg"', async () => {
+    it('should throw error in wrong "alg"', async function () {
       return JWS.sign('some-data', key, { alg: 'ES384' })
         .then((_) => expect.fail('should not pass if "alg" is wrong'))
         .catch((reason) => expect(reason.message).is.contain('alg'));
     });
 
-    it('should use key metadata if option not set', async () => {
+    it('should use key metadata if option not set', async function () {
       const signature = await JWS.sign('some-data', key);
       const header = decodeProtectedHeader(signature);
       expect(header.alg).is.eq('ES256');
       expect(header.kid).is.eq('some-id');
     });
 
-    it('should use option metadata', async () => {
+    it('should use option metadata', async function () {
       key.metadata.kid = 'second-id';
       const signature = await JWS.sign('some-data', key, {
         kid: 'second-id',
@@ -69,13 +69,13 @@ describe('JWS', () => {
 
     let key: JWK;
 
-    before(async () => {
+    before(async function () {
       key = await getKey();
     });
   });
 
-  describe('Embedded Key', () => {
-    it('should sign with embedded key', async () => {
+  describe('Embedded Key', function () {
+    it('should sign with embedded key', async function () {
       const key = await getKey();
       const token = await JWS.sign('some-data', key, { jwk: true });
       const data = await JWS.verify(token);
