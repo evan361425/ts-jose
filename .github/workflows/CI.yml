@@ -9,12 +9,19 @@ jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: |
-          npm install
-      - run: |
-          npm run all
-      - uses: codecov/codecov-action@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm install
+      - name: Check
+        run: npm run check
+      - name: Coverage
+        run: npm run coverage
+
+      - name: Upload coverage to Codecov
+        uses: ./
         with:
-          name: codecov
+          files: ./nyc_output/processinfo/index.json
+          flags: codecov-script
 
