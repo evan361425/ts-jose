@@ -26,8 +26,8 @@
     "compile": "tsc --project tsconfig.production.json",
     "format": "prettier --write **/*.ts",
     "test": "mocha",
-    "pretest-coverage": "npm run clean",
-    "test-coverage": "nyc mocha",
+    "pre-coverage": "npm run clean",
+    "coverage": "nyc mocha",
     "lint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
     "all": "npm run compile && npm run format && npm run lint && npm test"
   },

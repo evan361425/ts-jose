@@ -14,3 +14,7 @@ jobs:
           npm install
       - run: |
           npm run all
+      - uses: codecov/codecov-action@v1
+        with:
+          name: codecov
+
