@@ -28,7 +28,7 @@
     "test": "mocha",
     "pre-coverage": "npm run clean",
     "coverage": "nyc mocha",
-    "ci-coverage": "nyc --reporter=lcov mocha",
+    "ci-coverage": "nyc --reporter=lcov npm test && npx codecov",
     "lint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
     "check": "npm run compile && npm run format && npm run lint"
   },

@@ -61,6 +61,13 @@ describe('JWT', function () {
       expect(tokenHeader.alg).to.eq('ES256');
     });
 
+    it('embeded key', async function () {
+      const token = await JWT.sign({ a: 'b' }, key, { jwk: true });
+      const result = await JWT.verify(token, undefined, { complete: true });
+      // Assertion
+      expect(result.header.jwk).to.be.ok;
+    });
+
     it('should get config header and payload', async function () {
       const payload = { a: 'b' };
       const now = Math.floor(new Date().getTime() / 1000);

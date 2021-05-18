@@ -4,9 +4,9 @@ import { JWE, JWK, JWS } from '../src';
 import { getKey } from './mock-key';
 
 describe('JWE', function () {
-  describe('#verify()', function () {
+  describe('#decrypt()', function () {
     it('should ok', async function () {
-      const payload = await JWE.decrypt(token, key);
+      const payload = await JWE.decrypt(token, key, { kid: 'some-id' });
       expect(payload).is.eq('some-data');
     });
 
