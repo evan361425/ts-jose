@@ -27,16 +27,16 @@ export type FromJWTOptions = {
 };
 export type ToJWTOptions = {
   issuer?: string;
-  audience?: string;
+  audience?: string | string[];
   subject?: string;
   exp?: string | number;
   jti?: string;
   notBefore?: string | number;
-  iat?: Date;
+  iat?: number;
 };
 export type JWSSignOptions = {
   // header
-  typ?: KeyTypes;
+  typ?: string;
   kid?: string;
   alg?: JWKSignAlgorithms;
   // embedded key

@@ -1,7 +1,9 @@
 {
+  "plugins": ["@typescript-eslint", "mocha", "prettier"],
   "extends": [
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:mocha/recommended",
     "prettier"
   ],
   "parser": "@typescript-eslint/parser",
@@ -10,7 +12,6 @@
     "project": "tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "mocha", "prettier"],
   "rules": {
     "@typescript-eslint/no-floating-promises": "error",
     "@typescript-eslint/no-shadow": "warn",
@@ -19,5 +20,9 @@
       { "argsIgnorePattern": "^_" }
     ],
     "eqeqeq": "warn"
+  },
+  "env": {
+    "node": true,
+    "es6": true
   }
 }

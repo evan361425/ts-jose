@@ -129,7 +129,7 @@ export class JWT {
     options.notBefore && jwt.setNotBefore(options.notBefore);
     // To UTC timestamp
     // https://stackoverflow.com/questions/9756120/how-do-i-get-a-utc-timestamp-in-javascript
-    options.iat && jwt.setIssuedAt(Math.floor(options.iat.getTime() / 1000));
+    options.iat && jwt.setIssuedAt(options.iat);
   }
 
   static verifyJWTClaims(
