@@ -6,7 +6,11 @@ import { getKey } from './mock-key';
 describe('JWE', function () {
   describe('#decrypt()', function () {
     it('should ok', async function () {
-      const payload = await JWE.decrypt(token, key, { kid: 'some-id' });
+      const payload = await JWE.decrypt(token, key, {
+        kid: 'some-id',
+        alg: 'ECDH-ES+A128KW',
+        enc: 'A128GCM',
+      });
       expect(payload).is.eq('some-data');
     });
 

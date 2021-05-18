@@ -12,13 +12,16 @@ export class JWE {
     options?: JWEDecryptOptions,
   ): Promise<string> {
     const jwk = await this.getKeyFrom(cypher, key, options);
-    const { plaintext } = await compactDecrypt(cypher, jwk.key, {
+
+    if (typeof options?.enc === 'string') options.enc = [options?.enc];
+    if (typeof options?.alg === 'string') options.alg = [options?.alg];
+    const result = await compactDecrypt(cypher, jwk.key, {
       contentEncryptionAlgorithms: options?.enc ? [...options.enc] : undefined,
       keyManagementAlgorithms: options?.alg ? [...options.alg] : undefined,
     });
 
     const decoder = new TextDecoder();
-    return decoder.decode(plaintext);
+    return decoder.decode(result.plaintext);
   }
 
   static async encrypt(

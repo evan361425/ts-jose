@@ -229,4 +229,21 @@ describe('JWT', function () {
       key = await getKey();
     });
   });
+
+  describe('#verifyJWTClaims', function () {
+    it('should throw error if wrong header', function () {
+      const act = () => JWT.verifyJWTClaims({}, { typ: 'jwt' }, { typ: 'JWT' });
+      expect(act).throw('JWT');
+    });
+
+    it('should throw error if wrong payload', function () {
+      const act = () => JWT.verifyJWTClaims({ jti: 'hi' }, {}, { jti: 'ho' });
+      expect(act).throw('ho');
+    });
+
+    it('should do nothing without option', function () {
+      const act = () => JWT.verifyJWTClaims({ jti: 'hi' }, {});
+      expect(act).not.throw();
+    });
+  });
 });
