@@ -20,8 +20,7 @@ jobs:
         run: npm run coverage
 
       - name: Upload coverage to Codecov
-        uses: ./
+        uses: codecov/codecov-action@v1
         with:
-          files: ./nyc_output/processinfo/index.json
-          flags: codecov-script
+          directory: ./nyc_output
 
