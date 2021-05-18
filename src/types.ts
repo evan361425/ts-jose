@@ -22,7 +22,7 @@ export type EmbeddedKey = Pick<
 >;
 
 export type FromJWTOptions = {
-  typ?: KeyTypes;
+  typ?: string;
   jti?: string;
 };
 export type ToJWTOptions = {
@@ -44,7 +44,7 @@ export type JWSSignOptions = {
 };
 export type JWSVerifyOptions = jose.VerifyOptions & {
   algorithms?: JWKSignAlgorithms[];
-  typ?: KeyTypes;
+  typ?: string;
 };
 
 export type JWTVerifyOptions<complete> = JoseJWTVerifyOptions &
@@ -54,9 +54,9 @@ export type JWTSignOptions = ToJWTOptions & JWSSignOptions;
 
 export type JWEKeyOptions = { kid?: string };
 
-export type JWTDecryptOptions = JWEKeyOptions &
+export type JWTDecryptOptions<complete> = JWEKeyOptions &
   JoseJWTDecryptOptions &
-  FromJWTOptions;
+  FromJWTOptions & { complete?: complete };
 export type JWEDecryptOptions = JWEKeyOptions & {
   alg?: JWEManagement | JWEManagement[];
   enc?: JWEAlgorithms | JWEAlgorithms[];
@@ -68,7 +68,7 @@ export type JWTEncryptOptions = jose.EncryptOptions &
     // header
     alg: JWEManagement;
     enc: JWEAlgorithms;
-    typ?: KeyTypes;
+    typ?: string;
     // embedded key
     jwk?: EmbeddedKey;
   };

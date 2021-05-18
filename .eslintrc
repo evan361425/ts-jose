@@ -19,7 +19,9 @@
       "warn",
       { "argsIgnorePattern": "^_" }
     ],
-    "eqeqeq": "warn"
+    "eqeqeq": "warn",
+    "mocha/no-skipped-tests": "error",
+    "mocha/no-exclusive-tests": "error"
   },
   "env": {
     "node": true,

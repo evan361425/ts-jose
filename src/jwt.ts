@@ -82,15 +82,28 @@ export class JWT {
 
   static async decrypt(
     cypher: string,
-    key: JWK | JWKS,
-    options?: JWTDecryptOptions,
-  ): Promise<JWTPayload> {
+    key?: JWK | JWKS,
+    options?: JWTDecryptOptions<false>,
+  ): Promise<JWTPayload>;
+  static async decrypt(
+    cypher: string,
+    key?: JWK | JWKS,
+    options?: JWTDecryptOptions<true>,
+  ): Promise<JWTCompleteResult>;
+  static async decrypt<
+    T extends JWTDecryptOptions<false> | JWTDecryptOptions<true>,
+  >(cypher: string, key: JWK | JWKS, options?: T): Promise<JWTPayload> {
     const jwk = await JWE.getKeyFrom(cypher, key, options);
     const result = await jwtDecrypt(cypher, jwk.key, options);
 
     this.verifyJWTClaims(result.payload, result.protectedHeader, options);
 
-    return result.payload;
+    return options?.complete
+      ? {
+          payload: result.payload,
+          header: result.protectedHeader,
+        }
+      : result.payload;
   }
 
   static encrypt(
@@ -101,7 +114,6 @@ export class JWT {
     const jwk = key.getKey({
       kid: options.kid,
       use: 'enc',
-      alg: options.alg === 'dir' ? undefined : options.alg,
     });
 
     const jwt = new EncryptJWT(payload);
@@ -112,7 +124,7 @@ export class JWT {
       enc: options.enc,
       kid: options.kid ?? jwk.kid,
       jwk: options.jwk,
-      typ: options.typ,
+      typ: options.typ ?? 'jwt',
     });
 
     return jwt.encrypt(jwk.key);
