@@ -1,22 +1,49 @@
 name: 'CI'
+
 on: # rebuild any PRs and main branch changes
   pull_request:
+    branches:
+      - master
   push:
     branches:
       - master
 
 jobs:
-  build: # make sure build/ci work properly
+  test: # make sure build/ci work properly
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 15.x]
+
     steps:
-      - name: Checkout
+      - name: Checkout source
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm ci # clean install
+
+      - name: Check format
+        if: ${{ startsWith(matrix.node-version, '12') }}
+        run: npm run check-format
+
+      - name: Unit test
+        run: npm run test
+
+  coverage: # build coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
         uses: actions/checkout@v2
 
       - name: Install dependencies
-        run: npm install
-
-      - name: Check
-        run: npm run check
+        run: npm ci
 
       - name: Coverage
         run: npm run ci-coverage

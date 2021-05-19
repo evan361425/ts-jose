@@ -1,6 +1,6 @@
 {
   "name": "ts-jose",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Wrap functions of JOSE in steady interface",
   "keywords": [
     "JOSE",
@@ -18,7 +18,7 @@
     "type": "git",
     "url": "git+https://github.com/evan361425/ts-jose.git"
   },
-  "license": "SEE LICENSE IN LICENSE file",
+  "license": "MIT",
   "author": "Shueh Chou Lu <evan.lu@104.com.tw>",
   "main": "index.js",
   "scripts": {
@@ -31,7 +31,7 @@
     "coverage": "nyc mocha",
     "ci-coverage": "nyc --reporter=lcov npm test && npx codecov",
     "lint": "eslint 'src/**/*.ts' 'test/**/*.ts'",
-    "check": "npm run compile && npm run format && npm run lint"
+    "check-format": "npm run compile && npm run format && npm run lint"
   },
   "nyc": {
     "extension": [

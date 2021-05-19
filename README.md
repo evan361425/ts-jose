@@ -1,8 +1,14 @@
 # TS JOSE
 
 ![CI](https://github.com/evan361425/ts-jose/actions/workflows/CI.yml/badge.svg)
+
 [![codecov](https://codecov.io/gh/evan361425/ts-jose/branch/master/graph/badge.svg)](https://codecov.io/gh/evan361425/ts-jose)
-![Quality](https://img.shields.io/codefactor/grade/github/evan361425/ts-jose)
+[![Quality](https://img.shields.io/codefactor/grade/github/evan361425/ts-jose)](https://www.codefactor.io/repository/github/evan361425/ts-jose)
+
+[![Version](https://img.shields.io/npm/v/ts-jose)](https://www.npmjs.com/package/ts-jose)
+
+[![Dependencies](https://david-dm.org/evan361425/ts-jose/status.svg)](https://david-dm.org/evan361425/ts-jose)
+[![License](https://img.shields.io/github/license/evan361425/ts-jose)](LICENSE)
 
 Wrap functions of [JOSE](https://github.com/panva/jose) in steady interface.
 
@@ -26,9 +32,6 @@ Wrap functions of [JOSE](https://github.com/panva/jose) in steady interface.
 
 [ref](https://github.com/panva/jose/blob/main/docs/interfaces/jwt_verify.jwtverifyoptions.md)
 
-<details>
-<summary>Example code</summary>
-
 ```ts
 const options = {
   algorithms: ['a1', 'a2'], // accepted algorithms
@@ -48,14 +51,9 @@ await JWT.verify(token, key, options); // key must be JWK or JWKS
 await JWT.verify(token, undefined, options); // this will try to verify by embedded key
 ```
 
-</details>
-
 ### sign
 
 [ref](https://github.com/panva/jose/blob/main/docs/classes/jwt_sign.signjwt.md)
-
-<details>
-<summary>Example code</summary>
 
 ```ts
 const options = {
@@ -75,14 +73,9 @@ const options = {
 await JWT.sign(payload, key, options); // key must be JWK or JWKS
 ```
 
-</details>
-
 ### decrypt
 
 [ref](https://github.com/panva/jose/blob/main/docs/functions/jwe_compact_decrypt.compactdecrypt.md#readme)
-
-<details>
-<summary>Example code</summary>
 
 ```ts
 const options = {
@@ -103,14 +96,9 @@ const options = {
 await JWT.decrypt(cypher, key, options);
 ```
 
-</details>
-
 ### encrypt
 
 [ref](https://github.com/panva/jose/blob/main/docs/classes/jwt_encrypt.encryptjwt.md#readme)
-
-<details>
-<summary>Example code</summary>
 
 ```ts
 const options = {
@@ -129,8 +117,6 @@ const options = {
 await JWT.encrypt(payload, key, options);
 ```
 
-</details>
-
 ## JWS
 
 You can sign pure string.
@@ -138,9 +124,6 @@ You can sign pure string.
 ### verify
 
 [ref](https://github.com/panva/jose/blob/main/docs/functions/jws_compact_verify.compactverify.md#readme)
-
-<details>
-<summary>Example code</summary>
 
 ```ts
 const options = {
@@ -152,14 +135,9 @@ const options = {
 await JWS.verify(data, key, options);
 ```
 
-</details>
-
 ### sign
 
 [ref](https://github.com/panva/jose/blob/main/docs/classes/jws_compact_sign.compactsign.md#readme)
-
-<details>
-<summary>Example code</summary>
 
 ```ts
 const options = {
@@ -172,8 +150,6 @@ const options = {
 await JWS.sign('some-data', key, options);
 ```
 
-</details>
-
 ## JWE
 
 You can encrypt pure string.
@@ -181,9 +157,6 @@ You can encrypt pure string.
 ### decrypt
 
 [ref](https://github.com/panva/jose/blob/main/docs/functions/jwe_compact_decrypt.compactdecrypt.md#readme)
-
-<details>
-<summary>Example code</summary>
 
 ```ts
 const options = {
@@ -195,14 +168,9 @@ const options = {
 await JWE.decrypt(cypher, key, options);
 ```
 
-</details>
-
 ### encrypt
 
 [ref](https://github.com/panva/jose/blob/main/docs/classes/jwe_compact_encrypt.compactencrypt.md#readme)
-
-<details>
-<summary>Example code</summary>
 
 ```ts
 const options = {
@@ -215,14 +183,9 @@ const options = {
 await JWE.encrypt(cypher, key, options);
 ```
 
-</details>
-
 ## JWK
 
 [ref](https://github.com/panva/jose/blob/main/docs/interfaces/types.jwk.md)
-
-<details>
-<summary>Example code</summary>
 
 ```ts
 // generate key
@@ -265,12 +228,7 @@ try {
 }
 ```
 
-</details>
-
 ## JWKS
-
-<details>
-<summary>Example code</summary>
 
 ```ts
 // object to JWKS
@@ -290,5 +248,3 @@ keys.getKeyByKid('some-id');
 keys.getKeyByUse('sig');
 keys.getKeyByAlg('ES256');
 ```
-
-</details>
