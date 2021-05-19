@@ -1,11 +1,10 @@
 # TS JOSE
 
 ![CI](https://github.com/evan361425/ts-jose/actions/workflows/CI.yml/badge.svg)
+[![Version](https://img.shields.io/npm/v/ts-jose)](https://www.npmjs.com/package/ts-jose)
 
 [![codecov](https://codecov.io/gh/evan361425/ts-jose/branch/master/graph/badge.svg)](https://codecov.io/gh/evan361425/ts-jose)
 [![Quality](https://img.shields.io/codefactor/grade/github/evan361425/ts-jose)](https://www.codefactor.io/repository/github/evan361425/ts-jose)
-
-[![Version](https://img.shields.io/npm/v/ts-jose)](https://www.npmjs.com/package/ts-jose)
 
 [![Dependencies](https://david-dm.org/evan361425/ts-jose/status.svg)](https://david-dm.org/evan361425/ts-jose)
 [![License](https://img.shields.io/github/license/evan361425/ts-jose)](LICENSE)
