@@ -48,6 +48,13 @@ describe('JWKS', function () {
 
         expect(() => jwks.getKey({ kid: 'id', alg: 'ES384' })).to.throw('alg');
       });
+
+      it('should pass if found key in "kid" has correct "alg"', function () {
+        const jwks = new JWKS([]);
+        stub(jwks, 'getKeyByKid').returns({ alg: 'ES256' } as JWK);
+
+        expect(() => jwks.getKey({ kid: 'id', alg: 'ES256' })).not.to.throw();
+      });
     });
 
     it('should throw error if not found in "use"', function () {

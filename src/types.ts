@@ -1,4 +1,3 @@
-import { JWTDecryptOptions as JoseJWTDecryptOptions } from 'jose/jwt/decrypt';
 import { JWTVerifyOptions as JoseJWTVerifyOptions } from 'jose/jwt/verify';
 import * as jose from 'jose/types';
 
@@ -10,7 +9,7 @@ export type JWKObject = jose.JWK & {
 };
 export type JWKey = jose.KeyLike;
 export type JWTPayload = jose.JWTPayload;
-export type JWKSObject = { keys: JWKObject[] };
+export type JWKSObject = { keys: JWKObject[]; [key: string]: unknown };
 export type KeyOptions = {
   kid?: string;
   use?: KeyUsages;
@@ -22,7 +21,7 @@ export type EmbeddedKey = Pick<
 >;
 
 export type FromJWTOptions = {
-  typ?: string;
+  typ?: typ;
   jti?: string;
 };
 export type ToJWTOptions = {
@@ -36,7 +35,7 @@ export type ToJWTOptions = {
 };
 export type JWSSignOptions = {
   // header
-  typ?: string;
+  typ?: typ;
   kid?: string;
   alg?: JWKSignAlgorithms;
   // embedded key
@@ -44,7 +43,7 @@ export type JWSSignOptions = {
 };
 export type JWSVerifyOptions = jose.VerifyOptions & {
   algorithms?: JWKSignAlgorithms[];
-  typ?: string;
+  typ?: typ;
 };
 
 export type JWTVerifyOptions<complete> = JoseJWTVerifyOptions &
@@ -55,8 +54,12 @@ export type JWTSignOptions = ToJWTOptions & JWSSignOptions;
 export type JWEKeyOptions = { kid?: string };
 
 export type JWTDecryptOptions<complete> = JWEKeyOptions &
-  JoseJWTDecryptOptions &
-  FromJWTOptions & { complete?: complete };
+  jose.JWTClaimVerificationOptions &
+  FromJWTOptions & {
+    complete?: complete;
+    enc?: JWEAlgorithms | JWEAlgorithms[];
+    alg?: JWEManagement | JWEManagement[];
+  };
 export type JWEDecryptOptions = JWEKeyOptions & {
   alg?: JWEManagement | JWEManagement[];
   enc?: JWEAlgorithms | JWEAlgorithms[];
@@ -68,17 +71,12 @@ export type JWTEncryptOptions = jose.EncryptOptions &
     // header
     alg: JWEManagement;
     enc: JWEAlgorithms;
-    typ?: string;
-    // embedded key
-    jwk?: EmbeddedKey;
+    typ?: typ;
   };
 export type JWEEncryptOptions = jose.EncryptOptions &
   JWEKeyOptions & {
     alg: JWEManagement;
     enc: JWEAlgorithms;
-    cek?: Uint8Array;
-    iv?: Uint8Array;
-    keyManagement?: jose.JWEKeyManagementHeaderParameters;
   };
 
 export type JWSHeaderParameters = jose.JWSHeaderParameters & {
@@ -160,3 +158,5 @@ export type JWKAlgorithms = Exclude<
   JWKSignAlgorithms | JWEAlgorithms | JWEManagement,
   'dir'
 >;
+
+type typ = 'jwt' | 'id-token+jwt' | 'ac+jwt' | '+jwt' | string;

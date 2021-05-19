@@ -22,7 +22,7 @@
   "author": "Shueh Chou Lu <evan.lu@104.com.tw>",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf dist/**/*.js dist/**/*.ts",
+    "clean": "rimraf dist/**/*.js dist/**/*.ts coverage/**/* .nyc_output/**/*",
     "precompile": "npm run clean",
     "compile": "tsc --project tsconfig.production.json",
     "format": "prettier --write **/*.ts",

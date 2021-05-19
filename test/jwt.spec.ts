@@ -140,6 +140,8 @@ describe('JWT', function () {
       // Action
       const result = await JWT.decrypt(token, key, {
         audience: 'hi',
+        enc: ['A128GCM'],
+        alg: ['ECDH-ES+A128KW'],
         clockTolerance: '3s',
         currentDate: nowD,
         issuer: 'some-issuer',
@@ -206,6 +208,8 @@ describe('JWT', function () {
       // Assertion
       const result = await JWT.decrypt(cypher, key, {
         complete: true,
+        enc: 'A128GCM', // fulfill coverage
+        alg: 'ECDH-ES+A128KW', // fulfill coverage
         currentDate: new Date((now + 150) * 1000), // pass nbf
       });
       const header = result.header;

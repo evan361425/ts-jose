@@ -82,19 +82,27 @@ export class JWT {
 
   static async decrypt(
     cypher: string,
-    key?: JWK | JWKS,
+    key: JWK | JWKS,
     options?: JWTDecryptOptions<false>,
   ): Promise<JWTPayload>;
   static async decrypt(
     cypher: string,
-    key?: JWK | JWKS,
+    key: JWK | JWKS,
     options?: JWTDecryptOptions<true>,
   ): Promise<JWTCompleteResult>;
   static async decrypt<
     T extends JWTDecryptOptions<false> | JWTDecryptOptions<true>,
   >(cypher: string, key: JWK | JWKS, options?: T): Promise<JWTPayload> {
     const jwk = await JWE.getKeyFrom(cypher, key, options);
-    const result = await jwtDecrypt(cypher, jwk.key, options);
+
+    if (typeof options?.enc === 'string') options.enc = [options.enc];
+    if (typeof options?.alg === 'string') options.alg = [options.alg];
+
+    const result = await jwtDecrypt(cypher, jwk.key, {
+      contentEncryptionAlgorithms: options?.enc,
+      keyManagementAlgorithms: options?.alg,
+      ...options,
+    });
 
     this.verifyJWTClaims(result.payload, result.protectedHeader, options);
 
@@ -123,7 +131,6 @@ export class JWT {
       alg: options.alg,
       enc: options.enc,
       kid: options.kid ?? jwk.kid,
-      jwk: options.jwk,
       typ: options.typ ?? 'jwt',
     });
 

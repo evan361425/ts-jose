@@ -14,6 +14,11 @@ describe('JWE', function () {
       expect(payload).is.eq('some-data');
     });
 
+    it('should ok without options', async function () {
+      const payload = await JWE.decrypt(token, key);
+      expect(payload).is.eq('some-data');
+    });
+
     it('should ok with array "alg" and "enc"', async function () {
       const payload = await JWE.decrypt(token, key, {
         kid: 'some-id',

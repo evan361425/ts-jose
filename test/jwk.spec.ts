@@ -29,9 +29,8 @@ describe('JWK', function () {
     });
 
     it('use sign', async function () {
-      const key = await JWK.generate('A128KW', { use: 'sig' });
+      const key = await JWK.generate('A128KW');
       expect(key.alg).to.eq('A128KW');
-      expect(key.use).to.eq('sig');
       expect(key.kty).to.eq('oct');
     });
   });
