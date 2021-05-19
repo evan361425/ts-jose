@@ -14,6 +14,15 @@ describe('JWE', function () {
       expect(payload).is.eq('some-data');
     });
 
+    it('should ok with array "alg" and "enc"', async function () {
+      const payload = await JWE.decrypt(token, key, {
+        kid: 'some-id',
+        alg: ['ECDH-ES+A128KW', 'ECDH-ES+A192KW'],
+        enc: ['A128GCM', 'A192GCM'],
+      });
+      expect(payload).is.eq('some-data');
+    });
+
     it('should throw error if enc is not correct', async function () {
       return JWE.decrypt(token, key, { enc: 'A256GCM' })
         .then((_) => expect.fail('should not pass if "enc" is wrong'))

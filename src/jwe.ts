@@ -15,6 +15,7 @@ export class JWE {
 
     if (typeof options?.enc === 'string') options.enc = [options?.enc];
     if (typeof options?.alg === 'string') options.alg = [options?.alg];
+
     const result = await compactDecrypt(cypher, jwk.key, {
       contentEncryptionAlgorithms: options?.enc ? [...options.enc] : undefined,
       keyManagementAlgorithms: options?.alg ? [...options.alg] : undefined,
