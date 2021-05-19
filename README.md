@@ -6,31 +6,28 @@
 
 Wrap functions of [JOSE](https://github.com/panva/jose) in steady interface.
 
-- [Example](#example)
-  - [JWT](#jwt)
-    - [verify](#verify)
-    - [sign](#sign)
-    - [decrypt](#decrypt)
-    - [encrypt](#encrypt)
-  - [JWS](#jws)
-    - [verify](#verify-1)
-    - [sign](#sign-1)
-  - [JWE](#jwe)
-    - [decrypt](#decrypt-1)
-    - [encrypt](#encrypt-1)
-  - [JWK](#jwk)
-  - [JWKS](#jwks)
+- [JWT](#jwt)
+  - [verify](#verify)
+  - [sign](#sign)
+  - [decrypt](#decrypt)
+  - [encrypt](#encrypt)
+- [JWS](#jws)
+  - [verify](#verify-1)
+  - [sign](#sign-1)
+- [JWE](#jwe)
+  - [decrypt](#decrypt-1)
+  - [encrypt](#encrypt-1)
+- [JWK](#jwk)
+- [JWKS](#jwks)
 
-## Example
+## JWT
 
-### JWT
-
-#### verify
+### verify
 
 [ref](https://github.com/panva/jose/blob/main/docs/interfaces/jwt_verify.jwtverifyoptions.md)
 
 <details>
-<summary>Example `code`</summary>
+<summary>Example code</summary>
 
 ```ts
 const options = {
@@ -53,12 +50,12 @@ await JWT.verify(token, undefined, options); // this will try to verify by embed
 
 </details>
 
-#### sign
+### sign
 
 [ref](https://github.com/panva/jose/blob/main/docs/classes/jwt_sign.signjwt.md)
 
 <details>
-<summary>Example `code`</summary>
+<summary>Example code</summary>
 
 ```ts
 const options = {
@@ -80,12 +77,12 @@ await JWT.sign(payload, key, options); // key must be JWK or JWKS
 
 </details>
 
-#### decrypt
+### decrypt
 
 [ref](https://github.com/panva/jose/blob/main/docs/functions/jwe_compact_decrypt.compactdecrypt.md#readme)
 
 <details>
-<summary>Example `code`</summary>
+<summary>Example code</summary>
 
 ```ts
 const options = {
@@ -108,12 +105,12 @@ await JWT.decrypt(cypher, key, options);
 
 </details>
 
-#### encrypt
+### encrypt
 
 [ref](https://github.com/panva/jose/blob/main/docs/classes/jwt_encrypt.encryptjwt.md#readme)
 
 <details>
-<summary>Example `code`</summary>
+<summary>Example code</summary>
 
 ```ts
 const options = {
@@ -134,16 +131,16 @@ await JWT.encrypt(payload, key, options);
 
 </details>
 
-### JWS
+## JWS
 
 You can sign pure string.
 
-#### verify
+### verify
 
 [ref](https://github.com/panva/jose/blob/main/docs/functions/jws_compact_verify.compactverify.md#readme)
 
 <details>
-<summary>Example `code`</summary>
+<summary>Example code</summary>
 
 ```ts
 const options = {
@@ -157,12 +154,12 @@ await JWS.verify(data, key, options);
 
 </details>
 
-#### sign
+### sign
 
 [ref](https://github.com/panva/jose/blob/main/docs/classes/jws_compact_sign.compactsign.md#readme)
 
 <details>
-<summary>Example `code`</summary>
+<summary>Example code</summary>
 
 ```ts
 const options = {
@@ -177,16 +174,16 @@ await JWS.sign('some-data', key, options);
 
 </details>
 
-### JWE
+## JWE
 
 You can encrypt pure string.
 
-#### decrypt
+### decrypt
 
 [ref](https://github.com/panva/jose/blob/main/docs/functions/jwe_compact_decrypt.compactdecrypt.md#readme)
 
 <details>
-<summary>Example `code`</summary>
+<summary>Example code</summary>
 
 ```ts
 const options = {
@@ -200,12 +197,12 @@ await JWE.decrypt(cypher, key, options);
 
 </details>
 
-#### encrypt
+### encrypt
 
 [ref](https://github.com/panva/jose/blob/main/docs/classes/jwe_compact_encrypt.compactencrypt.md#readme)
 
 <details>
-<summary>Example `code`</summary>
+<summary>Example code</summary>
 
 ```ts
 const options = {
@@ -220,12 +217,12 @@ await JWE.encrypt(cypher, key, options);
 
 </details>
 
-### JWK
+## JWK
 
 [ref](https://github.com/panva/jose/blob/main/docs/interfaces/types.jwk.md)
 
 <details>
-<summary>Example `code`</summary>
+<summary>Example code</summary>
 
 ```ts
 // generate key
@@ -270,10 +267,10 @@ try {
 
 </details>
 
-### JWKS
+## JWKS
 
 <details>
-<summary>Example `code`</summary>
+<summary>Example code</summary>
 
 ```ts
 // object to JWKS
