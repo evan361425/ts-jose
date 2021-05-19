@@ -1,5 +1,5 @@
 {
-  "name": "node-ts-jose",
+  "name": "ts-jose",
   "version": "0.0.0",
   "description": "Wrap functions of JOSE in steady interface",
   "keywords": [
@@ -7,15 +7,16 @@
     "helper",
     "wrapper",
     "TypeScript",
+    "interface",
     "class based"
   ],
-  "homepage": "https://github.com/104corp/node-ts-jose#readme",
+  "homepage": "https://github.com/evan361425/ts-jose#readme",
   "bugs": {
-    "url": "https://github.com/104corp/node-ts-jose/issues"
+    "url": "https://github.com/evan361425/ts-jose/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/104corp/node-ts-jose.git"
+    "url": "git+https://github.com/evan361425/ts-jose.git"
   },
   "license": "SEE LICENSE IN LICENSE file",
   "author": "Shueh Chou Lu <evan.lu@104.com.tw>",
@@ -48,7 +49,7 @@
     ]
   },
   "dependencies": {
-    "jose": "npm:jose-node-cjs-runtime@^3.11.5"
+    "jose": "^3.12.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.18",
