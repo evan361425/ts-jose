@@ -7,6 +7,8 @@
 [![Quality](https://img.shields.io/codefactor/grade/github/evan361425/ts-jose)](https://www.codefactor.io/repository/github/evan361425/ts-jose)
 
 [![Dependencies](https://david-dm.org/evan361425/ts-jose/status.svg)](https://david-dm.org/evan361425/ts-jose)
+![Node Version](https://img.shields.io/node/v/ts-jose)
+![Activity](https://img.shields.io/github/commits-since/evan361425/ts-jose/latest)
 [![License](https://img.shields.io/github/license/evan361425/ts-jose)](LICENSE)
 
 Wrap functions of [JOSE](https://github.com/panva/jose) in steady interface.
