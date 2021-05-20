@@ -46,7 +46,11 @@ const options = {
   typ: 'ac+jwt', // make it easy to decide what token is this
 };
 
-await JWT.verify(token, key, options); // key must be JWK or JWKS
+const result: JWTCompleteResult | JWTPayload = await JWT.verify(
+  token,
+  key,
+  options,
+); // key must be JWK or JWKS
 await JWT.verify(token, undefined, options); // this will try to verify by embedded key
 ```
 
@@ -69,7 +73,7 @@ const options = {
   typ: 'ac+jwt', // make it easy to decide what token is this
 };
 
-await JWT.sign(payload, key, options); // key must be JWK or JWKS
+const result: string = await JWT.sign(payload, key, options); // key must be JWK or JWKS
 ```
 
 ### decrypt
@@ -92,7 +96,11 @@ const options = {
   typ: 'ac+jwt', // make it easy to decide what token is this
 };
 
-await JWT.decrypt(cypher, key, options);
+const result: JWTCompleteResult | JWTPayload = await JWT.decrypt(
+  cypher,
+  key,
+  options,
+);
 ```
 
 ### encrypt
@@ -113,7 +121,7 @@ const options = {
   notBefore: '1s',
 };
 
-await JWT.encrypt(payload, key, options);
+const result: string = await JWT.encrypt(payload, key, options);
 ```
 
 ## JWS
@@ -131,7 +139,7 @@ const options = {
   typ: 'some-type',
 };
 
-await JWS.verify(data, key, options);
+const result: string = await JWS.verify(data, key, options);
 ```
 
 ### sign
@@ -146,7 +154,7 @@ const options = {
   typ: 'some-type',
 };
 
-await JWS.sign('some-data', key, options);
+const result: string = await JWS.sign('some-data', key, options);
 ```
 
 ## JWE
@@ -164,7 +172,7 @@ const options = {
   kid: 'some-key-id',
 };
 
-await JWE.decrypt(cypher, key, options);
+const data: string = await JWE.decrypt(cypher, key, options);
 ```
 
 ### encrypt
@@ -179,7 +187,7 @@ const options = {
   kid: 'some-key-id',
 };
 
-await JWE.encrypt(cypher, key, options);
+const cypher: string = await JWE.encrypt('some-data', key, options);
 ```
 
 ## JWK
@@ -188,7 +196,7 @@ await JWE.encrypt(cypher, key, options);
 
 ```ts
 // generate key
-await JWK.generate('ES256', {
+const key: JWK = await JWK.generate('ES256', {
   kid: 'some-id',
   use: 'sig',
   // crv: string, some algorithms need to add curve - EdDSA
@@ -196,7 +204,7 @@ await JWK.generate('ES256', {
 });
 
 // object to JWK
-await JWK.fromObject({
+const key: JWK = await JWK.fromObject({
   kid: 'some-id',
   alg: 'ES256',
   kty: 'EC',
@@ -207,21 +215,18 @@ await JWK.fromObject({
 });
 
 // JWK to object
-key.toObject(false); // true to output private object, default: false
+const keyObject: JWKObject = key.toObject(false); // true to output private object, default: false
 
 // private JWK to public JWK
-await key.toPublic();
+const newKey: JWK = await key.toPublic();
 
 // get key's status
 key.isisPrivate;
 
 // check key "id", "use", "alg"
 try {
-  key.getKey({
-    kid: 'some-id',
-    use: 'sig',
-    alg: 'ES256',
-  });
+  // return `this` if all pass
+  key.getKey({ kid: 'some-id', use: 'sig', alg: 'ES256' });
 } catch (err) {
   // throw error if this key has different metadata from options
 }
@@ -231,7 +236,7 @@ try {
 
 ```ts
 // object to JWKS
-const keys = await JWKS.fromObject('ES256', {
+const keys = await JWKS.fromObject({
   keys: [
     {
       alg: 'ES256',
@@ -242,8 +247,13 @@ const keys = await JWKS.fromObject('ES256', {
   ],
 });
 
-keys.getKey({ kid: 'some-id', use: 'sig', alg: 'ES256' });
-keys.getKeyByKid('some-id');
-keys.getKeyByUse('sig');
-keys.getKeyByAlg('ES256');
+// get key from store in specific options
+try {
+  const key: JWK = keys.getKey({ kid: 'some-id', use: 'sig', alg: 'ES256' });
+} catch (err) {
+  // throw error if not found
+}
+const key: JWK = keys.getKeyByKid('some-id');
+const key: JWK = keys.getKeyByUse('sig');
+const key: JWK = keys.getKeyByAlg('ES256');
 ```
