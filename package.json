@@ -24,8 +24,6 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "compile": "tsc --project tsconfig.production.json",
-    "build": "npm run compile",
-    "postbuild": "rimraf src test .github .vscode .eslintignore .editorconfig .eslintrc .gitignore .mocharc.js .nycrc .prettierignore .prettierrc ./tsconfig.*",
     "format": "prettier --write **/*.ts",
     "test": "mocha",
     "precoverage": "rimraf coverage .nyc_output",
