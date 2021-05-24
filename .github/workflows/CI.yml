@@ -1,4 +1,4 @@
-name: 'CI'
+name: "CI"
 
 on: # rebuild any PRs and main branch changes
   pull_request:
@@ -46,10 +46,9 @@ jobs:
         run: npm ci
 
       - name: Coverage
-        run: npm run ci-coverage
+        run: npm run coverage:ci
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
           directory: ./coverage
-
