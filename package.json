@@ -1,6 +1,6 @@
 {
   "name": "ts-jose",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Wrap functions of JOSE in steady interface",
   "keywords": [
     "JOSE",
@@ -25,7 +25,7 @@
   "scripts": {
     "compile": "tsc --project tsconfig.production.json",
     "build": "npm run compile",
-    "postbuild": "rimraf src test ./.*  ./tsconfig.*",
+    "postbuild": "rimraf ./src ./test ./.* ./tsconfig.*",
     "format": "prettier --write **/*.ts",
     "test": "mocha",
     "precoverage": "rimraf coverage .nyc_output",
@@ -52,6 +52,7 @@
     "mocha": "^8.4.0",
     "nyc": "^15.1.0",
     "prettier": "^2.3.0",
+    "rimraf": "^3.0.2",
     "sinon": "^10.0.0",
     "source-map-support": "^0.5.19",
     "ts-node": "^9.1.1",
