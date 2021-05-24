@@ -20,7 +20,8 @@
   },
   "license": "MIT",
   "author": "Shueh Chou Lu <evan.lu@104.com.tw>",
-  "main": "src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "clean": "rimraf dist/**/*.js dist/**/*.ts coverage/**/* .nyc_output/**/*",
     "precompile": "npm run clean",

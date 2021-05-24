@@ -37,12 +37,12 @@ export type JWSSignOptions = {
   // header
   typ?: typ;
   kid?: string;
-  alg?: JWKSignAlgorithms;
+  alg?: JWSAlgorithms;
   // embedded key
   jwk?: boolean;
 };
 export type JWSVerifyOptions = jose.VerifyOptions & {
-  algorithms?: JWKSignAlgorithms[];
+  algorithms?: JWSAlgorithms[];
   typ?: typ;
 };
 
@@ -57,30 +57,30 @@ export type JWTDecryptOptions<complete> = JWEKeyOptions &
   jose.JWTClaimVerificationOptions &
   FromJWTOptions & {
     complete?: complete;
-    enc?: JWEAlgorithms | JWEAlgorithms[];
-    alg?: JWEManagement | JWEManagement[];
+    enc?: JWEEncryptAlgorithms | JWEEncryptAlgorithms[];
+    alg?: JWEKeyManagement | JWEKeyManagement[];
   };
 export type JWEDecryptOptions = JWEKeyOptions & {
-  alg?: JWEManagement | JWEManagement[];
-  enc?: JWEAlgorithms | JWEAlgorithms[];
+  alg?: JWEKeyManagement | JWEKeyManagement[];
+  enc?: JWEEncryptAlgorithms | JWEEncryptAlgorithms[];
 };
 
 export type JWTEncryptOptions = jose.EncryptOptions &
   JWEKeyOptions &
   ToJWTOptions & {
     // header
-    alg: JWEManagement;
-    enc: JWEAlgorithms;
+    alg: JWEKeyManagement;
+    enc: JWEEncryptAlgorithms;
     typ?: typ;
   };
 export type JWEEncryptOptions = jose.EncryptOptions &
   JWEKeyOptions & {
-    alg: JWEManagement;
-    enc: JWEAlgorithms;
+    alg: JWEKeyManagement;
+    enc: JWEEncryptAlgorithms;
   };
 
 export type JWSHeaderParameters = jose.JWSHeaderParameters & {
-  alg?: JWKSignAlgorithms;
+  alg?: JWSAlgorithms;
 };
 
 export type JWTCompleteResult = {
@@ -99,7 +99,7 @@ export type KeyUsages = 'sig' | 'enc';
 
 export type KeyTypes = 'RSA' | 'EC' | 'OKP' | 'oct';
 
-export type JWKSignAlgorithms =
+export type JWSAlgorithms =
   | 'RS256'
   | 'RS384'
   | 'RS512'
@@ -125,7 +125,7 @@ export type JWKCurves =
   | 'X25519'
   | 'X448';
 
-export type JWEAlgorithms =
+export type JWEEncryptAlgorithms =
   | 'A128GCM'
   | 'A192GCM'
   | 'A256GCM'
@@ -133,7 +133,7 @@ export type JWEAlgorithms =
   | 'A192CBC-HS384'
   | 'A256CBC-HS512';
 
-export type JWEManagement =
+export type JWEKeyManagement =
   | 'A128KW'
   | 'A192KW'
   | 'A256KW'
@@ -155,7 +155,7 @@ export type JWEManagement =
   | 'ECDH-ES+A256KW';
 
 export type JWKAlgorithms = Exclude<
-  JWKSignAlgorithms | JWEAlgorithms | JWEManagement,
+  JWSAlgorithms | JWEEncryptAlgorithms | JWEKeyManagement,
   'dir'
 >;
 

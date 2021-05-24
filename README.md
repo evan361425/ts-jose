@@ -35,7 +35,7 @@ Wrap functions of [JOSE](https://github.com/panva/jose) in steady interface.
 
 ```ts
 const options = {
-  algorithms: ['a1', 'a2'], // accepted algorithms
+  algorithms: ['a1', 'a2'] as JWKSignAlgorithms[], // accepted algorithms
   audience: 'hi', // string or string[], accept audience
   clockTolerance: '3s',
   complete: true, // true to return header+payload else return payload only, default: false
@@ -62,7 +62,7 @@ await JWT.verify(token, undefined, options); // this will try to verify by embed
 
 ```ts
 const options = {
-  alg: 'ES256',
+  alg: 'ES256' as JWKSignAlgorithms,
   audience: 'hi', // string or string[]
   exp: '3h', // string or number, 3h means expired in 3 hours, detail in [ref]
   iat: 123,
