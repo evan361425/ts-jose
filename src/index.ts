@@ -1,3 +1,4 @@
+export * from './error';
 export * from './jwe';
 export * from './jwk';
 export * from './jwks';
