@@ -99,6 +99,10 @@ export type KeyUsages = 'sig' | 'enc';
 
 export type KeyTypes = 'RSA' | 'EC' | 'OKP' | 'oct';
 
+export type thumbprintConfig = {
+  digestAlgorithm?: 'sha256' | 'sha384' | 'sha512';
+};
+
 export type JWSAlgorithms =
   | 'RS256'
   | 'RS384'

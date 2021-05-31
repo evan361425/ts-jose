@@ -1,5 +1,6 @@
 import { fromKeyLike } from 'jose/jwk/from_key_like';
 import { parseJwk } from 'jose/jwk/parse';
+import { calculateThumbprint } from 'jose/jwk/thumbprint';
 import generateKeyPair from 'jose/util/generate_key_pair';
 import generateSecret from 'jose/util/generate_secret';
 import { JoseError } from './error';
@@ -11,6 +12,7 @@ import {
   KeyOptions,
   KeyTypes,
   KeyUsages,
+  thumbprintConfig,
 } from './types';
 
 const RSAPrivateProperties = ['d', 'p', 'q', 'dp', 'dq', 'qi', 'oth'];
@@ -47,6 +49,11 @@ export class JWK {
           .filter((entry) => RSAPrivateProperties.includes(entry[0]))
           .some((entry) => entry[1] !== undefined);
     }
+  }
+
+  // https://github.com/panva/jose/blob/main/docs/functions/jwk_thumbprint.calculatethumbprint.md
+  getThumbprint(config?: thumbprintConfig): Promise<string> {
+    return calculateThumbprint(this.metadata, config?.digestAlgorithm);
   }
 
   getKey(options: KeyOptions): JWK {

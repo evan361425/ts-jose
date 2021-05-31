@@ -153,4 +153,20 @@ describe('JWK', function () {
       expect(() => jwk.getKey({ use: 'enc' })).to.throw('use');
     });
   });
+
+  describe('#getThumbprint()', function () {
+    it('should get default thumbprint', async function () {
+      const key = await getKey();
+      const thumbprint = await key.getThumbprint();
+      expect(thumbprint).is.eq('zwENXtak1ImouNZ-voOraXu0ll1WdgQcTcmBYWXqV3g');
+    });
+
+    it('should get thumbprint by config', async function () {
+      const key = await getKey();
+      const thumbprint = await key.getThumbprint({ digestAlgorithm: 'sha384' });
+      expect(thumbprint).is.eq(
+        'XKhOc2UbjarFf-0suJ-lcvAI0sOC1MemqWVU3ywsqNAYA01KXzcl3kMDYP9M0gWJ',
+      );
+    });
+  });
 });
