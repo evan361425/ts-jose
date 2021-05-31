@@ -51,6 +51,10 @@ export class JWKS {
     return keys.filter((key) => key.alg === alg);
   }
 
+  toObject(): JWKSObject {
+    return { keys: this.keys.map((key) => ({ ...key.metadata })) };
+  }
+
   static async fromObject(jwks: JWKSObject): Promise<JWKS> {
     const keys: JWK[] = [];
     for (const key of jwks.keys) {

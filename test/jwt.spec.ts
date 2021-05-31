@@ -61,7 +61,7 @@ describe('JWT', function () {
       expect(tokenHeader.alg).to.eq('ES256');
     });
 
-    it('embeded key', async function () {
+    it('embedded key', async function () {
       const token = await JWT.sign({ a: 'b' }, key, { jwk: true });
       const result = await JWT.verify(token, undefined, { complete: true });
       // Assertion

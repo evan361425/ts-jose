@@ -169,6 +169,17 @@ describe('JWKS', function () {
     });
   });
 
+  describe('#toObject()', function () {
+    it('should same with input', function () {
+      const keyMetadata = { a: 'b' };
+      const key: JWK = { metadata: keyMetadata as unknown } as never;
+      const keys = new JWKS([key]);
+      expect(keys.toObject()).to.eql({ keys: [keyMetadata] });
+      // should be new object
+      expect(keys.toObject().keys[0]).to.not.equal(keyMetadata);
+    });
+  });
+
   describe('fromObject()', function () {
     it('should get empty keys if input is empty', async function () {
       const jwks = await JWKS.fromObject({ keys: [] });
