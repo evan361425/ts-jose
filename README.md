@@ -13,6 +13,9 @@
 
 Wrap functions of [JOSE](https://github.com/panva/jose) in steady interface.
 
+> **⚠ NOTE**  
+> This package's version will FOLLOW the version of JOSE
+
 - [JWT](#jwt)
   - [verify](#verify)
   - [sign](#sign)
