@@ -52,6 +52,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.event.inputs.version }}
+          tag_name: v${{ github.event.inputs.version }}
           release_name: v${{ github.event.inputs.version }}
           body: "This is auto-generate from GitHub Actions\nSource diff can see [here](https://github.com/panva/jose/releases/tag/v${{ github.event.inputs.version }})"
