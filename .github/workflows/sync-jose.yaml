@@ -1,6 +1,10 @@
-name: Sync Version From Source
+name: Sync Version From JOSE
 
 on:
+  schedule:
+    # sync every day
+    - cron: "0 0 * * *"
+
   workflow_dispatch:
     # Enable manual run
     inputs:
@@ -12,11 +16,41 @@ on:
 jobs:
   check-version:
     runs-on: ubuntu-18.04
+    outputs:
+      version: ${{ steps.output.outputs.value }}
     steps:
       - name: Check tag exist
+        if: ${{ github.event_name == "workflow_dispatch" }}
         uses: filiph/linkcheck@v2.0.15+1
         with:
           arguments: https://github.com/panva/jose/releases/tag/v${{ github.event.inputs.version }}
+      - name: Get JOSE latest tag
+        if: ${{ github.event_name == "schedule" }}
+        id: jose-tag
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          owner: panva
+          repo: jose
+      - name: Trim tag
+        if: ${{ github.event_name == "schedule" }}
+        id: jose-version
+        run: |
+          v=$(echo ${{ steps.jose-version.outputs.release }} | cut -c 2-)
+          echo "::set-output name=v::$v"
+      - name: Get package.json version
+        if: ${{ github.event_name == "schedule" }}
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@master
+      - name: Check version
+        if: ${{ github.event_name == "schedule" && steps.jose-version.outputs.v == steps.package-version.outputs.current-version }}
+        run: exit 1
+      - name: Determine version
+        uses: haya14busa/action-cond@v1
+        id: output
+        with:
+          cond: ${{ github.event_name == "workflow_dispatch" }}
+          if_true: ${{ github.event.inputs.version }}
+          if_false: ${{ steps.jose-version.outputs.v }}
   sync:
     runs-on: ubuntu-18.04
     needs: check-version

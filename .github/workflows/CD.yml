@@ -1,6 +1,12 @@
 name: CD
 
 on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - Sync Version From JOSE
+    types:
+      - completed
   release:
     types:
       - published
@@ -8,8 +14,8 @@ on:
 
 jobs:
   deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'release' }}
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout source
         uses: actions/checkout@v2
