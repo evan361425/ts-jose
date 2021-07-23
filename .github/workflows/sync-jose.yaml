@@ -72,7 +72,7 @@ jobs:
               return target[1] > source[1];
             }
             return target[2] > source[2];
-      - if: ${{ steps.check-result.outputs.result == 'true' }}
+      - if: ${{ steps.check-result.outputs.result == 'false' }}
         run: exit 1
 
   sync:
