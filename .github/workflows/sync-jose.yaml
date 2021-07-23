@@ -3,7 +3,7 @@ name: Sync Version From JOSE
 on:
   schedule:
     # sync every day
-    - cron: "0 0 * * *"
+    - cron: "53 8 * * *"
 
   workflow_dispatch:
     # Enable manual run
@@ -69,7 +69,6 @@ jobs:
               return target[1] > source[1];
             }
             return target[2] > source[2];
-      - run: echo "${{ steps.check-result.outputs.result == 'true' }}"
       - if: ${{ steps.check-result.outputs.result == 'true' }}
         run: exit 1
 
