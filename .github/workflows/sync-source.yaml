@@ -1,0 +1,51 @@
+name: Sync Version From Source
+
+on:
+  workflow_dispatch:
+    # Enable manual run
+    inputs:
+      version:
+        description: "JOSE version"
+        required: true
+        default: "0.0.0"
+
+jobs:
+  check-version:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check tag exist
+        uses: filiph/linkcheck@v2.0.15+1
+        with:
+          arguments: https://github.com/panva/jose/releases/tag/v${{ github.event.inputs.version }}
+  sync:
+    runs-on: ubuntu-18.04
+    needs: check-version
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: "12.x"
+
+      - name: Bump version
+        run: |
+          npm update jose@${{ github.event.inputs.version }}
+          npm i
+          npm test
+      # - name: Commit and tag
+      #   run: |
+      #     npm version ${{ github.event.inputs.version }}
+      #     git push
+      # commit_message: Bump to ${{ github.event.inputs.version }}
+      # file_pattern: package.json
+      # tagging_message: "v${{ github.event.inputs.version }}"
+      # - name: Create a GitHub release
+      #   if: steps.commit.outputs.changes_detected == 'true'
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ steps.tag_version.outputs.new_tag }}
+      #     release_name: ${{ steps.tag_version.outputs.new_tag }}
+      #     body: "This is auto-generate from GitHub Actions\nSource diff can see [here](https://github.com/panva/jose/releases/tag/v${{ github.event.inputs.version }})"
