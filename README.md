@@ -1,6 +1,6 @@
 # TS JOSE
 
-![CI](https://github.com/evan361425/ts-jose/actions/workflows/CI.yml/badge.svg)
+![test](https://github.com/evan361425/ts-jose/actions/workflows/test.yml/badge.svg)
 [![Version](https://img.shields.io/npm/v/ts-jose)](https://www.npmjs.com/package/ts-jose)
 
 [![codecov](https://codecov.io/gh/evan361425/ts-jose/branch/master/graph/badge.svg)](https://codecov.io/gh/evan361425/ts-jose)

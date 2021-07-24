@@ -120,4 +120,4 @@ jobs:
         with:
           tag_name: v${{ needs.check.outputs.version }}
           release_name: v${{ needs.check.outputs.version }}
-          body: "This is auto-generate from GitHub Actions\nSource diff can see [here](https://github.com/panva/jose/releases/tag/v${{ needs.version.outputs.version }})"
+          body: "This is auto-generate from GitHub Actions\nSource diff can see [here](https://github.com/panva/jose/releases/tag/v${{ needs.check.outputs.version }})"
