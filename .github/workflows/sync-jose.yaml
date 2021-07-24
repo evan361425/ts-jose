@@ -96,7 +96,7 @@ jobs:
 
       - name: Update JOSE version
         run: |
-          npm update jose@${{ needs.check.outputs.version }}
+          npm i jose@${{ needs.check.outputs.version }}
           npm i
           npm test
 
