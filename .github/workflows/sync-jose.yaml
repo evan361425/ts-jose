@@ -21,9 +21,9 @@ jobs:
     steps:
       - name: Check tag exist
         if: ${{ github.event_name == 'workflow_dispatch' }}
-        uses: filiph/linkcheck@v2.0.15+1
-        with:
-          arguments: https://github.com/panva/jose/releases/tag/v${{ github.event.inputs.version }}
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://github.com/panva/jose/releases/tag/v${{ github.event.inputs.version }})
+          if [[ $STATUS = '404' ]]; then; exit 1; fi
       - name: Get JOSE latest tag
         if: ${{ github.event_name == 'schedule' }}
         id: jose-tag
