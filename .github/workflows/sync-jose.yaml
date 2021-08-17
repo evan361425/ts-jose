@@ -94,17 +94,20 @@ jobs:
         with:
           node-version: "12.x"
 
+      - name: Bump package.json version
+        run: npm version --no-commit-hooks ${{ needs.check.outputs.version }}
+
       - name: Update JOSE version
         run: |
           npm i jose@${{ needs.check.outputs.version }}
           npm i
           npm test
 
-      - name: Bump package.json version
+      - name: Commit
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          npm version ${{ needs.check.outputs.version }}
+          git commit . -m "Bump version to ${{ needs.check.outputs.version }}"
 
       - name: Push commit and tag
         uses: ad-m/github-push-action@master
