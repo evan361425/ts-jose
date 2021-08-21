@@ -107,10 +107,11 @@ jobs:
           npm i jose@${{ needs.check.outputs.version }}
           npm i
           npm test
-          git tag ${{ needs.check.outputs.version }}
 
       - name: Commit
-        run: git commit . -m "Bump version to ${{ needs.check.outputs.version }}"
+        run: |
+          git commit . -m "Bump version to ${{ needs.check.outputs.version }}"
+          git tag ${{ needs.check.outputs.version }}
 
       - name: Push commit and tag
         uses: ad-m/github-push-action@master
