@@ -60,7 +60,7 @@ describe('JWE', function () {
         });
         expect.fail('should not pass if "kid" is wrong');
       } catch (error) {
-        expect(error.message).is.contain('kid');
+        expect((error as Error).message).is.contain('kid');
       }
     });
 
