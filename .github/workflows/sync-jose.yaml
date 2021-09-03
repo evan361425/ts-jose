@@ -109,9 +109,11 @@ jobs:
           npm test
 
       - name: Commit
+        # `npm version` will generate tag, delete it first
         run: |
           git commit . -m "Bump version to ${{ needs.check.outputs.version }}"
-          git tag ${{ needs.check.outputs.version }}
+          git tag -d v${{ needs.check.outputs.version }}
+          git tag v${{ needs.check.outputs.version }}
 
       - name: Push commit and tag
         uses: ad-m/github-push-action@master
