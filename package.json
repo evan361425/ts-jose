@@ -1,6 +1,6 @@
 {
   "name": "ts-jose",
-  "version": "3.16.0",
+  "version": "3.16.1",
   "description": "Wrap functions of JOSE in steady interface",
   "keywords": [
     "JOSE",
@@ -33,7 +33,7 @@
     "check-format": "npm run compile && npm run format && npm run lint"
   },
   "dependencies": {
-    "jose": "^3.16.0"
+    "jose": "^3.16.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.18",
