@@ -16,12 +16,13 @@ describe('JWT', function () {
       expect(result.header.typ).to.eq('JWT');
     });
 
-    it('should get payload', async function () {
+    it('should use embedded key', async function () {
       const token = await JWS.sign('{"iss":"some-issuer"}', key, {
         typ: 'JWT',
+        jwk: true,
       });
       // Action
-      const result = await JWT.verify(token, key);
+      const result = await JWT.verify(token);
       // Assertion
       expect(result.iss).to.eq('some-issuer');
     });

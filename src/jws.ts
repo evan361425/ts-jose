@@ -20,7 +20,10 @@ export class JWS {
     options?: JWSVerifyOptions,
   ): Promise<string> {
     const key = await this.getKeyFrom(signature, jwk);
-    const result = await compactVerify(signature, key, options);
+
+    const result = await (typeof key === 'function'
+      ? compactVerify(signature, key, options)
+      : compactVerify(signature, key, options));
 
     if (
       options?.typ !== undefined &&
