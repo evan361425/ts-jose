@@ -38,10 +38,10 @@ Wrap functions of [JOSE](https://github.com/panva/jose) in steady interface.
 
 **Additional options**
 
-| name | Description                        |
-| ---- | ---------------------------------- |
-| kid  | TODO: Using specific key in `JWKS` |
-| jti  | Verify payload `jti`               |
+| name | Description                  |
+| ---- | ---------------------------- |
+| kid  | Using specific key in `JWKS` |
+| jti  | Verify payload `jti`         |
 
 ```ts
 // `key` must be JWK or JWKS.
