@@ -3,11 +3,7 @@ import { EncryptJWT } from 'jose/jwt/encrypt';
 import SignJWT from 'jose/jwt/sign';
 import jwtVerify from 'jose/jwt/verify';
 import ProduceJWT from 'jose/lib/jwt_producer';
-import {
-  JoseHeaderParameters,
-  JWTClaimVerificationOptions,
-  JWTVerifyResult,
-} from 'jose/types';
+import { JWTClaimVerificationOptions, JWTVerifyResult } from 'jose/types';
 import { JWKey } from './';
 import { JoseError } from './error';
 import { JWE } from './jwe';
@@ -52,7 +48,7 @@ export class JWT {
       ? jwtVerify(token, key, options)
       : jwtVerify(token, key, options))) as JWTVerifyResult & { key?: JWKey };
 
-    this.verifyJWTClaims(result.payload, result.protectedHeader, options);
+    this.verifyJWTClaims(result.payload, options);
 
     return options?.complete
       ? {
@@ -113,7 +109,7 @@ export class JWT {
       ...options,
     });
 
-    this.verifyJWTClaims(result.payload, result.protectedHeader, options);
+    this.verifyJWTClaims(result.payload, options);
 
     return options?.complete
       ? {
@@ -162,14 +158,9 @@ export class JWT {
 
   static verifyJWTClaims(
     payload: JWTPayload,
-    header: JoseHeaderParameters,
     options?: JWTClaimVerificationOptions & FromJWTOptions,
   ): void {
     if (options === undefined) return;
-
-    if (options.typ && options.typ !== header.typ) {
-      throw new JoseError('Claim', 'typ', header.typ, options.typ);
-    }
 
     if (options.jti && options.jti !== payload.jti) {
       throw new JoseError('Claim', 'jti', payload.jti, options.jti);

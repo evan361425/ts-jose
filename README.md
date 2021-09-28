@@ -34,99 +34,90 @@ Wrap functions of [JOSE](https://github.com/panva/jose) in steady interface.
 
 ### verify
 
-[ref](https://github.com/panva/jose/blob/main/docs/interfaces/jwt_verify.jwtverifyoptions.md)
+[JOSE ref](https://github.com/panva/jose/blob/main/docs/interfaces/jwt_verify.JWTVerifyOptions.md)
+
+**Additional options**
+
+| name | Description                        |
+| ---- | ---------------------------------- |
+| kid  | TODO: Using specific key in `JWKS` |
+| jti  | Verify payload `jti`               |
 
 ```ts
-const options = {
-  algorithms: ['a1', 'a2'] as JWKSignAlgorithms[], // accepted algorithms
-  audience: 'hi', // string or string[], accept audience
-  clockTolerance: '3s',
-  complete: true, // true to return header+payload else return payload only, default: false
-  crit: { 'some-key': true },
-  currentDate: new Date(),
-  issuer: 'some-issuer', // issuer, who made this token
-  jti: 'some-token-id', // token id, often be random
-  maxTokenAge: '5m', // expiration
-  subject: 'some-user-id', // what this token represent, often be user ID
-  typ: 'ac+jwt', // make it easy to decide what token is this
-};
-
-const result: JWTCompleteResult | JWTPayload = await JWT.verify(
-  token,
-  key,
-  options,
-); // key must be JWK or JWKS
-await JWT.verify(token, undefined, options); // this will try to verify by embedded key
+// `key` must be JWK or JWKS.
+await JWT.verify(token, key, options);
+// Use embedded key instead given one.
+await JWT.verify(token, undefined, options);
 ```
 
 ### sign
 
-[ref](https://github.com/panva/jose/blob/main/docs/classes/jwt_sign.signjwt.md)
+- [JOSE ref for payload](https://github.com/panva/jose/blob/main/docs/classes/jwt_sign.SignJWT.md)
+- [JOSE ref for header](https://github.com/panva/jose/blob/main/docs/interfaces/types.JWSHeaderParameters.md)
+
+**Using JOSE options**
+
+| name      | Referrer          |
+| --------- | ----------------- |
+| issuer    | setIssuer         |
+| audience  | setAudience       |
+| subject   | setSubject        |
+| exp       | setExpirationTime |
+| jti       | setJti            |
+| notBefore | setNotBefore      |
+| iat       | setIssuedAt       |
+| typ       | Header            |
+| kid       | Header            |
+| alg       | Header            |
+
+**Additional options**
+
+| name | type      | default | description                    |
+| ---- | --------- | ------- | ------------------------------ |
+| jwk  | _boolean_ | `false` | Whether embedded key to header |
 
 ```ts
-const options = {
-  alg: 'ES256' as JWKSignAlgorithms,
-  audience: 'hi', // string or string[]
-  exp: '3h', // string or number, 3h means expired in 3 hours, detail in [ref]
-  iat: 123,
-  issuer: 'some-issuer', // issuer, who made this token
-  jti: 'some-token-id', // token id, often be random
-  jwk: true, // true to embedded key, default: false
-  kid: 'some-key-id', // often use to specify key in key store
-  notBefore: '1s', // string or number, invalid if earlier than this time
-  subject: 'some-user-id', // what this token represent, often be user ID
-  typ: 'ac+jwt', // make it easy to decide what token is this
-};
-
-const result: string = await JWT.sign(payload, key, options); // key must be JWK or JWKS
+await JWT.sign(payload, key, options); // key must be JWK or JWKS
 ```
 
 ### decrypt
 
-[ref](https://github.com/panva/jose/blob/main/docs/functions/jwe_compact_decrypt.compactdecrypt.md#readme)
+[JOSE ref](https://github.com/panva/jose/blob/main/docs/interfaces/jwt_decrypt.JWTDecryptOptions.md)
+
+**Additional options**
+
+| name | Description                  |
+| ---- | ---------------------------- |
+| kid  | Using specific key in `JWKS` |
+| enc  | Encrypt algorithm            |
+| alg  | Key management algorithm     |
 
 ```ts
-const options = {
-  audience: 'hi', // string or string[]
-  clockTolerance: '3s',
-  complete: true, // true to return header+payload else return payload only, default: false
-  enc: ['A128GCM'], // string or string[], content encryption algorithms
-  crit: { 'some-key': true },
-  currentDate: new Date(),
-  issuer: 'some-issuer',
-  jti: 'some-token-id',
-  alg: ['ECDH-ES+A128KW'], // string or string[], key management algorithms
-  kid: 'some-key-id',
-  maxTokenAge: '5m',
-  typ: 'ac+jwt', // make it easy to decide what token is this
-};
-
-const result: JWTCompleteResult | JWTPayload = await JWT.decrypt(
-  cypher,
-  key,
-  options,
-);
+await JWT.decrypt(cypher, key, options;
 ```
 
 ### encrypt
 
-[ref](https://github.com/panva/jose/blob/main/docs/classes/jwt_encrypt.encryptjwt.md#readme)
+[JOSE ref](https://github.com/panva/jose/blob/main/docs/classes/jwt_encrypt.EncryptJWT.md)
+
+**Using JOSE options**
+
+| name      | Referrer          |
+| --------- | ----------------- |
+| issuer    | setIssuer         |
+| audience  | setAudience       |
+| subject   | setSubject        |
+| exp       | setExpirationTime |
+| jti       | setJti            |
+| notBefore | setNotBefore      |
+| iat       | setIssuedAt       |
+| typ       | Header            |
+| kid       | Header            |
+| enc       | Header            |
+| alg       | Header            |
 
 ```ts
-const options = {
-  alg: 'A128GCMKW', // key management
-  audience: 'hi', // string or string[], accepted audience
-  crit: { 'some-key': true },
-  enc: 'A128CBC-HS256', // encrypt algorithm
-  exp: '3h', // string or number
-  iat: 123,
-  issuer: 'some-issuer',
-  jti: 'some-token-id',
-  kid: 'some-key-id',
-  notBefore: '1s',
-};
-
-const result: string = await JWT.encrypt(payload, key, options);
+await JWT.encrypt(payload, key, options);
 ```
 
 ## JWS
@@ -135,31 +126,25 @@ You can sign pure string.
 
 ### verify
 
-[ref](https://github.com/panva/jose/blob/main/docs/functions/jws_compact_verify.compactverify.md#readme)
+[JOSE ref](https://github.com/panva/jose/blob/main/docs/functions/jws_compact_verify.compactVerify.md)
 
 ```ts
-const options = {
-  algorithms: ['ES256', 'ES192'],
-  crit: { key: true },
-  typ: 'some-type',
-};
-
-const result: string = await JWS.verify(data, key, options);
+await JWS.verify(data, key, options);
 ```
 
 ### sign
 
-[ref](https://github.com/panva/jose/blob/main/docs/classes/jws_compact_sign.compactsign.md#readme)
+[JOSE ref](https://github.com/panva/jose/blob/main/docs/classes/jws_compact_sign.CompactSign.md)
+
+Only using [JWT.sign](#sign)'s options:
+
+- `typ`
+- `kid`
+- `alg`
+- `jwk`
 
 ```ts
-const options = {
-  alg: 'ES256',
-  kid: 'some-key-id',
-  jwk: true, // embedded key
-  typ: 'some-type',
-};
-
-const result: string = await JWS.sign('some-data', key, options);
+await JWS.sign('some-data', key, options);
 ```
 
 ## JWE
@@ -168,36 +153,33 @@ You can encrypt pure string.
 
 ### decrypt
 
-[ref](https://github.com/panva/jose/blob/main/docs/functions/jwe_compact_decrypt.compactdecrypt.md#readme)
+[JOSE ref](https://github.com/panva/jose/blob/main/docs/functions/jwe_compact_decrypt.compactDecrypt.md)
+
+**Additional options**
+
+Same as [JWT.decrypt](#decrypt)
 
 ```ts
-const options = {
-  alg: 'ECDH-ES+A128KW', // string or string[]
-  enc: ['A128GCM'], // string or string[]
-  kid: 'some-key-id',
-};
-
-const data: string = await JWE.decrypt(cypher, key, options);
+await JWE.decrypt(cypher, key, options);
 ```
 
 ### encrypt
 
-[ref](https://github.com/panva/jose/blob/main/docs/classes/jwe_compact_encrypt.compactencrypt.md#readme)
+[JOSE ref](https://github.com/panva/jose/blob/main/docs/classes/jwe_compact_encrypt.CompactEncrypt.md)
+
+Only using [JWT.encrypt](#encrypt)'s options:
+
+- `kid`
+- `alg`
+- `enc`
 
 ```ts
-const options = {
-  alg: 'ECDH-ES+A128KW', // string
-  enc: 'A128GCM', // string
-  crit: { 'some-key': true },
-  kid: 'some-key-id',
-};
-
-const cypher: string = await JWE.encrypt('some-data', key, options);
+await JWE.encrypt('some-data', key, options);
 ```
 
 ## JWK
 
-[ref](https://github.com/panva/jose/blob/main/docs/interfaces/types.jwk.md)
+[JOSE ref](https://github.com/panva/jose/blob/main/docs/interfaces/types.JWK.md)
 
 ```ts
 // generate key

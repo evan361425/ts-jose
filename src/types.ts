@@ -1,3 +1,4 @@
+import { JWTDecryptOptions as joseJWTDecryptOptions } from 'jose/jwt/decrypt';
 import { JWTVerifyOptions as JoseJWTVerifyOptions } from 'jose/jwt/verify';
 import * as jose from 'jose/types';
 
@@ -21,7 +22,6 @@ export type EmbeddedKey = Pick<
 >;
 
 export type FromJWTOptions = {
-  typ?: typ;
   jti?: string;
 };
 export type ToJWTOptions = {
@@ -54,14 +54,14 @@ export type JWSCompleteResult = {
 };
 
 export type JWTVerifyOptions<complete> = JoseJWTVerifyOptions &
-  FromJWTOptions & { complete?: complete };
+  FromJWTOptions & { complete?: complete; algorithms?: JWSAlgorithms[] };
 
 export type JWTSignOptions = ToJWTOptions & JWSSignOptions;
 
 export type JWEKeyOptions = { kid?: string };
 
 export type JWTDecryptOptions<complete> = JWEKeyOptions &
-  jose.JWTClaimVerificationOptions &
+  joseJWTDecryptOptions &
   FromJWTOptions & {
     complete?: complete;
     enc?: JWEEncryptAlgorithms | JWEEncryptAlgorithms[];
