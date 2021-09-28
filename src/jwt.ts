@@ -42,7 +42,7 @@ export class JWT {
     jwk?: JWK | JWKS,
     options?: T,
   ): Promise<JWTPayload | JWTCompleteResult> {
-    const key = await JWS.getKeyFrom(token, jwk);
+    const key = await JWS.getKeyFrom(token, jwk, options);
 
     const result = (await (typeof key === 'function'
       ? jwtVerify(token, key, options)

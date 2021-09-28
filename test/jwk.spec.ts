@@ -37,13 +37,13 @@ describe('JWK', function () {
 
   describe('fromObject() and #toObject()', function () {
     it('are reversible', async function () {
-      const jwk = await getKey();
+      const jwk = await getKey('sig');
       const key = jwk.metadata;
 
       expect(jwk.kid).to.eq('some-id');
       expect(jwk.alg).to.eq('ES256');
       expect(jwk.kty).to.eq('EC');
-      expect(jwk.use).to.be.undefined;
+      expect(jwk.use).to.eq('sig');
       expect(jwk.isPrivate).to.true;
       // private key are identical from original, but not same
       expect(jwk.toObject(true)).not.to.equal(key);
@@ -156,13 +156,13 @@ describe('JWK', function () {
 
   describe('#getThumbprint()', function () {
     it('should get default thumbprint', async function () {
-      const key = await getKey();
+      const key = await getKey('sig');
       const thumbprint = await key.getThumbprint();
       expect(thumbprint).is.eq('zwENXtak1ImouNZ-voOraXu0ll1WdgQcTcmBYWXqV3g');
     });
 
     it('should get thumbprint by config', async function () {
-      const key = await getKey();
+      const key = await getKey('sig');
       const thumbprint = await key.getThumbprint({ digestAlgorithm: 'sha384' });
       expect(thumbprint).is.eq(
         'XKhOc2UbjarFf-0suJ-lcvAI0sOC1MemqWVU3ywsqNAYA01KXzcl3kMDYP9M0gWJ',

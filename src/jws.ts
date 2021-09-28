@@ -13,6 +13,7 @@ import {
   JWSHeaderParameters,
   JWSSignOptions,
   JWSVerifyOptions,
+  KidOptions,
 } from './types';
 
 export class JWS {
@@ -33,7 +34,7 @@ export class JWS {
     jwk?: JWK | JWKS,
     options?: T,
   ): Promise<string | JWSCompleteResult> {
-    const key = await this.getKeyFrom(signature, jwk);
+    const key = await this.getKeyFrom(signature, jwk, options);
 
     const result = (await (typeof key === 'function'
       ? compactVerify(signature, key, options)
@@ -86,6 +87,7 @@ export class JWS {
   static async getKeyFrom(
     signature: string,
     key?: JWK | JWKS,
+    options?: KidOptions,
   ): Promise<JWKey | CompactVerifyGetKey> {
     if (key === undefined) return EmbeddedJWK;
 
@@ -94,7 +96,7 @@ export class JWS {
     const publicKey = await key
       .getKey({
         use: 'sig',
-        kid: header.kid,
+        kid: options?.kid ? options.kid : header.kid,
         alg: header.alg,
       })
       .toPublic();

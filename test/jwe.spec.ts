@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import decodeProtectedHeader from 'jose/util/decode_protected_header';
-import { JWE, JWK, JWS } from '../src';
+import { JWE, JWK } from '../src';
 import { getKey } from './mock-key';
 
 describe('JWE', function () {
@@ -88,17 +88,9 @@ describe('JWE', function () {
     });
   });
 
-  describe('Embedded Key', function () {
-    it('should sign with embedded key', async function () {
-      const token = await JWS.sign('some-data', key, { jwk: true });
-      const data = await JWS.verify(token);
-      expect(data).is.eq('some-data');
-    });
-  });
-
   let key: JWK;
 
   before(async function () {
-    key = await getKey();
+    key = await getKey('enc');
   });
 });

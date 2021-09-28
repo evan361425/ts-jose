@@ -3,7 +3,7 @@ import { CompactEncrypt } from 'jose/jwe/compact/encrypt';
 import { decodeProtectedHeader } from 'jose/util/decode_protected_header';
 import { JWK } from './jwk';
 import { JWKS } from './jwks';
-import { JWEDecryptOptions, JWEEncryptOptions, JWEKeyOptions } from './types';
+import { JWEDecryptOptions, JWEEncryptOptions, KidOptions } from './types';
 
 export class JWE {
   static async decrypt(
@@ -50,7 +50,7 @@ export class JWE {
   static async getKeyFrom(
     cypher: string,
     jwk: JWK | JWKS,
-    options?: JWEKeyOptions,
+    options?: KidOptions,
   ): Promise<JWK> {
     const header = decodeProtectedHeader(cypher);
 

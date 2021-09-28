@@ -1,10 +1,11 @@
 import { JWK } from '../src';
 
-export const getKey = async (): Promise<JWK> => {
+export const getKey = async (use: 'sig' | 'enc'): Promise<JWK> => {
   return await JWK.fromObject({
     kid: 'some-id',
     alg: 'ES256',
     kty: 'EC',
+    use: use,
     crv: 'P-256',
     x: 'Y238GrLSO5GyAEM-NfgmRqWmqOXAJMKH6P-a2MqrDXU',
     y: 'm0xXso5NdQQpDdHh397OzA7FnxK78wIpkemNV1Ly0Mc',

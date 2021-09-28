@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import decodeProtectedHeader from 'jose/util/decode_protected_header';
-import { JWK, JWS } from '../src';
+import { JWK, JWKS, JWS } from '../src';
 import { getKey } from './mock-key';
 
 describe('JWS', function () {
@@ -8,6 +8,15 @@ describe('JWS', function () {
     it('should ok', async function () {
       const payload = await JWS.verify(token, publicKey);
       expect(payload.toString()).is.eq('some-data');
+    });
+
+    it('should select key from JWKS by kid', async function () {
+      const keys = new JWKS([publicKey]);
+      const result = await JWS.verify(token, keys, {
+        kid: 'some-id',
+        complete: true,
+      });
+      expect(result.header.kid).is.eq('some-id');
     });
 
     it('should throw error if algorithms is not correct', async function () {
@@ -26,7 +35,7 @@ describe('JWS', function () {
     let publicKey: JWK;
 
     before(async function () {
-      const key = await getKey();
+      const key = await getKey('sig');
       publicKey = await key.toPublic();
       // sign!
       token = await JWS.sign('some-data', key, { typ: 'EC' });
@@ -70,13 +79,13 @@ describe('JWS', function () {
     let key: JWK;
 
     before(async function () {
-      key = await getKey();
+      key = await getKey('sig');
     });
   });
 
   describe('Embedded Key', function () {
     it('should sign with embedded key', async function () {
-      const key = await getKey();
+      const key = await getKey('sig');
       const token = await JWS.sign('some-data', key, { jwk: true });
       const result = await JWS.verify(token, undefined, { complete: true });
       expect(result.header.kid).is.eq('some-id');

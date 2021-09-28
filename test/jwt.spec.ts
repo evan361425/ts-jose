@@ -32,7 +32,7 @@ describe('JWT', function () {
     let key: JWK;
 
     before(async function () {
-      key = await getKey();
+      key = await getKey('sig');
       stubJWS = stub(JWS, 'getKeyFrom');
       stubJWT = stub(JWT, 'verifyJWTClaims');
       stubJWS.resolves(key.key);
@@ -107,7 +107,7 @@ describe('JWT', function () {
     let key: JWK;
 
     before(async function () {
-      key = await getKey();
+      key = await getKey('sig');
     });
   });
 
@@ -162,7 +162,7 @@ describe('JWT', function () {
     let key: JWK;
 
     before(async function () {
-      key = await getKey();
+      key = await getKey('enc');
       stubJWT = stub(JWT, 'verifyJWTClaims');
     });
 
@@ -231,7 +231,7 @@ describe('JWT', function () {
     let key: JWK;
 
     before(async function () {
-      key = await getKey();
+      key = await getKey('enc');
     });
   });
 

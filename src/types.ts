@@ -21,6 +21,8 @@ export type EmbeddedKey = Pick<
   'kty' | 'crv' | 'x' | 'y' | 'e' | 'n'
 >;
 
+export type KidOptions = { kid?: string };
+
 export type FromJWTOptions = {
   jti?: string;
 };
@@ -41,11 +43,12 @@ export type JWSSignOptions = {
   // embedded key
   jwk?: boolean;
 };
-export type JWSVerifyOptions<complete> = jose.VerifyOptions & {
-  algorithms?: JWSAlgorithms[];
-  typ?: typ;
-  complete?: complete;
-};
+export type JWSVerifyOptions<complete> = jose.VerifyOptions &
+  KidOptions & {
+    algorithms?: JWSAlgorithms[];
+    typ?: typ;
+    complete?: complete;
+  };
 
 export type JWSCompleteResult = {
   payload: string;
@@ -54,26 +57,25 @@ export type JWSCompleteResult = {
 };
 
 export type JWTVerifyOptions<complete> = JoseJWTVerifyOptions &
+  KidOptions &
   FromJWTOptions & { complete?: complete; algorithms?: JWSAlgorithms[] };
 
 export type JWTSignOptions = ToJWTOptions & JWSSignOptions;
 
-export type JWEKeyOptions = { kid?: string };
-
-export type JWTDecryptOptions<complete> = JWEKeyOptions &
+export type JWTDecryptOptions<complete> = KidOptions &
   joseJWTDecryptOptions &
   FromJWTOptions & {
     complete?: complete;
     enc?: JWEEncryptAlgorithms | JWEEncryptAlgorithms[];
     alg?: JWEKeyManagement | JWEKeyManagement[];
   };
-export type JWEDecryptOptions = JWEKeyOptions & {
+export type JWEDecryptOptions = KidOptions & {
   alg?: JWEKeyManagement | JWEKeyManagement[];
   enc?: JWEEncryptAlgorithms | JWEEncryptAlgorithms[];
 };
 
 export type JWTEncryptOptions = jose.EncryptOptions &
-  JWEKeyOptions &
+  KidOptions &
   ToJWTOptions & {
     // header
     alg: JWEKeyManagement;
@@ -81,7 +83,7 @@ export type JWTEncryptOptions = jose.EncryptOptions &
     typ?: typ;
   };
 export type JWEEncryptOptions = jose.EncryptOptions &
-  JWEKeyOptions & {
+  KidOptions & {
     alg: JWEKeyManagement;
     enc: JWEEncryptAlgorithms;
   };
