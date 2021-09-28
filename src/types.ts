@@ -41,9 +41,16 @@ export type JWSSignOptions = {
   // embedded key
   jwk?: boolean;
 };
-export type JWSVerifyOptions = jose.VerifyOptions & {
+export type JWSVerifyOptions<complete> = jose.VerifyOptions & {
   algorithms?: JWSAlgorithms[];
   typ?: typ;
+  complete?: complete;
+};
+
+export type JWSCompleteResult = {
+  payload: string;
+  header: jose.JWSHeaderParameters;
+  key?: JWKey;
 };
 
 export type JWTVerifyOptions<complete> = JoseJWTVerifyOptions &
@@ -86,6 +93,7 @@ export type JWSHeaderParameters = jose.JWSHeaderParameters & {
 export type JWTCompleteResult = {
   payload: JWTPayload;
   header: JWSHeaderParameters;
+  key?: JWKey;
 };
 
 export type JWKGenerateOptions = {

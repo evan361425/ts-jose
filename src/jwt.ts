@@ -3,7 +3,12 @@ import { EncryptJWT } from 'jose/jwt/encrypt';
 import SignJWT from 'jose/jwt/sign';
 import jwtVerify from 'jose/jwt/verify';
 import ProduceJWT from 'jose/lib/jwt_producer';
-import { JoseHeaderParameters, JWTClaimVerificationOptions } from 'jose/types';
+import {
+  JoseHeaderParameters,
+  JWTClaimVerificationOptions,
+  JWTVerifyResult,
+} from 'jose/types';
+import { JWKey } from './';
 import { JoseError } from './error';
 import { JWE } from './jwe';
 import { JWK } from './jwk';
@@ -43,9 +48,9 @@ export class JWT {
   ): Promise<JWTPayload | JWTCompleteResult> {
     const key = await JWS.getKeyFrom(token, jwk);
 
-    const result = await (typeof key === 'function'
+    const result = (await (typeof key === 'function'
       ? jwtVerify(token, key, options)
-      : jwtVerify(token, key, options));
+      : jwtVerify(token, key, options))) as JWTVerifyResult & { key?: JWKey };
 
     this.verifyJWTClaims(result.payload, result.protectedHeader, options);
 
@@ -53,6 +58,7 @@ export class JWT {
       ? {
           payload: result.payload,
           header: result.protectedHeader,
+          key: result.key,
         }
       : result.payload;
   }

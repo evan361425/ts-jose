@@ -78,8 +78,10 @@ describe('JWS', function () {
     it('should sign with embedded key', async function () {
       const key = await getKey();
       const token = await JWS.sign('some-data', key, { jwk: true });
-      const data = await JWS.verify(token);
-      expect(data).is.eq('some-data');
+      const result = await JWS.verify(token, undefined, { complete: true });
+      expect(result.header.kid).is.eq('some-id');
+      expect(result.key).is.not.undefined;
+      expect(result.payload).is.eq('some-data');
     });
   });
 });

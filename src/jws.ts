@@ -1,7 +1,9 @@
 import EmbeddedJWK from 'jose/jwk/embedded';
 import { CompactSign } from 'jose/jws/compact/sign';
 import { compactVerify, CompactVerifyGetKey } from 'jose/jws/compact/verify';
+import { CompactVerifyResult } from 'jose/types';
 import decodeProtectedHeader from 'jose/util/decode_protected_header';
+import { JWSCompleteResult } from './';
 import { JoseError } from './error';
 import { JWK } from './jwk';
 import { JWKS } from './jwks';
@@ -15,15 +17,29 @@ import {
 
 export class JWS {
   static async verify(
+    token: string,
+    key?: JWK | JWKS,
+    options?: JWSVerifyOptions<false>,
+  ): Promise<string>;
+  static async verify(
+    token: string,
+    key?: JWK | JWKS,
+    options?: JWSVerifyOptions<true>,
+  ): Promise<JWSCompleteResult>;
+  static async verify<
+    T extends JWSVerifyOptions<false> | JWSVerifyOptions<true>,
+  >(
     signature: string,
     jwk?: JWK | JWKS,
-    options?: JWSVerifyOptions,
-  ): Promise<string> {
+    options?: T,
+  ): Promise<string | JWSCompleteResult> {
     const key = await this.getKeyFrom(signature, jwk);
 
-    const result = await (typeof key === 'function'
+    const result = (await (typeof key === 'function'
       ? compactVerify(signature, key, options)
-      : compactVerify(signature, key, options));
+      : compactVerify(signature, key, options))) as CompactVerifyResult & {
+      key?: JWKey;
+    };
 
     if (
       options?.typ !== undefined &&
@@ -32,7 +48,13 @@ export class JWS {
       throw new JoseError('JWS', 'typ', options.typ);
     }
 
-    return result.payload.toString();
+    return options?.complete
+      ? {
+          payload: result.payload.toString(),
+          header: result.protectedHeader,
+          key: result.key,
+        }
+      : result.payload.toString();
   }
 
   static async sign(
