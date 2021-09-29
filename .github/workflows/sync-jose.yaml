@@ -144,7 +144,7 @@ jobs:
         run: |
           git tag -d v${{ needs.version.outputs.version }} || true
           git tag -d ${{ needs.version.outputs.version }} || true
-          git tag v${{ needs.check.outputs.version }}
+          git tag v${{ needs.version.outputs.version }}
 
       - name: Push tag
         uses: ad-m/github-push-action@master
