@@ -1,6 +1,6 @@
 import { fromKeyLike } from 'jose/jwk/from_key_like';
-import { parseJwk } from 'jose/jwk/parse';
 import { calculateThumbprint } from 'jose/jwk/thumbprint';
+import { importJWK } from 'jose/key/import';
 import generateKeyPair from 'jose/util/generate_key_pair';
 import generateSecret from 'jose/util/generate_secret';
 import { JoseError } from './error';
@@ -96,8 +96,8 @@ export class JWK {
   }
 
   static async fromObject(keyObject: JWKObject): Promise<JWK> {
-    const key = await parseJwk(keyObject);
-    return new JWK(key, keyObject);
+    const key = await importJWK(keyObject, keyObject.alg, false);
+    return new JWK(key as JWKey, keyObject);
   }
 
   static async generate(
@@ -116,7 +116,9 @@ export class JWK {
 
     async function getKey(): Promise<JWKey> {
       if (algorithm.startsWith('HS') || algorithm.startsWith('A')) {
-        return generateSecret(algorithm);
+        return generateSecret(algorithm, {
+          extractable: false,
+        }) as Promise<JWKey>;
       }
       const keyPair = await generateKeyPair(algorithm, options);
       return keyPair.privateKey;

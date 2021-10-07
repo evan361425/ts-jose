@@ -1,8 +1,8 @@
 import jwtDecrypt from 'jose/jwt/decrypt';
 import { EncryptJWT } from 'jose/jwt/encrypt';
+import { ProduceJWT } from 'jose/jwt/produce';
 import SignJWT from 'jose/jwt/sign';
 import jwtVerify from 'jose/jwt/verify';
-import ProduceJWT from 'jose/lib/jwt_producer';
 import { JWTClaimVerificationOptions, JWTVerifyResult } from 'jose/types';
 import { JWKey } from './';
 import { JoseError } from './error';
