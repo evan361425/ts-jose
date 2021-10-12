@@ -93,7 +93,7 @@ await JWT.sign(payload, key, options); // key must be JWK or JWKS
 | alg  | Key management algorithm     |
 
 ```ts
-await JWT.decrypt(cypher, key, options;
+await JWT.decrypt(cypher, key, options);
 ```
 
 ### encrypt
@@ -136,7 +136,7 @@ await JWS.verify(data, key, options);
 
 [JOSE ref](https://github.com/panva/jose/blob/main/docs/classes/jws_compact_sign.CompactSign.md)
 
-Only using [JWT.sign](#sign)'s options:
+Only using below [JWT.sign](#sign)'s options:
 
 - `typ`
 - `kid`
@@ -167,7 +167,7 @@ await JWE.decrypt(cypher, key, options);
 
 [JOSE ref](https://github.com/panva/jose/blob/main/docs/classes/jwe_compact_encrypt.CompactEncrypt.md)
 
-Only using [JWT.encrypt](#encrypt)'s options:
+Only using below [JWT.encrypt](#encrypt)'s options:
 
 - `kid`
 - `alg`
@@ -208,7 +208,7 @@ const keyObject: JWKObject = key.toObject(false); // true to output private obje
 const newKey: JWK = await key.toPublic();
 
 // get key's status
-key.isisPrivate;
+key.isPrivate;
 
 // check key "id", "use", "alg"
 try {
