@@ -1,6 +1,4 @@
-import { JWTDecryptOptions as joseJWTDecryptOptions } from 'jose/jwt/decrypt';
-import { JWTVerifyOptions as JoseJWTVerifyOptions } from 'jose/jwt/verify';
-import * as jose from 'jose/types';
+import * as jose from 'jose';
 
 export type JWKObject = jose.JWK & {
   use?: KeyUsages;
@@ -56,14 +54,14 @@ export type JWSCompleteResult = {
   key?: JWKey;
 };
 
-export type JWTVerifyOptions<complete> = JoseJWTVerifyOptions &
+export type JWTVerifyOptions<complete> = jose.JWTVerifyOptions &
   KidOptions &
   FromJWTOptions & { complete?: complete; algorithms?: JWSAlgorithms[] };
 
 export type JWTSignOptions = ToJWTOptions & JWSSignOptions;
 
 export type JWTDecryptOptions<complete> = KidOptions &
-  joseJWTDecryptOptions &
+  jose.JWTDecryptOptions &
   FromJWTOptions & {
     complete?: complete;
     enc?: JWEEncryptAlgorithms | JWEEncryptAlgorithms[];

@@ -1,9 +1,12 @@
-import jwtDecrypt from 'jose/jwt/decrypt';
-import { EncryptJWT } from 'jose/jwt/encrypt';
-import { ProduceJWT } from 'jose/jwt/produce';
-import SignJWT from 'jose/jwt/sign';
-import jwtVerify from 'jose/jwt/verify';
-import { JWTClaimVerificationOptions, JWTVerifyResult } from 'jose/types';
+import {
+  EncryptJWT,
+  JWTClaimVerificationOptions,
+  jwtDecrypt,
+  jwtVerify,
+  JWTVerifyResult,
+  SignJWT,
+} from 'jose';
+import { ProduceJWT } from 'jose/dist/types/jwt/produce';
 import { JWKey } from './';
 import { JoseError } from './error';
 import { JWE } from './jwe';

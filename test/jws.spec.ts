@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import decodeProtectedHeader from 'jose/util/decode_protected_header';
+import { decodeProtectedHeader } from 'jose';
 import { JWK, JWKS, JWS } from '../src';
 import { getKey } from './mock-key';
 

@@ -1,8 +1,10 @@
-import { fromKeyLike } from 'jose/jwk/from_key_like';
-import { calculateThumbprint } from 'jose/jwk/thumbprint';
-import { importJWK } from 'jose/key/import';
-import generateKeyPair from 'jose/util/generate_key_pair';
-import generateSecret from 'jose/util/generate_secret';
+import {
+  calculateJwkThumbprint,
+  exportJWK,
+  generateKeyPair,
+  generateSecret,
+  importJWK,
+} from 'jose';
 import { JoseError } from './error';
 import {
   JWKAlgorithms,
@@ -53,7 +55,7 @@ export class JWK {
 
   // https://github.com/panva/jose/blob/main/docs/functions/jwk_thumbprint.calculatethumbprint.md
   getThumbprint(config?: thumbprintConfig): Promise<string> {
-    return calculateThumbprint(this.metadata, config?.digestAlgorithm);
+    return calculateJwkThumbprint(this.metadata, config?.digestAlgorithm);
   }
 
   getKey(options: KeyOptions): JWK {
@@ -104,8 +106,8 @@ export class JWK {
     algorithm: JWKAlgorithms,
     options?: JWKGenerateOptions,
   ): Promise<JWK> {
-    const key = await getKey();
-    const metadata = (await fromKeyLike(key)) as JWKObject;
+    const key = await generateKey(algorithm, options);
+    const metadata = (await exportJWK(key as JWKey)) as JWKObject;
 
     return new JWK(key, {
       kid: options?.kid,
@@ -113,16 +115,6 @@ export class JWK {
       alg: algorithm,
       ...metadata,
     });
-
-    async function getKey(): Promise<JWKey> {
-      if (algorithm.startsWith('HS') || algorithm.startsWith('A')) {
-        return generateSecret(algorithm, {
-          extractable: false,
-        }) as Promise<JWKey>;
-      }
-      const keyPair = await generateKeyPair(algorithm, options);
-      return keyPair.privateKey;
-    }
   }
 }
 
@@ -133,4 +125,17 @@ function deleteUndefined<T>(data: T): T {
     }
   });
   return data;
+}
+
+async function generateKey(
+  algorithm: JWKAlgorithms,
+  options?: JWKGenerateOptions,
+): Promise<JWKey> {
+  if (algorithm.startsWith('HS') || algorithm.startsWith('A')) {
+    return generateSecret(algorithm, {
+      extractable: false,
+    }) as Promise<JWKey>;
+  }
+  const keyPair = await generateKeyPair(algorithm, options);
+  return keyPair.privateKey;
 }

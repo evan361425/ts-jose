@@ -104,7 +104,7 @@ jobs:
 
       - name: Update JOSE version
         run: |
-          npm i jose@${{ needs.check.outputs.version }}
+          npm i jose@${{ needs.check.outputs.version }} --save-exact
           npm i
           npm test
 

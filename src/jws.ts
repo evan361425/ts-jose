@@ -1,8 +1,11 @@
-import EmbeddedJWK from 'jose/jwk/embedded';
-import { CompactSign } from 'jose/jws/compact/sign';
-import { compactVerify, CompactVerifyGetKey } from 'jose/jws/compact/verify';
-import { CompactVerifyResult } from 'jose/types';
-import decodeProtectedHeader from 'jose/util/decode_protected_header';
+import {
+  CompactSign,
+  compactVerify,
+  CompactVerifyGetKey,
+  CompactVerifyResult,
+  decodeProtectedHeader,
+  EmbeddedJWK,
+} from 'jose';
 import { JWSCompleteResult } from './';
 import { JoseError } from './error';
 import { JWK } from './jwk';

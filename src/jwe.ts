@@ -1,6 +1,4 @@
-import { compactDecrypt } from 'jose/jwe/compact/decrypt';
-import { CompactEncrypt } from 'jose/jwe/compact/encrypt';
-import { decodeProtectedHeader } from 'jose/util/decode_protected_header';
+import { compactDecrypt, CompactEncrypt, decodeProtectedHeader } from 'jose';
 import { JWK } from './jwk';
 import { JWKS } from './jwks';
 import { JWEDecryptOptions, JWEEncryptOptions, KidOptions } from './types';
