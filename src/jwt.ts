@@ -4,9 +4,9 @@ import {
   jwtDecrypt,
   jwtVerify,
   JWTVerifyResult,
+  ProduceJWT,
   SignJWT,
 } from 'jose';
-import { ProduceJWT } from 'jose/dist/types/jwt/produce';
 import { JWKey } from './';
 import { JoseError } from './error';
 import { JWE } from './jwe';
