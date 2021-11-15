@@ -77,7 +77,7 @@ export class JWT {
     jwt.setProtectedHeader({
       typ: options?.typ ?? 'jwt',
       kid: options?.kid ?? jwk.kid,
-      alg: options?.alg ?? jwk.alg,
+      alg: options?.alg ?? jwk.alg ?? '',
       jwk: options?.jwk ? (jwk.toObject() as EmbeddedKey) : undefined,
     });
 

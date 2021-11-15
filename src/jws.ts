@@ -78,7 +78,7 @@ export class JWS {
     jws.setProtectedHeader({
       typ: options?.typ,
       kid: options?.kid ?? jwk.kid,
-      alg: options?.alg ?? jwk.alg,
+      alg: options?.alg ?? jwk.alg ?? '',
       jwk: options?.jwk ? (jwk.toObject() as EmbeddedKey) : undefined,
     });
 

@@ -62,6 +62,15 @@ describe('JWT', function () {
       expect(tokenHeader.alg).to.eq('ES256');
     });
 
+    it('should throw error if missing "alg"', async function () {
+      const withoutAlgKey = await getKey('sig');
+      withoutAlgKey.metadata.alg = undefined;
+
+      return JWT.sign({ a: 'b' }, withoutAlgKey)
+        .then((_) => expect.fail('should not pass if "alg" is wrong'))
+        .catch((reason) => expect(reason.message).is.contain('alg'));
+    });
+
     it('embedded key', async function () {
       const token = await JWT.sign({ a: 'b' }, key, { jwk: true });
       const result = await JWT.verify(token, undefined, { complete: true });

@@ -55,6 +55,15 @@ describe('JWS', function () {
         .catch((reason) => expect(reason.message).is.contain('alg'));
     });
 
+    it('should throw error if missing "alg"', async function () {
+      const withoutAlgKey = await getKey('sig');
+      withoutAlgKey.metadata.alg = undefined;
+
+      return JWS.sign('some-data', withoutAlgKey)
+        .then((_) => expect.fail('should not pass if "alg" is wrong'))
+        .catch((reason) => expect(reason.message).is.contain('alg'));
+    });
+
     it('should use key metadata if option not set', async function () {
       const signature = await JWS.sign('some-data', key);
       const header = decodeProtectedHeader(signature);
