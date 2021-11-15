@@ -1,14 +1,14 @@
 # TS JOSE
 
-![test](https://github.com/evan361425/ts-jose/actions/workflows/test.yml/badge.svg)
+[![test](https://github.com/evan361425/ts-jose/actions/workflows/test.yml/badge.svg)](https://github.com/evan361425/ts-jose)
 [![Version](https://img.shields.io/npm/v/ts-jose)](https://www.npmjs.com/package/ts-jose)
 
 [![codecov](https://codecov.io/gh/evan361425/ts-jose/branch/master/graph/badge.svg)](https://codecov.io/gh/evan361425/ts-jose)
 [![Quality](https://img.shields.io/codefactor/grade/github/evan361425/ts-jose)](https://www.codefactor.io/repository/github/evan361425/ts-jose)
 
-[![Dependencies](https://david-dm.org/evan361425/ts-jose/status.svg)](https://david-dm.org/evan361425/ts-jose)
+[![Dependencies](https://img.shields.io/librariesio/github/evan361425/ts-jose)](https://github.com/panva/jose/releases/latest)
 ![Node Version](https://img.shields.io/node/v/ts-jose)
-![Activity](https://img.shields.io/github/commits-since/evan361425/ts-jose/latest)
+[![Activity](https://img.shields.io/github/commits-since/evan361425/ts-jose/latest)](https://github.com/evan361425/ts-jose/releases/latest)
 [![License](https://img.shields.io/github/license/evan361425/ts-jose)](LICENSE)
 
 Wrap functions of [JOSE](https://github.com/panva/jose) in steady interface.
