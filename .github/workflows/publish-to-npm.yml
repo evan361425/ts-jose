@@ -14,7 +14,7 @@ on:
 
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'release' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name != 'workflow_run' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
@@ -32,7 +32,7 @@ jobs:
         run: |
           NPM_VERSION=$(npm view ts-jose version)
           PACKAGE_VERSION=$(npm version | grep "^[ ']*ts-jose" | tr -dc '0-9.')
-          [[ $NPM_VERSION == $PACKAGE_VERSION ]] && VALUE="false" || VALUE="true"
+          [ $NPM_VERSION = $PACKAGE_VERSION ] && VALUE="false" || VALUE="true"
           echo "::set-output name=value::$VALUE"
 
       - name: Build
