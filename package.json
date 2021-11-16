@@ -33,7 +33,7 @@
     "check-format": "npm run compile && npm run format && npm run lint"
   },
   "dependencies": {
-    "jose": "4.3.5"
+    "jose": "4.3.6"
   },
   "devDependencies": {
     "@types/chai": "^4.2.22",
