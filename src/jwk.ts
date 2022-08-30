@@ -119,7 +119,7 @@ export class JWK {
 }
 
 function deleteUndefined<T>(data: T): T {
-  Object.entries(data).forEach((entry) => {
+  Object.entries(data as never).forEach((entry) => {
     if (entry[1] === undefined) {
       delete data[entry[0] as keyof T];
     }
