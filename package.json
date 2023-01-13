@@ -50,7 +50,7 @@
     "mocha": "^10.0",
     "nyc": "^15.1",
     "prettier": "^2",
-    "rimraf": "^3",
+    "rimraf": "^4",
     "sinon": "^15.0",
     "source-map-support": "^0.5",
     "ts-node": "^10.7",
