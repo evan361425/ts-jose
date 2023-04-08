@@ -18,7 +18,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
+        node-version: [12.x, 14.x, 16.x, 18.x]
 
     steps:
       - name: Checkout source
@@ -34,7 +34,7 @@ jobs:
 
       - name: Check format
         if: ${{ startsWith(matrix.node-version, '12') }}
-        run: npm run check-format
+        run: npm run lint
 
       - name: Unit test
         run: npm run test
@@ -50,7 +50,7 @@ jobs:
         run: npm i
 
       - name: Coverage
-        run: npm run coverage:ci
+        run: npm run test:cov && npx codecov
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1

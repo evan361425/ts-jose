@@ -33,11 +33,11 @@ jobs:
           NPM_VERSION=$(npm view ts-jose version)
           PACKAGE_VERSION=$(npm version | grep "^[ ']*ts-jose" | tr -dc '0-9.')
           [ $NPM_VERSION = $PACKAGE_VERSION ] && VALUE="false" || VALUE="true"
-          echo "::set-output name=value::$VALUE"
+          echo "value=$VALUE" >> "$GITHUB_OUTPUT"
 
       - name: Build
         if: ${{ steps.should_process.outputs.value == 'true' }}
-        run: npm i && npm run compile
+        run: npm i && npm run build
 
       - name: Publish
         if: ${{ steps.should_process.outputs.value == 'true' }}

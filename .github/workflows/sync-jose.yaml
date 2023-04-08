@@ -22,6 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.output.outputs.value }}
+      description: ${{ steps.jose-tag.outputs.description }}
     steps:
       - name: Get JOSE latest tag
         if: ${{ github.event_name == 'schedule' }}
@@ -35,7 +36,7 @@ jobs:
         id: jose-version
         run: |
           v=$(echo ${{ steps.jose-tag.outputs.release }} | cut -c 2-)
-          echo "::set-output name=v::$v"
+          echo "v=$v" >> "$GITHUB_OUTPUT"
       - name: Determine version
         uses: haya14busa/action-cond@v1
         id: output
@@ -130,7 +131,13 @@ jobs:
         with:
           tag_name: v${{ needs.check.outputs.version }}
           release_name: v${{ needs.check.outputs.version }}
-          body: "This is auto-generate from GitHub Actions\nSource diff can see [here](https://github.com/panva/jose/releases/tag/v${{ needs.check.outputs.version }})"
+          body: |
+            This is auto-generated release from GitHub Actions.
+            Real diff can be found at [jose v${{ needs.check.outputs.version }} release](https://github.com/panva/jose/releases/tag/v${{ needs.check.outputs.version }}).
+
+            ---
+
+            ${{ needs.check.outputs.description }}
 
   release_by_dispatch:
     runs-on: ubuntu-latest
