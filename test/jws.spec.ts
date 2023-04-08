@@ -21,14 +21,14 @@ describe('JWS', function () {
 
     it('should throw error if algorithms is not correct', async function () {
       return JWS.verify(token, publicKey, { algorithms: ['ES384'] })
-        .then((_) => expect.fail('should not pass if "typ" is wrong'))
-        .catch((reason) => expect(reason.message).is.contain('alg'));
+        .then(() => expect.fail('should not pass if "typ" is wrong'))
+        .catch((reason) => expect((reason as Error).message).is.contain('alg'));
     });
 
     it('should throw error if typ is wrong', async function () {
       return JWS.verify(token, publicKey, { typ: 'OKP' })
-        .then((_) => expect.fail('should not pass if "typ" is wrong'))
-        .catch((reason) => expect(reason.message).is.contain('typ'));
+        .then(() => expect.fail('should not pass if "typ" is wrong'))
+        .catch((reason) => expect((reason as Error).message).is.contain('typ'));
     });
 
     let token: string;
@@ -45,14 +45,14 @@ describe('JWS', function () {
   describe('#sign()', function () {
     it('should throw error in wrong "kid"', async function () {
       return JWS.sign('some-data', key, { kid: 'second-id' })
-        .then((_) => expect.fail('should not pass if "kid" is wrong'))
-        .catch((reason) => expect(reason.message).is.contain('kid'));
+        .then(() => expect.fail('should not pass if "kid" is wrong'))
+        .catch((reason) => expect((reason as Error).message).is.contain('kid'));
     });
 
     it('should throw error in wrong "alg"', async function () {
       return JWS.sign('some-data', key, { alg: 'ES384' })
-        .then((_) => expect.fail('should not pass if "alg" is wrong'))
-        .catch((reason) => expect(reason.message).is.contain('alg'));
+        .then(() => expect.fail('should not pass if "alg" is wrong'))
+        .catch((reason) => expect((reason as Error).message).is.contain('alg'));
     });
 
     it('should throw error if missing "alg"', async function () {
@@ -60,8 +60,8 @@ describe('JWS', function () {
       withoutAlgKey.metadata.alg = undefined;
 
       return JWS.sign('some-data', withoutAlgKey)
-        .then((_) => expect.fail('should not pass if "alg" is wrong'))
-        .catch((reason) => expect(reason.message).is.contain('alg'));
+        .then(() => expect.fail('should not pass if "alg" is wrong'))
+        .catch((reason) => expect((reason as Error).message).is.contain('alg'));
     });
 
     it('should use key metadata if option not set', async function () {

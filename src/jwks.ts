@@ -30,7 +30,8 @@ export class JWKS {
       options.alg !== undefined ? this.getKeyByAlg(options.alg, keys1) : keys1;
     if (keys2.length === 0) throw new JoseError('Keys', 'alg', options.alg);
 
-    return keys2[0];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return keys2[0]!;
   }
 
   getKeyByKid(kid: string): JWK | undefined {

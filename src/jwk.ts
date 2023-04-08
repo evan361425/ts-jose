@@ -107,7 +107,7 @@ export class JWK {
     options?: JWKGenerateOptions,
   ): Promise<JWK> {
     const key = await generateKey(algorithm, options);
-    const metadata = (await exportJWK(key as JWKey)) as JWKObject;
+    const metadata = (await exportJWK(key as unknown as JWKey)) as JWKObject;
 
     return new JWK(key, {
       kid: options?.kid,

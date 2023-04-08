@@ -51,15 +51,15 @@ describe('JWT', function () {
       const result = await JWT.sign(payload, key);
       // Assertion
       const splits = result.split('.');
-      const headerRaw = Buffer.from(splits[0], 'base64').toString('ascii');
-      const payloadRaw = Buffer.from(splits[1], 'base64').toString('ascii');
-      const tokenHeader = JSON.parse(headerRaw);
-      const tokenPayload = JSON.parse(payloadRaw);
+      const headerRaw = Buffer.from(splits[0]!, 'base64').toString('ascii');
+      const payloadRaw = Buffer.from(splits[1]!, 'base64').toString('ascii');
+      const tokenHeader = JSON.parse(headerRaw) as Record<string, string>;
+      const tokenPayload = JSON.parse(payloadRaw) as Record<string, string>;
 
-      expect(tokenPayload.a).to.eq('b');
-      expect(tokenHeader.typ).to.eq('jwt');
-      expect(tokenHeader.kid).to.eq('some-id');
-      expect(tokenHeader.alg).to.eq('ES256');
+      expect(tokenPayload['a']).to.eq('b');
+      expect(tokenHeader['typ']).to.eq('jwt');
+      expect(tokenHeader['kid']).to.eq('some-id');
+      expect(tokenHeader['alg']).to.eq('ES256');
     });
 
     it('should throw error if missing "alg"', async function () {
@@ -67,8 +67,8 @@ describe('JWT', function () {
       withoutAlgKey.metadata.alg = undefined;
 
       return JWT.sign({ a: 'b' }, withoutAlgKey)
-        .then((_) => expect.fail('should not pass if "alg" is wrong'))
-        .catch((reason) => expect(reason.message).is.contain('alg'));
+        .then(() => expect.fail('should not pass if "alg" is wrong'))
+        .catch((reason) => expect((reason as Error).message).is.contain('alg'));
     });
 
     it('embedded key', async function () {
@@ -96,21 +96,21 @@ describe('JWT', function () {
       });
       // Assertion
       const splits = result.split('.');
-      const headerRaw = Buffer.from(splits[0], 'base64').toString('ascii');
-      const payloadRaw = Buffer.from(splits[1], 'base64').toString('ascii');
-      const tokenHeader = JSON.parse(headerRaw);
-      const tokenPayload = JSON.parse(payloadRaw);
+      const headerRaw = Buffer.from(splits[0]!, 'base64').toString('ascii');
+      const payloadRaw = Buffer.from(splits[1]!, 'base64').toString('ascii');
+      const tokenHeader = JSON.parse(headerRaw) as Record<string, string>;
+      const tokenPayload = JSON.parse(payloadRaw) as Record<string, string>;
 
-      expect(tokenPayload.a).to.eq('b');
-      expect(tokenPayload.aud).to.have.lengthOf(2);
-      expect(tokenPayload.aud).contains('hi');
-      expect(tokenPayload.exp).to.eq(now + 300);
-      expect(tokenPayload.iat).to.eq(now);
-      expect(tokenPayload.iss).to.eq('some-issuer');
-      expect(tokenPayload.jti).to.eq('some-token-id');
-      expect(tokenPayload.nbf).to.eq(now + 100);
-      expect(tokenPayload.sub).to.eq('some-user-id');
-      expect(tokenHeader.typ).to.eq('custom+jwt');
+      expect(tokenPayload['a']).to.eq('b');
+      expect(tokenPayload['aud']).to.have.lengthOf(2);
+      expect(tokenPayload['aud']).contains('hi');
+      expect(tokenPayload['exp']).to.eq(now + 300);
+      expect(tokenPayload['iat']).to.eq(now);
+      expect(tokenPayload['iss']).to.eq('some-issuer');
+      expect(tokenPayload['jti']).to.eq('some-token-id');
+      expect(tokenPayload['nbf']).to.eq(now + 100);
+      expect(tokenPayload['sub']).to.eq('some-user-id');
+      expect(tokenHeader['typ']).to.eq('custom+jwt');
     });
 
     let key: JWK;
@@ -161,8 +161,8 @@ describe('JWT', function () {
         complete: true,
       });
       // Assertion
-      expect(result.header.epk).to.be.ok;
-      expect(result.header.enc).to.eq('A128GCM');
+      expect(result.header['epk']).to.be.ok;
+      expect(result.header['enc']).to.eq('A128GCM');
       expect(result.header.alg).to.eq('ECDH-ES+A128KW');
       expect(result.payload).to.be.ok;
     });
@@ -192,11 +192,11 @@ describe('JWT', function () {
       const header = result.header;
       const payload = result.payload;
 
-      expect(payload.a).to.eq('b');
+      expect(payload['a']).to.eq('b');
       expect(header.typ).to.eq('jwt');
       expect(header.kid).to.eq('some-id');
       expect(header.alg).to.eq('ECDH-ES+A128KW');
-      expect(header.enc).to.eq('A128GCM');
+      expect(header['enc']).to.eq('A128GCM');
     });
 
     it('should get config header and payload', async function () {
@@ -225,7 +225,7 @@ describe('JWT', function () {
       const header = result.header;
       const payload = result.payload;
 
-      expect(payload.a).to.eq('b');
+      expect(payload['a']).to.eq('b');
       expect(payload.aud).to.have.lengthOf(2);
       expect(payload.aud).contains('hi');
       expect(payload.exp).to.eq(now + 300);

@@ -45,16 +45,18 @@ export class JWE {
     return jwe.encrypt((await jwk.toPublic()).key);
   }
 
-  static async getKeyFrom(
+  static getKeyFrom(
     cypher: string,
     jwk: JWK | JWKS,
     options?: KidOptions,
   ): Promise<JWK> {
     const header = decodeProtectedHeader(cypher);
 
-    return jwk.getKey({
-      use: 'enc',
-      kid: options?.kid ? options.kid : header.kid,
-    });
+    return Promise.resolve(
+      jwk.getKey({
+        use: 'enc',
+        kid: options?.kid ? options.kid : header.kid,
+      }),
+    );
   }
 }

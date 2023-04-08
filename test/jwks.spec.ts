@@ -112,8 +112,8 @@ describe('JWKS', function () {
 
       const result = jwks.getKeyByUse('enc');
       expect(result.length).to.eq(2);
-      expect(result[0].kid).to.eq('k1');
-      expect(result[1].kid).to.eq('k3');
+      expect(result[0]!.kid).to.eq('k1');
+      expect(result[1]!.kid).to.eq('k3');
     });
 
     it('should get all keys in matched by passing keys', function () {
@@ -126,8 +126,8 @@ describe('JWKS', function () {
 
       const result = jwks.getKeyByUse('enc', candidates);
       expect(result.length).to.eq(2);
-      expect(result[0].kid).to.eq('k1');
-      expect(result[1].kid).to.eq('k3');
+      expect(result[0]!.kid).to.eq('k1');
+      expect(result[1]!.kid).to.eq('k3');
     });
   });
 
@@ -150,8 +150,8 @@ describe('JWKS', function () {
 
       const result = jwks.getKeyByAlg('ES256');
       expect(result.length).to.eq(2);
-      expect(result[0].kid).to.eq('k1');
-      expect(result[1].kid).to.eq('k3');
+      expect(result[0]!.kid).to.eq('k1');
+      expect(result[1]!.kid).to.eq('k3');
     });
 
     it('should get all keys in matched by passing keys', function () {
@@ -164,8 +164,8 @@ describe('JWKS', function () {
 
       const result = jwks.getKeyByAlg('ES256', candidates);
       expect(result.length).to.eq(2);
-      expect(result[0].kid).to.eq('k1');
-      expect(result[1].kid).to.eq('k3');
+      expect(result[0]!.kid).to.eq('k1');
+      expect(result[1]!.kid).to.eq('k3');
     });
   });
 
@@ -188,10 +188,10 @@ describe('JWKS', function () {
 
     it('should get correct keys', async function () {
       const stubJWK = stub(JWK, 'fromObject');
-      stubJWK.callsFake(async (key) => {
-        return {
+      stubJWK.callsFake((key) => {
+        return Promise.resolve({
           kid: key.kid,
-        } as JWK;
+        } as JWK);
       });
 
       const jwks = await JWKS.fromObject({
@@ -203,9 +203,9 @@ describe('JWKS', function () {
       });
 
       expect(jwks.keys.length).is.eq(3);
-      expect(jwks.keys[0].kid).is.eq('k1');
-      expect(jwks.keys[1].kid).is.eq('k2');
-      expect(jwks.keys[2].kid).is.eq('k3');
+      expect(jwks.keys[0]!.kid).is.eq('k1');
+      expect(jwks.keys[1]!.kid).is.eq('k2');
+      expect(jwks.keys[2]!.kid).is.eq('k3');
 
       stubJWK.restore();
     });

@@ -30,14 +30,14 @@ describe('JWE', function () {
 
     it('should throw error if enc is not correct', async function () {
       return JWE.decrypt(token, key, { enc: 'A256GCM' })
-        .then((_) => expect.fail('should not pass if "enc" is wrong'))
-        .catch((reason) => expect(reason.message).is.contain('enc'));
+        .then(() => expect.fail('should not pass if "enc" is wrong'))
+        .catch((reason) => expect((reason as Error).message).is.contain('enc'));
     });
 
     it('should throw error if typ is wrong', async function () {
       return JWE.decrypt(token, key, { alg: 'ECDH-ES+A256KW' })
-        .then((_) => expect.fail('should not pass if "alg" is wrong'))
-        .catch((reason) => expect(reason.message).is.contain('alg'));
+        .then(() => expect.fail('should not pass if "alg" is wrong'))
+        .catch((reason) => expect((reason as Error).message).is.contain('alg'));
     });
 
     let token: string;
