@@ -50,6 +50,7 @@ jobs:
     needs: version
     outputs:
       version: ${{ steps.output.outputs.value }}
+      description: ${{ needs.version.outputs.description }}
     if: ${{ github.event.inputs.release != 'true' }}
     steps:
       - uses: actions/checkout@v2
