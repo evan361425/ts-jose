@@ -5,6 +5,7 @@
     "target": "ES2020",
     "moduleResolution": "node",
     "outDir": "./dist/",
+    "declarationDir": "./dist",
 
     "strict": true,
     "allowUnusedLabels": false,
@@ -22,6 +23,10 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "sourceMap": true
+    "sourceMap": true,
+
+    /* Output types files */
+    "declaration": true,
+    "removeComments": true
   }
 }
