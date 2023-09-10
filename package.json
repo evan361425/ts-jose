@@ -39,24 +39,24 @@
     "jose": "4.14.6"
   },
   "devDependencies": {
-    "@types/chai": "^4.3",
-    "@types/mocha": "^10.0",
-    "@types/node": "^18.15",
-    "@types/sinon": "^10.0",
-    "@typescript-eslint/eslint-plugin": "^5",
-    "@typescript-eslint/parser": "^5",
-    "c8": "^7",
+    "@types/chai": "^4",
+    "@types/mocha": "^10",
+    "@types/node": "^20",
+    "@types/sinon": "^10",
+    "@typescript-eslint/eslint-plugin": "^6",
+    "@typescript-eslint/parser": "^6",
+    "c8": "^8",
     "chai": "^4.3",
     "eslint": "^8",
-    "eslint-config-prettier": "^8",
+    "eslint-config-prettier": "^9",
     "eslint-plugin-mocha": "^10",
-    "eslint-plugin-prettier": "^4",
+    "eslint-plugin-prettier": "^5",
     "mocha": "^10.2",
-    "prettier": "^2",
-    "sinon": "^15.0",
+    "prettier": "^3",
+    "sinon": "^15.2",
     "source-map-support": "^0.5",
-    "ts-node": "^10.9",
-    "typescript": "^5.0"
+    "ts-node": "^10",
+    "typescript": "^5"
   },
   "engines": {
     "node": ">=14"

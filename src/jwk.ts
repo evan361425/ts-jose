@@ -21,7 +21,10 @@ const RSAPrivateProperties = ['d', 'p', 'q', 'dp', 'dq', 'qi', 'oth'];
 
 export class JWK {
   readonly metadata: JWKObject;
-  constructor(readonly key: JWKey, metadata: JWKObject) {
+  constructor(
+    readonly key: JWKey,
+    metadata: JWKObject,
+  ) {
     this.metadata = deleteUndefined(metadata);
   }
 
