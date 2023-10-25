@@ -101,7 +101,7 @@ export class JWK {
   }
 
   static async fromObject(keyObject: JWKObject): Promise<JWK> {
-    const key = await importJWK(keyObject, keyObject.alg, false);
+    const key = await importJWK(keyObject, keyObject.alg);
     return new JWK(key as JWKey, keyObject);
   }
 

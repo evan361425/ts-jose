@@ -54,11 +54,11 @@ export class JWS {
 
     return options?.complete
       ? {
-          payload: result.payload.toString(),
+          payload: Buffer.from(result.payload).toString(),
           header: result.protectedHeader,
           key: result.key,
         }
-      : result.payload.toString();
+      : Buffer.from(result.payload).toString();
   }
 
   static async sign(
