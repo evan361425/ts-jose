@@ -1,6 +1,6 @@
 {
   "name": "ts-jose",
-  "version": "4.15.4",
+  "version": "5.0.1",
   "description": "Wrap functions of JOSE in steady interface",
   "keywords": [
     "JOSE",
