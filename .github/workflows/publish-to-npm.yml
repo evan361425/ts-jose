@@ -18,13 +18,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # Setup .npmrc file to publish to npm
       - name: Set up environment
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: "14.x"
+          node-version: "18.x"
           registry-url: "https://registry.npmjs.org"
 
       - name: Check version

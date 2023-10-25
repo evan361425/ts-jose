@@ -171,4 +171,5 @@ export type JWKAlgorithms = Exclude<
   'dir'
 >;
 
+// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 type typ = 'jwt' | 'id-token+jwt' | 'ac+jwt' | '+jwt' | string;
