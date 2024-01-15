@@ -7,15 +7,15 @@ import {
   ProduceJWT,
   SignJWT,
 } from 'jose';
-import { JWKey } from './';
-import { JoseError } from './error';
-import { JWE } from './jwe';
-import { JWK } from './jwk';
-import { JWKS } from './jwks';
-import { JWS } from './jws';
+import { JoseError } from './error.js';
+import { JWE } from './jwe.js';
+import { JWK } from './jwk.js';
+import { JWKS } from './jwks.js';
+import { JWS } from './jws.js';
 import {
   EmbeddedKey,
   FromJWTOptions,
+  JWKey,
   JWTCompleteResult,
   JWTDecryptOptions,
   JWTEncryptOptions,
@@ -23,7 +23,7 @@ import {
   JWTSignOptions,
   JWTVerifyOptions,
   ToJWTOptions,
-} from './types';
+} from './types.js';
 
 export class JWT {
   // ========== JWS ===============

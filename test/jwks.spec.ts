@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { stub } from 'sinon';
-import { JWK, JWKObject, JWKS } from '../src';
+import { JWK, JWKObject, JWKS } from '../src/index.js';
 
 describe('JWKS', function () {
   describe('#getKey()', function () {

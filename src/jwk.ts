@@ -5,7 +5,7 @@ import {
   generateSecret,
   importJWK,
 } from 'jose';
-import { JoseError } from './error';
+import { JoseError } from './error.js';
 import {
   JWKAlgorithms,
   JWKey,
@@ -15,7 +15,7 @@ import {
   KeyTypes,
   KeyUsages,
   thumbprintConfig,
-} from './types';
+} from './types.js';
 
 const RSAPrivateProperties = ['d', 'p', 'q', 'dp', 'dq', 'qi', 'oth'];
 

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { decodeProtectedHeader } from 'jose';
-import { JWK, JWKS, JWS } from '../src';
-import { getKey } from './mock-key';
+import { JWK, JWKS, JWS } from '../src/index.js';
+import { getKey } from './mock-key.js';
 
 describe('JWS', function () {
   describe('#verify()', function () {

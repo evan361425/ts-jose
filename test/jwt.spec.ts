@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { SinonStub, stub } from 'sinon';
-import { JWE, JWK, JWS, JWT } from '../src';
-import { getKey } from './mock-key';
+import { JWE, JWK, JWS, JWT } from '../src/index.js';
+import { getKey } from './mock-key.js';
 
 describe('JWT', function () {
   describe('#verify', function () {

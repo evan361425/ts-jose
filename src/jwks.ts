@@ -1,6 +1,6 @@
-import { JoseError } from './error';
-import { JWK } from './jwk';
-import { JWKAlgorithms, JWKSObject, KeyOptions, KeyUsages } from './types';
+import { JoseError } from './error.js';
+import { JWK } from './jwk.js';
+import { JWKAlgorithms, JWKSObject, KeyOptions, KeyUsages } from './types.js';
 
 export class JWKS {
   constructor(readonly keys: JWK[]) {}

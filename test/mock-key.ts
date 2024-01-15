@@ -1,4 +1,4 @@
-import { JWK } from '../src';
+import { JWK } from '../src/index.js';
 
 export const getKey = async (use: 'sig' | 'enc'): Promise<JWK> => {
   return await JWK.fromObject({

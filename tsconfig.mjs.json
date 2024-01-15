@@ -1,4 +1,7 @@
 {
   "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist/mjs"
+  },
   "include": ["./src/**/*.ts"]
 }

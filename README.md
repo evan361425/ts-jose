@@ -17,19 +17,19 @@ Wrap functions of [JOSE](https://github.com/panva/jose) in steady interface.
 >
 > This package's version will FOLLOW the version of JOSE
 
-- [JWT](#jwt)
-  - [verify](#verify)
-  - [sign](#sign)
-  - [decrypt](#decrypt)
-  - [encrypt](#encrypt)
-- [JWS](#jws)
-  - [verify](#verify-1)
-  - [sign](#sign-1)
-- [JWE](#jwe)
-  - [decrypt](#decrypt-1)
-  - [encrypt](#encrypt-1)
-- [JWK](#jwk)
-- [JWKS](#jwks)
+-   [JWT](#jwt)
+    -   [verify](#verify)
+    -   [sign](#sign)
+    -   [decrypt](#decrypt)
+    -   [encrypt](#encrypt)
+-   [JWS](#jws)
+    -   [verify](#verify-1)
+    -   [sign](#sign-1)
+-   [JWE](#jwe)
+    -   [decrypt](#decrypt-1)
+    -   [encrypt](#encrypt-1)
+-   [JWK](#jwk)
+-   [JWKS](#jwks)
 
 ## JWT
 
@@ -37,7 +37,7 @@ Wrap functions of [JOSE](https://github.com/panva/jose) in steady interface.
 
 [JOSE ref](https://github.com/panva/jose/blob/main/docs/interfaces/jwt_verify.JWTVerifyOptions.md)
 
-**Additional options**
+Additional options
 
 | name | Description                  |
 | ---- | ---------------------------- |
@@ -53,10 +53,10 @@ await JWT.verify(token, undefined, options);
 
 ### sign
 
-- [JOSE ref for payload](https://github.com/panva/jose/blob/main/docs/classes/jwt_sign.SignJWT.md)
-- [JOSE ref for header](https://github.com/panva/jose/blob/main/docs/interfaces/types.JWSHeaderParameters.md)
+-   [JOSE ref for payload](https://github.com/panva/jose/blob/main/docs/classes/jwt_sign.SignJWT.md)
+-   [JOSE ref for header](https://github.com/panva/jose/blob/main/docs/interfaces/types.JWSHeaderParameters.md)
 
-**Using JOSE options**
+Using JOSE options
 
 | name      | Referrer          |
 | --------- | ----------------- |
@@ -71,7 +71,7 @@ await JWT.verify(token, undefined, options);
 | kid       | Header            |
 | alg       | Header            |
 
-**Additional options**
+Additional options
 
 | name | type      | default | description                    |
 | ---- | --------- | ------- | ------------------------------ |
@@ -85,7 +85,7 @@ await JWT.sign(payload, key, options); // key must be JWK or JWKS
 
 [JOSE ref](https://github.com/panva/jose/blob/main/docs/interfaces/jwt_decrypt.JWTDecryptOptions.md)
 
-**Additional options**
+Additional options
 
 | name | Description                  |
 | ---- | ---------------------------- |
@@ -101,7 +101,7 @@ await JWT.decrypt(cypher, key, options);
 
 [JOSE ref](https://github.com/panva/jose/blob/main/docs/classes/jwt_encrypt.EncryptJWT.md)
 
-**Using JOSE options**
+Using JOSE options
 
 | name      | Referrer          |
 | --------- | ----------------- |
@@ -139,10 +139,10 @@ await JWS.verify(data, key, options);
 
 Only using below [JWT.sign](#sign)'s options:
 
-- `typ`
-- `kid`
-- `alg`
-- `jwk`
+-   `typ`
+-   `kid`
+-   `alg`
+-   `jwk`
 
 ```ts
 await JWS.sign('some-data', key, options);
@@ -156,7 +156,7 @@ You can encrypt pure string.
 
 [JOSE ref](https://github.com/panva/jose/blob/main/docs/functions/jwe_compact_decrypt.compactDecrypt.md)
 
-**Additional options**
+Additional options
 
 Same as [JWT.decrypt](#decrypt)
 
@@ -170,9 +170,9 @@ await JWE.decrypt(cypher, key, options);
 
 Only using below [JWT.encrypt](#encrypt)'s options:
 
-- `kid`
-- `alg`
-- `enc`
+-   `kid`
+-   `alg`
+-   `enc`
 
 ```ts
 await JWE.encrypt('some-data', key, options);

@@ -1,7 +1,7 @@
 import { compactDecrypt, CompactEncrypt, decodeProtectedHeader } from 'jose';
-import { JWK } from './jwk';
-import { JWKS } from './jwks';
-import { JWEDecryptOptions, JWEEncryptOptions, KidOptions } from './types';
+import { JWK } from './jwk.js';
+import { JWKS } from './jwks.js';
+import { JWEDecryptOptions, JWEEncryptOptions, KidOptions } from './types.js';
 
 export class JWE {
   static async decrypt(

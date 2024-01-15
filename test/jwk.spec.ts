@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { JWK, JWKey, JWKObject } from '../src';
-import { getKey } from './mock-key';
+import { JWK, JWKey, JWKObject } from '../src/index.js';
+import { getKey } from './mock-key.js';
 
 describe('JWK', function () {
   describe('generate()', function () {

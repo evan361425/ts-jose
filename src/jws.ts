@@ -6,18 +6,18 @@ import {
   decodeProtectedHeader,
   EmbeddedJWK,
 } from 'jose';
-import { JWSCompleteResult } from './';
-import { JoseError } from './error';
-import { JWK } from './jwk';
-import { JWKS } from './jwks';
+import { JoseError } from './error.js';
+import { JWK } from './jwk.js';
+import { JWKS } from './jwks.js';
 import {
   EmbeddedKey,
   JWKey,
+  JWSCompleteResult,
   JWSHeaderParameters,
   JWSSignOptions,
   JWSVerifyOptions,
   KidOptions,
-} from './types';
+} from './types.js';
 
 export class JWS {
   static async verify(
