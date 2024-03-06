@@ -56,6 +56,12 @@ export class JWKS {
     return { keys: this.keys.map((key) => ({ ...key.metadata })) };
   }
 
+  async toPublic(): Promise<JWKS> {
+    const keys = await Promise.all(this.keys.map((key) => key.toPublic()));
+
+    return new JWKS(keys);
+  }
+
   static async fromObject(jwks: JWKSObject): Promise<JWKS> {
     const keys: JWK[] = [];
     for (const key of jwks.keys) {

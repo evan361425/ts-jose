@@ -244,4 +244,5 @@ try {
 const key: JWK = keys.getKeyByKid('some-id');
 const key: JWK = keys.getKeyByUse('sig');
 const key: JWK = keys.getKeyByAlg('ES256');
+const publicKeys = await keys.toPublic();
 ```

@@ -210,4 +210,24 @@ describe('JWKS', function () {
       stubJWK.restore();
     });
   });
+
+  it('should get public keys', async function () {
+    const props: JWKObject = {
+      alg: 'EdDSA',
+      kty: 'OKP',
+      crv: 'Ed448',
+      x: 'wab008wlsu54qQt4lQvwMGbUqb8qQOhGiMQTKzuQ1w7HQD2-8gyIQiOf6-6jKZO1gD0usuE1CVYA',
+    };
+    const key1 = await JWK.fromObject({ kid: 'k1', ...props });
+    const key2 = await JWK.fromObject({ kid: 'k2', ...props });
+
+    const jwks = new JWKS([key1, key2]);
+    const result = await jwks.toPublic();
+
+    expect(result.keys.length).is.eq(2);
+    expect(result.keys[0]!.kid).is.eq('k1');
+    expect(result.keys[0]!.isPrivate).is.false;
+    expect(result.keys[1]!.kid).is.eq('k2');
+    expect(result.keys[1]!.isPrivate).is.false;
+  });
 });
