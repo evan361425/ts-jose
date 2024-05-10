@@ -44,7 +44,7 @@
     "all": "npm run lint && npm run test && npm run build"
   },
   "dependencies": {
-    "jose": "5.2.2"
+    "jose": "5.3.0"
   },
   "devDependencies": {
     "@types/chai": "^4",
