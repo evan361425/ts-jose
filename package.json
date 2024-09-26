@@ -52,7 +52,7 @@
     "@types/mocha": "^10",
     "@types/node": "^22",
     "@types/sinon": "^17",
-    "@typescript-eslint/eslint-plugin": "^7",
+    "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^7",
     "c8": "^10",
     "chai": "^5.0",
