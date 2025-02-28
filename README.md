@@ -17,19 +17,19 @@ Wrap functions of [JOSE](https://github.com/panva/jose) in steady interface.
 >
 > This package's version will FOLLOW the version of JOSE
 
--   [JWT](#jwt)
-    -   [verify](#verify)
-    -   [sign](#sign)
-    -   [decrypt](#decrypt)
-    -   [encrypt](#encrypt)
--   [JWS](#jws)
-    -   [verify](#verify-1)
-    -   [sign](#sign-1)
--   [JWE](#jwe)
-    -   [decrypt](#decrypt-1)
-    -   [encrypt](#encrypt-1)
--   [JWK](#jwk)
--   [JWKS](#jwks)
+- [JWT](#jwt)
+  - [verify](#verify)
+  - [sign](#sign)
+  - [decrypt](#decrypt)
+  - [encrypt](#encrypt)
+- [JWS](#jws)
+  - [verify](#verify-1)
+  - [sign](#sign-1)
+- [JWE](#jwe)
+  - [decrypt](#decrypt-1)
+  - [encrypt](#encrypt-1)
+- [JWK](#jwk)
+- [JWKS](#jwks)
 
 ## JWT
 
@@ -53,8 +53,8 @@ await JWT.verify(token, undefined, options);
 
 ### sign
 
--   [JOSE ref for payload](https://github.com/panva/jose/blob/main/docs/classes/jwt_sign.SignJWT.md)
--   [JOSE ref for header](https://github.com/panva/jose/blob/main/docs/interfaces/types.JWSHeaderParameters.md)
+- [JOSE ref for payload](https://github.com/panva/jose/blob/main/docs/classes/jwt_sign.SignJWT.md)
+- [JOSE ref for header](https://github.com/panva/jose/blob/main/docs/interfaces/types.JWSHeaderParameters.md)
 
 Using JOSE options
 
@@ -139,10 +139,10 @@ await JWS.verify(data, key, options);
 
 Only using below [JWT.sign](#sign)'s options:
 
--   `typ`
--   `kid`
--   `alg`
--   `jwk`
+- `typ`
+- `kid`
+- `alg`
+- `jwk`
 
 ```ts
 await JWS.sign('some-data', key, options);
@@ -170,9 +170,9 @@ await JWE.decrypt(cypher, key, options);
 
 Only using below [JWT.encrypt](#encrypt)'s options:
 
--   `kid`
--   `alg`
--   `enc`
+- `kid`
+- `alg`
+- `enc`
 
 ```ts
 await JWE.encrypt('some-data', key, options);
