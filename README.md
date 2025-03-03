@@ -9,7 +9,8 @@ Wrap functions of [JOSE](https://github.com/panva/jose) in steady interface.
 
 > [!Note]
 >
-> This package's version will FOLLOW the version of JOSE
+> This package's version **will follow the version of JOSE** but should not
+> provide any breaking changes.
 
 - [JWT](#jwt)
   - [verify](#verify)
