@@ -27,19 +27,15 @@ describe('JWT', function () {
       expect(result.iss).to.eq('some-issuer');
     });
 
-    let stubJWS: SinonStub;
     let stubJWT: SinonStub;
     let key: JWK;
 
     before(async function () {
       key = await getKey('sig');
-      stubJWS = stub(JWS, 'getKeyFrom');
       stubJWT = stub(JWT, 'verifyJWTClaims');
-      stubJWS.resolves(key.key);
     });
 
     after(function () {
-      stubJWS.restore();
       stubJWT.restore();
     });
   });
@@ -171,7 +167,10 @@ describe('JWT', function () {
     let key: JWK;
 
     before(async function () {
-      key = await getKey('enc');
+      key = await JWK.generate('ECDH-ES+A128KW', {
+        use: 'enc',
+        kid: 'some-id',
+      });
       stubJWT = stub(JWT, 'verifyJWTClaims');
     });
 
@@ -240,7 +239,10 @@ describe('JWT', function () {
     let key: JWK;
 
     before(async function () {
-      key = await getKey('enc');
+      key = await JWK.generate('ECDH-ES+A128KW', {
+        use: 'enc',
+        kid: 'some-id',
+      });
     });
   });
 

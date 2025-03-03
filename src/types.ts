@@ -6,7 +6,7 @@ export type JWKObject = jose.JWK & {
   crv?: JWKCurves;
   kty: KeyTypes;
 };
-export type JWKey = jose.KeyLike;
+export type JWKey = jose.KeyObject;
 export type JWTPayload = jose.JWTPayload;
 export type JWKSObject = { keys: JWKObject[]; [key: string]: unknown };
 export type KeyOptions = {

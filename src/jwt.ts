@@ -122,15 +122,17 @@ export class JWT {
       : result.payload;
   }
 
-  static encrypt(
+  static async encrypt(
     payload: JWTPayload,
     key: JWK | JWKS,
     options: JWTEncryptOptions,
   ): Promise<string> {
-    const jwk = key.getKey({
-      kid: options.kid,
-      use: 'enc',
-    });
+    const jwk = await key
+      .getKey({
+        kid: options.kid,
+        use: 'enc',
+      })
+      .toPublic();
 
     const jwt = new EncryptJWT(payload);
     this.setupJwt(jwt, options);

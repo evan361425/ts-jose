@@ -215,8 +215,8 @@ describe('JWKS', function () {
     const props: JWKObject = {
       alg: 'EdDSA',
       kty: 'OKP',
-      crv: 'Ed448',
-      x: 'wab008wlsu54qQt4lQvwMGbUqb8qQOhGiMQTKzuQ1w7HQD2-8gyIQiOf6-6jKZO1gD0usuE1CVYA',
+      crv: 'Ed25519',
+      x: 'yy-w_l9460d_O-KsBR1Ln2zH7UAH723aCZen5GJb8aA',
     };
     const key1 = await JWK.fromObject({ kid: 'k1', ...props });
     const key2 = await JWK.fromObject({ kid: 'k2', ...props });

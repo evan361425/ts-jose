@@ -101,7 +101,9 @@ export class JWK {
   }
 
   static async fromObject(keyObject: JWKObject): Promise<JWK> {
-    const key = await importJWK(keyObject, keyObject.alg);
+    const key = await importJWK(keyObject, keyObject.alg, {
+      extractable: true,
+    });
     return new JWK(key as JWKey, keyObject);
   }
 
@@ -139,6 +141,9 @@ async function generateKey(
       extractable: false,
     }) as Promise<JWKey>;
   }
-  const keyPair = await generateKeyPair(algorithm, options);
+  const keyPair = await generateKeyPair(algorithm, {
+    ...options,
+    extractable: true,
+  });
   return keyPair.privateKey;
 }

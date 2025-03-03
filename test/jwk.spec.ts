@@ -13,9 +13,9 @@ describe('JWK', function () {
     });
 
     it('with curve', async function () {
-      const key = await JWK.generate('EdDSA', { crv: 'Ed448' });
+      const key = await JWK.generate('EdDSA', { crv: 'Ed25519' });
       expect(key.alg).to.eq('EdDSA');
-      expect(key.metadata.crv).to.eq('Ed448');
+      expect(key.metadata.crv).to.eq('Ed25519');
       expect(key.use).to.be.undefined;
       expect(key.kty).to.eq('OKP');
     });
@@ -29,8 +29,8 @@ describe('JWK', function () {
     });
 
     it('use sign', async function () {
-      const key = await JWK.generate('A128KW');
-      expect(key.alg).to.eq('A128KW');
+      const key = await JWK.generate('A128CBC-HS256');
+      expect(key.alg).to.eq('A128CBC-HS256');
       expect(key.kty).to.eq('oct');
     });
   });
@@ -61,8 +61,8 @@ describe('JWK', function () {
       const key: JWKObject = {
         alg: 'EdDSA',
         kty: 'OKP',
-        crv: 'Ed448',
-        x: 'wab008wlsu54qQt4lQvwMGbUqb8qQOhGiMQTKzuQ1w7HQD2-8gyIQiOf6-6jKZO1gD0usuE1CVYA',
+        crv: 'Ed25519',
+        x: 'yy-w_l9460d_O-KsBR1Ln2zH7UAH723aCZen5GJb8aA',
       };
 
       const jwk = await JWK.fromObject(key);

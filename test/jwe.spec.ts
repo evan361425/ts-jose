@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import { decodeProtectedHeader } from 'jose';
 import { JWE, JWK } from '../src/index.js';
-import { getKey } from './mock-key.js';
 
 describe('JWE', function () {
   describe('#decrypt()', function () {
@@ -76,21 +75,19 @@ describe('JWE', function () {
     });
 
     it('should use option metadata', async function () {
-      key.metadata.kid = 'second-id';
       const signature = await JWE.encrypt('some-data', key, {
-        kid: 'second-id',
+        kid: 'some-id',
         alg: 'ECDH-ES+A128KW',
         enc: 'A128GCM',
       });
       const header = decodeProtectedHeader(signature);
-      expect(header.kid).is.eq('second-id');
-      key.metadata.kid = 'some-id';
+      expect(header.kid).is.eq('some-id');
     });
   });
 
   let key: JWK;
 
   before(async function () {
-    key = await getKey('enc');
+    key = await JWK.generate('ECDH-ES+A128KW', { kid: 'some-id' });
   });
 });
