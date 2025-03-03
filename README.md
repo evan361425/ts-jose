@@ -1,14 +1,8 @@
 # TS JOSE
 
-[![test](https://github.com/evan361425/ts-jose/actions/workflows/test.yml/badge.svg)](https://github.com/evan361425/ts-jose)
-[![Version](https://img.shields.io/npm/v/ts-jose)](https://www.npmjs.com/package/ts-jose)
-
-[![codecov](https://codecov.io/gh/evan361425/ts-jose/branch/master/graph/badge.svg)](https://codecov.io/gh/evan361425/ts-jose)
-[![Quality](https://img.shields.io/codefactor/grade/github/evan361425/ts-jose)](https://www.codefactor.io/repository/github/evan361425/ts-jose)
-
-[![Dependencies](https://img.shields.io/librariesio/github/evan361425/ts-jose)](https://github.com/panva/jose/releases/latest)
 ![Node Version](https://img.shields.io/node/v/ts-jose)
-[![Activity](https://img.shields.io/github/commits-since/evan361425/ts-jose/latest)](https://github.com/evan361425/ts-jose/releases/latest)
+[![Version](https://img.shields.io/npm/v/ts-jose)](https://www.npmjs.com/package/ts-jose)
+[![codecov](https://codecov.io/gh/evan361425/ts-jose/branch/master/graph/badge.svg)](https://codecov.io/gh/evan361425/ts-jose)
 [![License](https://img.shields.io/github/license/evan361425/ts-jose)](LICENSE)
 
 Wrap functions of [JOSE](https://github.com/panva/jose) in steady interface.
@@ -35,7 +29,7 @@ Wrap functions of [JOSE](https://github.com/panva/jose) in steady interface.
 
 ### verify
 
-[JOSE ref](https://github.com/panva/jose/blob/main/docs/interfaces/jwt_verify.JWTVerifyOptions.md)
+[JOSE ref](https://github.com/panva/jose/blob/main/docs/jwt/verify/interfaces/JWTVerifyOptions.md)
 
 Additional options
 
@@ -53,8 +47,7 @@ await JWT.verify(token, undefined, options);
 
 ### sign
 
-- [JOSE ref for payload](https://github.com/panva/jose/blob/main/docs/classes/jwt_sign.SignJWT.md)
-- [JOSE ref for header](https://github.com/panva/jose/blob/main/docs/interfaces/types.JWSHeaderParameters.md)
+- [JOSE ref](https://github.com/panva/jose/blob/main/docs/jwt/sign/classes/SignJWT.md)
 
 Using JOSE options
 
@@ -83,7 +76,7 @@ await JWT.sign(payload, key, options); // key must be JWK or JWKS
 
 ### decrypt
 
-[JOSE ref](https://github.com/panva/jose/blob/main/docs/interfaces/jwt_decrypt.JWTDecryptOptions.md)
+[JOSE ref](https://github.com/panva/jose/blob/main/docs/jwt/decrypt/interfaces/JWTDecryptOptions.md)
 
 Additional options
 
@@ -99,7 +92,7 @@ await JWT.decrypt(cypher, key, options);
 
 ### encrypt
 
-[JOSE ref](https://github.com/panva/jose/blob/main/docs/classes/jwt_encrypt.EncryptJWT.md)
+[JOSE ref](https://github.com/panva/jose/blob/main/docs/jwt/encrypt/classes/EncryptJWT.md)
 
 Using JOSE options
 
@@ -127,7 +120,7 @@ You can sign pure string.
 
 ### verify
 
-[JOSE ref](https://github.com/panva/jose/blob/main/docs/functions/jws_compact_verify.compactVerify.md)
+[JOSE ref](https://github.com/panva/jose/blob/main/docs/jws/general/verify/functions/generalVerify.md)
 
 ```ts
 await JWS.verify(data, key, options);
@@ -135,7 +128,7 @@ await JWS.verify(data, key, options);
 
 ### sign
 
-[JOSE ref](https://github.com/panva/jose/blob/main/docs/classes/jws_compact_sign.CompactSign.md)
+[JOSE ref](https://github.com/panva/jose/blob/main/docs/jws/general/sign/classes/GeneralSign.md)
 
 Only using below [JWT.sign](#sign)'s options:
 
@@ -154,7 +147,7 @@ You can encrypt pure string.
 
 ### decrypt
 
-[JOSE ref](https://github.com/panva/jose/blob/main/docs/functions/jwe_compact_decrypt.compactDecrypt.md)
+[JOSE ref](https://github.com/panva/jose/blob/main/docs/jwe/general/decrypt/functions/generalDecrypt.md)
 
 Additional options
 
@@ -166,7 +159,7 @@ await JWE.decrypt(cypher, key, options);
 
 ### encrypt
 
-[JOSE ref](https://github.com/panva/jose/blob/main/docs/classes/jwe_compact_encrypt.CompactEncrypt.md)
+[JOSE ref](https://github.com/panva/jose/blob/main/docs/jwe/general/encrypt/classes/GeneralEncrypt.md)
 
 Only using below [JWT.encrypt](#encrypt)'s options:
 
@@ -180,7 +173,7 @@ await JWE.encrypt('some-data', key, options);
 
 ## JWK
 
-[JOSE ref](https://github.com/panva/jose/blob/main/docs/interfaces/types.JWK.md)
+[JOSE ref](https://github.com/panva/jose/blob/main/docs/key/import/functions/importJWK.md)
 
 ```ts
 // generate key
