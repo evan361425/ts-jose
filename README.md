@@ -29,7 +29,7 @@ Wrap functions of [JOSE](https://github.com/panva/jose) in steady interface.
 
 ### verify
 
-[JOSE ref](https://github.com/panva/jose/blob/main/docs/jwt/verify/interfaces/JWTVerifyOptions.md)
+[JOSE ref](https://github.com/panva/jose/blob/v6.x/docs/jwt/verify/interfaces/JWTVerifyOptions.md)
 
 Additional options
 
@@ -47,7 +47,7 @@ await JWT.verify(token, undefined, options);
 
 ### sign
 
-- [JOSE ref](https://github.com/panva/jose/blob/main/docs/jwt/sign/classes/SignJWT.md)
+- [JOSE ref](https://github.com/panva/jose/blob/v6.x/docs/jwt/sign/classes/SignJWT.md)
 
 Using JOSE options
 
@@ -76,7 +76,7 @@ await JWT.sign(payload, key, options); // key must be JWK or JWKS
 
 ### decrypt
 
-[JOSE ref](https://github.com/panva/jose/blob/main/docs/jwt/decrypt/interfaces/JWTDecryptOptions.md)
+[JOSE ref](https://github.com/panva/jose/blob/v6.x/docs/jwt/decrypt/interfaces/JWTDecryptOptions.md)
 
 Additional options
 
@@ -92,7 +92,7 @@ await JWT.decrypt(cypher, key, options);
 
 ### encrypt
 
-[JOSE ref](https://github.com/panva/jose/blob/main/docs/jwt/encrypt/classes/EncryptJWT.md)
+[JOSE ref](https://github.com/panva/jose/blob/v6.x/docs/jwt/encrypt/classes/EncryptJWT.md)
 
 Using JOSE options
 
@@ -120,7 +120,7 @@ You can sign pure string.
 
 ### verify
 
-[JOSE ref](https://github.com/panva/jose/blob/main/docs/jws/general/verify/functions/generalVerify.md)
+[JOSE ref](https://github.com/panva/jose/blob/v6.x/docs/jws/general/verify/functions/generalVerify.md)
 
 ```ts
 await JWS.verify(data, key, options);
@@ -128,7 +128,7 @@ await JWS.verify(data, key, options);
 
 ### sign
 
-[JOSE ref](https://github.com/panva/jose/blob/main/docs/jws/general/sign/classes/GeneralSign.md)
+[JOSE ref](https://github.com/panva/jose/blob/v6.x/docs/jws/general/sign/classes/GeneralSign.md)
 
 Only using below [JWT.sign](#sign)'s options:
 
@@ -147,7 +147,7 @@ You can encrypt pure string.
 
 ### decrypt
 
-[JOSE ref](https://github.com/panva/jose/blob/main/docs/jwe/general/decrypt/functions/generalDecrypt.md)
+[JOSE ref](https://github.com/panva/jose/blob/v6.x/docs/jwe/general/decrypt/functions/generalDecrypt.md)
 
 Additional options
 
@@ -159,7 +159,7 @@ await JWE.decrypt(cypher, key, options);
 
 ### encrypt
 
-[JOSE ref](https://github.com/panva/jose/blob/main/docs/jwe/general/encrypt/classes/GeneralEncrypt.md)
+[JOSE ref](https://github.com/panva/jose/blob/v6.x/docs/jwe/general/encrypt/classes/GeneralEncrypt.md)
 
 Only using below [JWT.encrypt](#encrypt)'s options:
 
@@ -173,7 +173,7 @@ await JWE.encrypt('some-data', key, options);
 
 ## JWK
 
-[JOSE ref](https://github.com/panva/jose/blob/main/docs/key/import/functions/importJWK.md)
+[JOSE ref](https://github.com/panva/jose/blob/v6.x/docs/key/import/functions/importJWK.md)
 
 ```ts
 // generate key
