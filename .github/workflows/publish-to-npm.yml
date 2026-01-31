@@ -43,5 +43,3 @@ jobs:
       - name: Publish
         if: ${{ steps.should_process.outputs.value == 'true' }}
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
