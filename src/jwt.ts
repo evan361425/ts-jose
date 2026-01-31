@@ -150,15 +150,15 @@ export class JWT {
   // ========== HELPER ===============
 
   static setupJwt(jwt: ProduceJWT, options: ToJWTOptions): void {
-    options.issuer && jwt.setIssuer(options.issuer);
-    options.audience && jwt.setAudience(options.audience);
-    options.subject && jwt.setSubject(options.subject);
-    options.exp && jwt.setExpirationTime(options.exp);
-    options.jti && jwt.setJti(options.jti);
-    options.notBefore && jwt.setNotBefore(options.notBefore);
+    if (options.issuer) jwt.setIssuer(options.issuer);
+    if (options.audience) jwt.setAudience(options.audience);
+    if (options.subject) jwt.setSubject(options.subject);
+    if (options.exp) jwt.setExpirationTime(options.exp);
+    if (options.jti) jwt.setJti(options.jti);
+    if (options.notBefore) jwt.setNotBefore(options.notBefore);
     // To UTC timestamp
     // https://stackoverflow.com/questions/9756120/how-do-i-get-a-utc-timestamp-in-javascript
-    options.iat && jwt.setIssuedAt(options.iat);
+    if (options.iat) jwt.setIssuedAt(options.iat);
   }
 
   static verifyJWTClaims(

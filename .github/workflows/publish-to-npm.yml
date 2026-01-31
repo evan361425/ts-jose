@@ -44,4 +44,4 @@ jobs:
 
       - name: Publish
         if: ${{ steps.should_process.outputs.value == 'true' }}
-        run: npm publish
+        run: npm publish --provenance --access public
