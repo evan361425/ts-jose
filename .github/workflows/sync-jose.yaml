@@ -52,14 +52,14 @@ jobs:
       description: ${{ needs.version.outputs.description }}
     if: ${{ github.event.inputs.release != 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Get package.json version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@master
 
       - name: Check version
-        uses: actions/github-script@v6
+        uses: actions/github-script@v8
         id: check-result
         with:
           script: |
@@ -88,10 +88,10 @@ jobs:
     needs: check
     if: ${{ needs.check.outputs.version != '' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "22.x"
 
@@ -143,7 +143,7 @@ jobs:
     needs: version
     if: ${{ github.event.inputs.release == 'true' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Tag
         # `npm version` will generate tag, delete it first
