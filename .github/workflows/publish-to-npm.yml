@@ -42,7 +42,10 @@ jobs:
 
       - name: Build
         if: ${{ steps.should_process.outputs.value == 'true' }}
-        run: npm i && npm run build
+        run: |
+          npm i
+          npm i -g npm@latest
+          npm run build
 
       - name: Publish
         if: ${{ steps.should_process.outputs.value == 'true' }}
