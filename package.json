@@ -54,7 +54,7 @@
     "@types/sinon": "^21",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
-    "c8": "^10",
+    "c8": "^11",
     "chai": "^6",
     "eslint": "^9",
     "eslint-config-prettier": "^10",
