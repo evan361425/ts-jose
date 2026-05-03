@@ -64,7 +64,7 @@
     "prettier": "^3",
     "sinon": "^21",
     "ts-node": "^10",
-    "typescript": "^5"
+    "typescript": "^6"
   },
   "engines": {
     "node": ">=20"
