@@ -62,7 +62,7 @@
     "eslint-plugin-prettier": "^5",
     "mocha": "^11",
     "prettier": "^3",
-    "sinon": "^21",
+    "sinon": "^22",
     "ts-node": "^10",
     "typescript": "^5"
   },
