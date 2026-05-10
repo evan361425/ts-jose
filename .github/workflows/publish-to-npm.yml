@@ -43,7 +43,7 @@ jobs:
         if: ${{ steps.should_process.outputs.value == 'true' }}
         run: |
           npm i -g npm@latest
-          npm ci
+          npm i
           npm run build
 
       - name: Publish
