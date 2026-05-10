@@ -30,7 +30,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: "22.x"
-          registry-url: "https://registry.npmjs.org"
+          cache: 'npm'
 
       - name: Check version
         id: should_process
@@ -43,8 +43,8 @@ jobs:
       - name: Build
         if: ${{ steps.should_process.outputs.value == 'true' }}
         run: |
-          npm i
           npm i -g npm@latest
+          npm ci
           npm run build
 
       - name: Publish
